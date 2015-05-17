@@ -146,7 +146,30 @@ class fw_define{
         die($val);
     }
 
-    function fw_menu($plugins){
+    function fw_menu($plugins){//return "<li><a href='http://google.com'>".$_REQUEST['plugins']."</a></li>";
+
+        if(!$plugins){return;}
+
+        $plugin_html_path = $this->define_plugins."/".$plugins."/html/";
+        if(!is_dir($plugin_html_path)){return;}
+
+        $htmls = scanDir($plugin_html_path);
+
+        $html = "";
+        $url = new libUrl();
+        $path = $url->getUrl()."?menu=";
+
+        for($i=0;$i<count($htmls);$i++){
+            if($htmls[$i]=="."||$htmls[$i]==".."||$htmls[$i]=="contents.html"){continue;}
+
+            $link = str_replace(".html","",$htmls[$i]);
+            $html.= "<li><a href='".$path.$link."'>".$link."</a></li>"."\n";
+        }
+
+        return $html;
+    }
+
+    function fw_menu_json($plugins){//return "<li><a href='http://google.com'>".$_REQUEST['plugins']."</a></li>";
 
         if(!$plugins){return;}
 
@@ -170,8 +193,8 @@ class fw_define{
     function fw_auth(){
         $libAuth = new libAuth();
         return true;
-
     }
+
 }
 
 class fw_root extends fw_define{
