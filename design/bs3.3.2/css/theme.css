@@ -44,8 +44,9 @@ a.btn-navbar{
 
 /*torisetsu*/
 img.items{
-	max-width:200px;
+	max-width:96%;
 	height:auto;
+	display:block;
 }
 
 /*index*/
@@ -87,4 +88,11 @@ table.lists td{
 }
 .input-group{
 	margin-bottom:10px;
+}
+
+.items-line{
+	border:1px solid #CCC;
+	border-radius:4px;
+	margin:20px 10px;
+	padding:10px;
 }

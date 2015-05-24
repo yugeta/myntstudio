@@ -49,46 +49,43 @@ class torisetsu extends fw_define{
 
         if(!count($this->items)){return;}
 
+        $tpl_file = "plugins/".$_REQUEST['plugins']."/template/items-list.html";
 
+        $tpl_base = file_get_contents($tpl_file);
 
         $html = "";
 
         foreach($this->items as $key=>$json){
 
-            //$json = json_decode($items[$i],true);
+            $tpl = $tpl_base;
+            //$prop_link = $libUrl->getUrl()."?menu=".$_REQUEST['menu']."&id=".$json['id'];
+            $prop_link = $libUrl->getUrl()."?menu=maintenance&id=".$json['id'];
 
-            $prop_link = $libUrl->getUrl()."?menu=".$_REQUEST['menu']."&id=".$json['id'];
+            foreach($json as $k1=>$v1){
 
-            //name
-            $html.= "<h3><a href='".$prop_link."'>".$json['name']."</a></h3>"."\n";
+                //value
+                $tpl=str_replace("<%value:".$k1."%>",$v1,$tpl);
 
-            //id
-            $html.= "<div>ID : ".$json['id']."</div>"."\n";
+                //link
+                if(preg_match("/^(.*)\.json$/",$k1,$m)){
+                    $tpl=str_replace("<%link:".$k1."%>",$this->{$m[1]}[$json[$k1]]['name'],$tpl);
+                }
+
+            }
 
             //image
-            $html.= $this->getImages($json['id']);
-            $html.= "\n";
+            $tpl=str_replace("<%img:src%>",$this->getImageSrc($json['id']),$tpl);
 
-            //group
-            $html.= "<div>種別 : ".$this->groups[$json['groups.json']]['name']."</div>"."\n";
+            //list
+            $tpl=str_replace("<%list:link%>",$this->getLink($json['id']),$tpl);
 
-            //group
-            $html.= "<div>型番 : ".$json['stock_number']."</div>"."\n";
+            //a
+            $tpl=str_replace("<%a:edit%>",$prop_link,$tpl);
 
-            //brand
-            $html.= "<div>メーカー・ブランド : ".$this->brands[$json['brands.json']]['name']."</div>"."\n";
-
-            //link
-            $html.= "<div>リンク : ";
-            $html.= "<ol>\n";
-            $html.= $this->getLink($json['id']);
-            //$html.= $json['url']."\n";
-            //$html.= "<a href=".$json['url']." target='_blank'>".$json['url']."</a>"."\n";
-            $html.= "</ol>\n";
-            $html.= "</html>"."\n";
+            $html.= $tpl;
 
         }
-        
+
         return $html;
     }
 
@@ -134,5 +131,16 @@ class torisetsu extends fw_define{
             $html.= "<img class='items' src='".$val['url']."'>"."\n";
         }
         return $html;
+    }
+    function getImageSrc($id){
+        //$html = "";
+        foreach($this->images as $key=>$val){
+            if($val['flg']==1){continue;}
+            if($val['items.json']!=$id){continue;}
+            if(!$val['url']){continue;}
+            //$html.= "<img class='items' src='".$val['url']."'>"."\n";
+            return $val['url'];
+        }
+        //return $html;
     }
 }

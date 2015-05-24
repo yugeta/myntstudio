@@ -1,0 +1,23 @@
+
+<div class="row items-line">
+
+    <div class="col-sm-3">
+        <a href="<%a:edit%>"><img class='items' src='<%img:src%>'></a>
+    </div>
+
+    <div class="col-sm-4">
+
+        <div><a href='<%value:main-link%>'><%value:name%></a></div>
+        <div>ID : <%value:id%></div>
+        <div>種別 : <%link:groups.json%></div>
+        <div>型番 : <%value:stock_number%></div>
+        <div>メーカー・ブランド : <%link:brands.json%></div>
+    </div>
+
+    <div class="col-sm-5">
+        <ol>
+            <%list:link%>
+        </ol>
+    </div>
+
+</div>
