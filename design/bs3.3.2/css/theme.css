@@ -96,3 +96,18 @@ table.lists td{
 	margin:20px 10px;
 	padding:10px;
 }
+.page-title{
+	font-size:30px;
+	font-weight:bold;
+	position:relative;
+}
+.page-title .btn{
+	position:absolute;
+	right:10px;
+	bottom:0;
+}
+.new-button{
+	/*line-height:63px;*/
+	text-align:right;
+	padding-top:10px;
+}
