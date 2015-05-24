@@ -18,54 +18,62 @@ if(!isset($_SERVER['SCRIPT_URI']) && isset($argv)){
     }
 }
 
+
 new CLI();
 class CLI{
-
+    // リンクデータの保存フォルダ
     public $data_path = "data/contents/domain/";
-    //public $current_reflexive = 0;
+
+    // 再帰処理の最大回数 [0:再帰処理を行わない 1-n:リンクを辿る回数]
     public $max_reflexive = 1;
 
-    //public $ext_target = "pdf";
-
+    // 起動時に実行
     function __construct(){
-
+        // urlがhttpで始まっていない場合は、URLとみなさず処理を行わない
         if(!preg_match("@^http@",$_REQUEST['url'])){die("Error: ".$_REQUEST['url']);return;}
 
+        // URLと催奇処理の開始番号"0"
         $this->getPage($_REQUEST['url'],0);
     }
 
     function getPage($url,$reflexive){
+
+        //URL情報の取得
         $pageFormat = $this->checkFormat($url);
         if($pageFormat){return;}
 
-        //path情報
+        // path情報
         $page_url_info = $this->getUrlInfo($url);
 
+        // 取得日
         $date = date("Ymd");
 
-        //データフォルダ作成
+        // 初回にデータフォルダを自動作成
+        if(!is_dir($this->data_path)){mkdir($this->data_path,0777,true);}
 
-        if(!is_dir($this->data_path)){
-            mkdir($this->data_path,0777,true);
-        }
-
+        // ページソースの取得
         $source = file_get_contents($url);
 
+        // Aリンクの一覧を取得
         preg_match_all("@<a (.*?)href.*?=['|\"| *?](.*?)['|\"](.*?)>(.*?)</a>@i",$source,$href);
-
 
         // currentPage
         unset($res);
         exec("grep '".$date.",".$url.","."' ".$this->data_path.$page_url_info['domain'], $res);
         if(!count($res)){
+            // タイトルを取得
             preg_match("@<title>(.*?)</title>@i",$source,$title);
+
+            //データ書き込み
             $line = $date.",".$url.",".$this->checkTagImg($title[1],$page_url_info).",";
             file_put_contents($this->data_path.$page_url_info['domain'], $line."\n", FILE_APPEND);
             echo $line."\n";
         }
 
+        // リンク一覧別の処理
         for($i=0;$i<count($href[2]);$i++){
-            //リンク
+
+            //リンク情報の取得
             $link = $this->getLink($href[2][$i],$page_url_info);
 
             if(!$link){continue;}
@@ -73,26 +81,23 @@ class CLI{
             $format = $this->checkFormat($link);
             $info = $this->getUrlInfo($link);
 
-            //echo $reflexive." : ".$link."\n";
-
-
-
-            // [1:ymd , 2:url , 3:pdf]
+            // ファイルの場合は、再帰処理を行わない[1:ymd , 2:url , 3:pdf]
             if($format){
                 $line = $date.",".$url.",".$this->checkTagImg($href[4][$i],$page_url_info).",".$link.",";
                 file_put_contents($this->data_path.$info['domain'], $line."\n", FILE_APPEND);
                 echo $line."\n";
                 continue;
             }
-            else{
-                $line = $date.",".$link.",".$this->checkTagImg($href[4][$i],$page_url_info).",";
-            }
 
+            // すでに登録済みのURLは処理を行わない
             unset($res);
-            //exec("grep -x '".$line."' ".$this->data_path.$info['domain'], $res);
             exec("grep '".$date.",".$link.","."' ".$this->data_path.$info['domain'], $res);
             if(count($res)>0){continue;}
 
+            // リンク先がページの場合は再帰処理を行う
+            $line = $date.",".$link.",".$this->checkTagImg($href[4][$i],$page_url_info).",";
+
+            // データ書き込み
             file_put_contents($this->data_path.$info['domain'], $line."\n", FILE_APPEND);
             echo $line."\n";
 
@@ -103,7 +108,7 @@ class CLI{
         }
     }
 
-
+    // URL情報の取得
     function getUrlInfo($url=null){
 
         //query
@@ -118,10 +123,7 @@ class CLI{
         $domain = $this->getDomain($url_sp[0]);
 
         //path
-        //$path0 = dirname($url);
         $path_sp = explode("/",dirname($url));
-        //die(dirname($url));
-        //$path = join("/",array_slice($path_sp,3));
         $path = join("/",array_slice($path_sp,3,count($path_sp)));
 
         //url
@@ -132,22 +134,14 @@ class CLI{
             $uri = $protocol."://".$domain."/".$url;
         }
 
-        // return array(
-        //     "data"=>parse_url($url),
-        //     "scheme"=>parse_url($url, PHP_URL_SCHEME),
-        //     "url_user"=>parse_url($url, PHP_URL_USER),
-        //     "url_pass"=>parse_url($url, PHP_URL_PASS),
-        //     "host"=>parse_url($url, PHP_URL_HOST),
-        //     "port"=>parse_url($url, PHP_URL_PORT),
-        //     "path"=>parse_url($url, PHP_URL_PATH),
-        //     "query"=>parse_url($url, PHP_URL_QUERY),
-        //     "fragment"=>parse_url($url, PHP_URL_FRAGMENT)
-        // );
+        // dir階層の取得
         parse_str($url_sp[1],$query_data);
         $dirname = dirname($url_sp[0].PHP_EOL);
         if($dirname && !preg_match("@\/$@",$dirname)){
             $dirname .= "/";
         }
+
+        // 返り値データ
         return array(
             "uri"=>$uri,
             "url"=>$url_sp[0],
@@ -162,6 +156,8 @@ class CLI{
             "encode"=>urlencode($uri)
         );
     }
+
+    // Protocol情報の取得[http or https]
     function getProtocol($url=null){
         if(preg_match("@^https://@",$url)){
             return "https";
@@ -170,6 +166,8 @@ class CLI{
             return "http";
         }
     }
+
+    // Domain情報の取得
     function getDomain($url=null){
         if(!$url){return;}
 
@@ -210,10 +208,8 @@ class CLI{
         }
     }
 
-    // ../../ -> absolutePath
+    // 相対PATHを絶対PATHに変換
     function setAbsolute($url,$page_url_info){
-
-
 
         $sp1 = explode("/",$url);
         $sp2 = explode("/",$page_url_info['dirname']);
@@ -235,9 +231,9 @@ class CLI{
             }
         }
         return join("/",$sp2);
-        //return $page_url_info['dirname']." : ".$url." : ".join("/",$sp2);
     }
 
+    // Aリンクのhref情報をURIに変換する
     function getLink($url,$page_url_info){
         if($this->checkScheme($url)){
             return $url;
@@ -247,6 +243,7 @@ class CLI{
         }
     }
 
+    // リンク先がファイルかどうかを確認する
     function checkFormat($url){
         if(preg_match("@\.pdf$@i",$url)){
             return "pdf";
@@ -271,6 +268,7 @@ class CLI{
         }
     }
 
+    // innerHTMLがimgタグのみの場合はsrc情報だけ抜き出す
     function checkTagImg($str,$page_url_info){
         preg_match("@^<img .*?src.*?=['|\"| *?](.*?)['|\"].*?>$@i",$str,$img);
         if(count($img)){
@@ -280,5 +278,4 @@ class CLI{
             return $str;
         }
     }
-
 }

@@ -146,6 +146,10 @@ class fw_define{
         die($val);
     }
 
+    function fw_brand(){
+        return "torisetsu";
+    }
+
     function fw_menu($plugins){//return "<li><a href='http://google.com'>".$_REQUEST['plugins']."</a></li>";
 
         if(!$plugins){return;}
@@ -163,6 +167,7 @@ class fw_define{
             if($htmls[$i]=="."||$htmls[$i]==".."||$htmls[$i]=="contents.html"){continue;}
 
             $link = str_replace(".html","",$htmls[$i]);
+            //$html.= "<li><a href='".$path.$link."'>".$link."</a></li>"."\n";
             $html.= "<li><a href='".$path.$link."'>".$link."</a></li>"."\n";
         }
 

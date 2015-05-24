@@ -1,0 +1,72 @@
+<script type="text/javascript" src="<%class:fw_define:define_plugins%>/library/js/lib.js"></script>
+<script type="text/javascript" src="<%class:fw_define:define_plugins%>/<%request:plugins%>/js/common.js"></script>
+
+<h2>Maintenance</h2>
+
+<form method="post" class="bs-example bs-example-form">
+
+    <div class="row">
+
+        <div class="record-line row">
+            <div class="col-sm-12 record-line">
+
+            </div>
+        </div>
+
+        <div class="record-line row">
+
+            <div class="col-sm-6 record-line">
+
+                <div class="input-group">
+                    <span class="input-group-addon">Name</span>
+                    <input class="form-control" type="text" name="data[name]" placeholder="Name" value="">
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">型番</span>
+                    <input type="text" class="form-control" name="data[stock_number]" value="">
+                </div>
+
+
+            </div>
+            
+            <div class="col-sm-6 record-line">
+                <div class="input-group">
+                    <span class="input-group-addon">Image</span>
+                    <div class="img-control">
+                        <input class="" type="text" name="data[image]" value="">
+                        <img class="img-thumb" src="http://www.toshiba.co.jp/regza/lineup/z7/images/eyecatch_z7_01.jpg" />
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="record-line row">
+            <div class="col-sm-4 record-line">
+                <div class="">
+                    <select class="form-control" name="data[groups.json]" value="">
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-4 record-line">
+                <div class="">
+                    <select class="form-control" name="data[tags.json]" value="">
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-4 record-line">
+                <div class="">
+                    <select class="form-control" name="data[brands.json]" value="">
+
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

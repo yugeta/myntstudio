@@ -9,36 +9,14 @@
 <!-- /head -->
 
 <body>
-	<div class="navbar navbar-inverse navbar-dash">
 
-		<!-- header -->
-		<div class="navbar-inner">
-			<div class="container">
-
-				<!-- Responsive-icon -->
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
-
-<!-- title -->
-<%design-tpl:common_title.html%>
-<!-- /title -->
-
-				<div class="nav-collapse collapse">
-<!-- menu -->
-<%design-tpl:common_menu.html%>
-<!-- /menu -->
-				</div>
-			</div>
-		</div>
-	</div>
-
+<!-- header -->
+<%design-tpl:common_header_1.html%>
+<!-- /header -->
 
 
 <!-- contents -->
-<main class="bs-docs-masthead" id="content" role="main">
+<main class="bs-docs-masthead bs-docs-container" id="content" role="main">
 	<div class="container">
 <%php:contents%>
 	</div>

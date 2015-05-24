@@ -58,3 +58,11 @@ table.lists th{
 table.lists td{
 	text-align:right;
 }
+
+
+
+/*torisetsu*/
+img.items{
+	max-width:200px;
+	height:auto;
+}
