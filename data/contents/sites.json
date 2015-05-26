@@ -1,9 +1,6 @@
 {"flg":"","id":"1","update":"","entry":"","types.json":"2","items.json":"1","name":"取扱説明書ダウンロード","url":"http://www.toshiba-living.jp/rev.php"}
 {"flg":"","id":"2","update":"","entry":"","types.json":"3","items.json":"1","name":"Regza-z7","title":"Z7/TOP｜液晶テレビ｜REGZA：東芝","url":"http://www.toshiba.co.jp/regza/lineup/z7/"}
-{"flg":"","id":"3","update":"201211","entry":"","types.json":"1","items.json":"1","name":"準備編","extension":"pdf","url":"http://www.toshiba-living.jp/manual.pdf?no=83296&fw=1&pid=15553"}
-{"flg":"","id":"4","update":"201211","entry":"","types.json":"1","items.json":"1","name":"操作編","extension":"pdf","url":"http://www.toshiba-living.jp/manual.pdf?no=83296&fw=1&pid=15554"}
-{"flg":"","id":"5","update":"201211","entry":"","types.json":"1","items.json":"1","name":"かんたんガイド","extension":"pdf","url":"http://www.toshiba-living.jp/manual.pdf?no=83296&fw=1&pid=15552"}
-{"flg":"","id":"6","update":"201211","entry":"","types.json":"1","items.json":"1","name":"本体取扱時のお願い","extension":"pdf","url":"http://www.toshiba-living.jp/manual.pdf?no=83296&fw=1&pid=15555"}
+
 
 {"flg":"","id":"7","update":"","entry":"","types.json":"4","brands.json":"1","name":"Canon","url":"http://cweb.canon.jp/e-support/manual/index.html?sp=man"}
 {"flg":"","id":"8","update":"","entry":"","types.json":"4","brands.json":"2","name":"Sony","url":"http://www.sony.jp/support/manual.html"}
@@ -13,5 +10,4 @@
 {"flg":"","id":"12","update":"","entry":"","types.json":"4","brands.json":"6","name":"apple","url":"https://support.apple.com/ja_JP/manuals/"}
 {"flg":"","id":"13","update":"","entry":"","types.json":"4","brands.json":"7","name":"東芝","url":"https://support.apple.com/ja_JP/manuals/"}
 
-{"flg":"","id":"14","update":"","entry":"","types.json":"3","items.json":"2","name":"Regza-A8000","title":"A8000/コンセプト｜液晶テレビ｜REGZA：東芝","url":"https://www.toshiba.co.jp/regza/lineup/a8000/index_j.htm"}
-{"flg":"","id":"15","update":"201211","entry":"","types.json":"1","items.json":"2","name":"仕様一覧","extension":"pdf","url":"https://www.toshiba.co.jp/regza/lineup/pdf/a8000.pdf"}
+{"flg":"","id":"5","update":"","entry":"","types.json":"3","items.json":"2","name":"Regza-A8000","title":"A8000/コンセプト｜液晶テレビ｜REGZA：東芝","url":"https://www.toshiba.co.jp/regza/lineup/a8000/index_j.htm"}

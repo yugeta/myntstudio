@@ -1,41 +1,64 @@
 <script type="text/javascript" src="<%class:fw_define:define_plugins%>/library/js/lib.js"></script>
 <script type="text/javascript" src="<%class:fw_define:define_plugins%>/<%request:plugins%>/js/common.js"></script>
 
-<h2>Maintenance</h2>
+<%class:Maintenance:checkQuery%>
 
-<form method="post" class="bs-example bs-example-form">
+<div class="maintenance">
+    <div class="row" style="position:relative;">
+        <h2>Maintenance</h2>
+        <div style="position:absolute;bottom:0;right:0;">( id: <%class:torisetsu:getID%> )</div>
+    </div>
 
-    <div class="row">
+    <form method="post" class="bs-example bs-example-form">
+        <input type="hidden" name="action" value="write">
+        <input type='hidden' name='data[id]' value='<%class:torisetsu:getID%>'>
+        <input type='hidden' name='data[entry]' value='<%globals:items:entry%>'>
 
         <div class="record-line row">
-            <div class="col-sm-12 record-line">
 
-            </div>
-        </div>
+            <div class="col-sm-5 record-line">
 
-        <div class="record-line row">
-
-            <div class="col-sm-6 record-line">
+                <!--
+                <div class="input-group">
+                    <span class="input-group-addon">ID</span>
+                    <input class="form-control" type="text" name="data[id]" value="<%globals:items:id%>" readonly>
+                </div>
+                -->
 
                 <div class="input-group">
                     <span class="input-group-addon">Name</span>
-                    <input class="form-control" type="text" name="data[name]" placeholder="Name" value="">
+                    <input class="form-control" type="text" name="data[name]" placeholder="Name" value="<%globals:items:name%>">
                 </div>
 
                 <div class="input-group">
                     <span class="input-group-addon">型番</span>
-                    <input type="text" class="form-control" name="data[stock_number]" value="">
+                    <input type="text" class="form-control" name="data[stock_number]" value="<%globals:items:stock_number%>">
                 </div>
 
+                <div class="input-group">
+                    <span class="input-group-addon">グループ</span>
+                    <select class="form-control" name="data[groups.json]">
+                        <option value=""></option>
+                        <%class:Maintenance:getOptions(groups.json)%>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">メーカー・ブランド</span>
+                    <select class="form-control" name="data[brands.json]">
+                        <option value=""></option>
+                        <%class:Maintenance:getOptions(brands.json)%>
+                    </select>
+                </div>
 
             </div>
-            
-            <div class="col-sm-6 record-line">
+
+            <div class="col-sm-7 record-line">
                 <div class="input-group">
-                    <span class="input-group-addon">Image</span>
+                    <span class="input-group-addon">IMG</span>
                     <div class="img-control">
-                        <input class="" type="text" name="data[image]" value="">
-                        <img class="img-thumb" src="http://www.toshiba.co.jp/regza/lineup/z7/images/eyecatch_z7_01.jpg" />
+                        <input class="" type="text" name="data[image]" value="<%globals:images:url%>">
+                        <img class="img-thumb" src="<%globals:images:url%>" />
                     </div>
                 </div>
             </div>
@@ -44,29 +67,28 @@
         </div>
 
         <div class="record-line row">
-            <div class="col-sm-4 record-line">
-                <div class="">
-                    <select class="form-control" name="data[groups.json]" value="">
-
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-sm-4 record-line">
-                <div class="">
-                    <select class="form-control" name="data[tags.json]" value="">
-
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-sm-4 record-line">
-                <div class="">
-                    <select class="form-control" name="data[brands.json]" value="">
-
-                    </select>
+            <div class="col-sm-12 record-line">
+                <div class="input-group">
+                    <span class="input-group-addon">URL</span>
+                    <input class="form-control" type="text" name="data[url]" placeholder="Download-Url" value="<%globals:items:url%>">
                 </div>
             </div>
         </div>
-    </div>
-</form>
+
+        <div class="record-line row">
+            <div class="col-sm-12 record-line">
+                <h4>Manual</h4>
+                <%class:Maintenance:getManuals%>
+
+                <%class:Maintenance:getManualLine%>
+            </div>
+
+        </div>
+
+        <div class="record-line row">
+            <div class="col-sm-12 record-line" style="text-align:right;">
+                <input type="submit" class="btn btn-default" value="Upload">
+            </div>
+        </div>
+    </form>
+</div>

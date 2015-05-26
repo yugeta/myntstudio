@@ -111,3 +111,16 @@ table.lists td{
 	text-align:right;
 	padding-top:10px;
 }
+/*
+.input-group select.form-control{
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+*/
+.maintenance{
+	padding:0 10px;
+}
+.manual-line{
+	border-bottom:1px solid #CCC;
+	margin-bottom:10px;
+}

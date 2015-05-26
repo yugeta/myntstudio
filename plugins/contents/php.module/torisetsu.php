@@ -42,6 +42,7 @@ class torisetsu extends fw_define{
         $this->groups = $this->getJson("groups.json");
         $this->tags   = $this->getJson("tags.json");
         $this->sites  = $this->getJson("sites.json");
+        $this->manuals= $this->getJson("manuals.json");
         $this->types  = $this->getJson("types.json");
         $this->images = $this->getJson("images.json");
 
@@ -79,6 +80,9 @@ class torisetsu extends fw_define{
             //list
             $tpl=str_replace("<%list:link%>",$this->getLink($json['id']),$tpl);
 
+            //manual
+            $tpl=str_replace("<%list:manual%>",$this->getManual($json['id']),$tpl);
+
             //a
             $tpl=str_replace("<%a:edit%>",$prop_link,$tpl);
 
@@ -97,19 +101,25 @@ class torisetsu extends fw_define{
 
         $json = explode("\n",file_get_contents($path.$file));
         $data = array();
+        //$cnt = count($json);
         for($i=0;$i<count($json);$i++){
+        //for($i=$cnt-1;$i>=0;$i--){
 
             if(!$json[$i]){continue;}
 
             $line = json_decode($json[$i],true);
 
             if(isset($line['id']) && $data[$line['id']]){unset($data[$line['id']]);}
+            //if(isset($line['id']) && isset($data[$line['id']])){continue;}
 
             if($line['flg']=="1"){continue;}
             $data[$line['id']] = $line;
         }
         return $data;
     }
+
+
+
 
     function getLink($id){
         $html="";
@@ -121,6 +131,17 @@ class torisetsu extends fw_define{
         }
         return $html;
     }
+    function getManual($id){
+        $html="";
+        foreach($this->manuals as $key=>$val){
+            if($val['flg']==1){continue;}
+            if($val['items.json']!=$id){continue;}
+            if(!$val['url'] || !$val['name']){continue;}
+            $html.= "<li><a href='".$val['url']."' target='_blank'>".$val['name']."</a></li>"."\n";
+        }
+        return $html;
+    }
+
 
     function getImages($id){
         $html = "";
@@ -142,5 +163,17 @@ class torisetsu extends fw_define{
             return $val['url'];
         }
         //return $html;
+    }
+    function getID(){
+        if(isset($_REQUEST['id']) && $_REQUEST['id']){
+            return $_REQUEST['id'];
+        }
+        else{
+            $_REQUEST['id'] = $this->getUniqID();
+            return $_REQUEST['id'];
+        }
+    }
+    function getUniqID(){
+        return uniqid();
     }
 }
