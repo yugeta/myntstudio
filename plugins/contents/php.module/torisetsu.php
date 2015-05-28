@@ -44,7 +44,7 @@ class torisetsu extends fw_define{
         $this->sites  = $this->getJson("sites.json");
         $this->manuals= $this->getJson("manuals.json");
         $this->types  = $this->getJson("types.json");
-        $this->images = $this->getJson("images.json");
+        //$this->images = $this->getJson("images.json");
 
         $this->items  = $this->getJson("items.json");
 
@@ -75,7 +75,8 @@ class torisetsu extends fw_define{
             }
 
             //image
-            $tpl=str_replace("<%img:src%>",$this->getImageSrc($json['id']),$tpl);
+            //$tpl=str_replace("<%img:src%>",$this->getImageSrc($json['id']),$tpl);
+            $tpl=str_replace("<%img:src%>",$json['img'],$tpl);
 
             //list
             $tpl=str_replace("<%list:link%>",$this->getLink($json['id']),$tpl);
@@ -175,5 +176,17 @@ class torisetsu extends fw_define{
     }
     function getUniqID(){
         return uniqid();
+    }
+    function getOne($jsonFile,$id){
+        $file = "data/contents/".$jsonFile;
+        if(!is_file($file)){return;}
+
+        $datas = explode("\n",file_get_contents($file));
+        for($i=(count($datas)-1);$i>=0;$i--){
+            if(!$datas[$i]){continue;}
+            $json = json_decode($datas[$i],true);
+            if($json['id']==$id){return $json;}
+            break;
+        }
     }
 }
