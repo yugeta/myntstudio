@@ -11,7 +11,7 @@ class Maintenance extends fw_define{
                 $libUrl = new libUrl();
                 $libUrl->setUrl($libUrl->getUrl."?menu=".$_REQUEST['menu']."&id=".$_REQUEST['id']);
             }
-            
+
         }
         else{
             $this->setGlobals();
@@ -136,6 +136,7 @@ class Maintenance extends fw_define{
         $torisetsu = new torisetsu();
         $manuals = $torisetsu->getJson("manuals.json");
         $html="";
+        if(!isset($GLOBALS['items']) || !isset($GLOBALS['items']['id'])){$GLOBALS['items']['id']=uniqid();}
         foreach($manuals as $key=>$val){
             if($val['items.json']!=$GLOBALS['items']['id']){continue;}
 
@@ -150,6 +151,11 @@ class Maintenance extends fw_define{
             $this->tpl_manual = file_get_contents("plugins/".$_REQUEST['plugins']."/template/manuals-list.html");
         }
         //if(!isset($data['key'])){$data['key']="";}
+
+        if(!isset($data['name'])){$data['name']="";}
+        if(!isset($data['type'])){$data['type']="";}
+        if(!isset($data['url'])) {$data['url']="";}
+
         $torisetsu = new torisetsu();
         $id = (isset($data['id']) && $data['id'])?$data['id']:$torisetsu->getID();
         $tpl = $this->tpl_manual;

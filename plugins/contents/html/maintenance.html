@@ -27,17 +27,17 @@
 
                 <div class="input-group">
                     <span class="input-group-addon">Name</span>
-                    <input class="form-control" type="text" name="items[name]" placeholder="Name" value="<%globals:items:name%>">
+                    <input class="form-control" type="text" name="items[name]" placeholder="Name" value="<%globals:items:name%>" required>
                 </div>
 
                 <div class="input-group">
                     <span class="input-group-addon">型番</span>
-                    <input type="text" class="form-control" name="items[stock_number]" value="<%globals:items:stock_number%>">
+                    <input type="text" class="form-control" name="items[stock_number]" value="<%globals:items:stock_number%>" required>
                 </div>
 
                 <div class="input-group">
                     <span class="input-group-addon">グループ</span>
-                    <select class="form-control" name="items[groups.json]">
+                    <select class="form-control" name="items[groups.json]" required>
                         <option value=""></option>
                         <%class:Maintenance:getOptions(groups.json)%>
                     </select>
@@ -45,7 +45,7 @@
 
                 <div class="input-group">
                     <span class="input-group-addon">メーカー・ブランド</span>
-                    <select class="form-control" name="items[brands.json]">
+                    <select class="form-control" name="items[brands.json]" required>
                         <option value=""></option>
                         <%class:Maintenance:getOptions(brands.json)%>
                     </select>
@@ -57,7 +57,7 @@
                 <div class="input-group">
                     <span class="input-group-addon">IMG</span>
                     <div class="img-control">
-                        <input class="" type="text" name="items[img]" value="<%globals:items:img%>">
+                        <input class="" type="url" name="items[img]" value="<%globals:items:img%>" required>
                         <img class="img-thumb" src="<%globals:items:img%>" />
                     </div>
                 </div>
@@ -70,7 +70,7 @@
             <div class="col-sm-12 record-line">
                 <div class="input-group">
                     <span class="input-group-addon">URL</span>
-                    <input class="form-control" type="text" name="items[url]" placeholder="Download-Url" value="<%globals:items:url%>">
+                    <input class="form-control" type="url" name="items[url]" placeholder="Download-Url" value="<%globals:items:url%>" required>
                 </div>
             </div>
         </div>

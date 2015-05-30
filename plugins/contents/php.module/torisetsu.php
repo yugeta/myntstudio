@@ -189,4 +189,5 @@ class torisetsu extends fw_define{
             break;
         }
     }
+    
 }
