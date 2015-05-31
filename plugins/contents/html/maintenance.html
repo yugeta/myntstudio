@@ -32,12 +32,12 @@
 
                 <div class="input-group">
                     <span class="input-group-addon">型番</span>
-                    <input type="text" class="form-control" name="items[stock_number]" value="<%globals:items:stock_number%>" required>
+                    <input type="text" class="form-control" name="items[stock_number]" value="<%globals:items:stock_number%>">
                 </div>
 
                 <div class="input-group">
                     <span class="input-group-addon">グループ</span>
-                    <select class="form-control" name="items[groups.json]" required>
+                    <select class="form-control" name="items[groups.json]">
                         <option value=""></option>
                         <%class:Maintenance:getOptions(groups.json)%>
                     </select>
@@ -45,7 +45,7 @@
 
                 <div class="input-group">
                     <span class="input-group-addon">メーカー・ブランド</span>
-                    <select class="form-control" name="items[brands.json]" required>
+                    <select class="form-control" name="items[brands.json]">
                         <option value=""></option>
                         <%class:Maintenance:getOptions(brands.json)%>
                     </select>
@@ -57,7 +57,7 @@
                 <div class="input-group">
                     <span class="input-group-addon">IMG</span>
                     <div class="img-control">
-                        <input class="" type="url" name="items[img]" value="<%globals:items:img%>" required>
+                        <input class="" type="url" name="items[img]" value="<%globals:items:img%>">
                         <img class="img-thumb" src="<%globals:items:img%>" />
                     </div>
                 </div>
@@ -70,7 +70,7 @@
             <div class="col-sm-12 record-line">
                 <div class="input-group">
                     <span class="input-group-addon">URL</span>
-                    <input class="form-control" type="url" name="items[url]" placeholder="Download-Url" value="<%globals:items:url%>" required>
+                    <input class="form-control" type="url" name="items[url]" placeholder="Download-Url" value="<%globals:items:url%>">
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
                 <h4>Manual</h4>
                 <%class:Maintenance:getManuals%>
 
-                <%class:Maintenance:getManualLine%>
+                <%class:Maintenance:getManualNew%>
             </div>
 
         </div>

@@ -140,13 +140,13 @@ class Maintenance extends fw_define{
         foreach($manuals as $key=>$val){
             if($val['items.json']!=$GLOBALS['items']['id']){continue;}
 
-            $tpl = $this->getManualLine($val);
+            $tpl = $this->getManualNew($val);
 
             $html.= $tpl."\n";
         }
         return $html;
     }
-    function getManualLine($data=array()){
+    function getManualNew($data=array()){
         if(!isset($this->tpl_manual)){
             $this->tpl_manual = file_get_contents("plugins/".$_REQUEST['plugins']."/template/manuals-list.html");
         }
@@ -156,8 +156,9 @@ class Maintenance extends fw_define{
         if(!isset($data['type'])){$data['type']="";}
         if(!isset($data['url'])) {$data['url']="";}
 
-        $torisetsu = new torisetsu();
-        $id = (isset($data['id']) && $data['id'])?$data['id']:$torisetsu->getID();
+        //$torisetsu = new torisetsu();
+        $id = (isset($data['id']) && $data['id'])?$data['id']:uniqid();
+        //$id = (isset($data['id']) && $data['id'])?$data['id']:"test";
         $tpl = $this->tpl_manual;
         $tpl = str_replace("<%id%>",$id,$tpl);
         $tpl = str_replace("<%name%>",$data['name'],$tpl);

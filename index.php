@@ -165,6 +165,7 @@ class fw_define{
 
         for($i=0;$i<count($htmls);$i++){
             if($htmls[$i]=="."||$htmls[$i]==".."||$htmls[$i]=="contents.html"){continue;}
+            if(!preg_match("/\.html$/",$htmls[$i])){continue;}
 
             $link = str_replace(".html","",$htmls[$i]);
             //$html.= "<li><a href='".$path.$link."'>".$link."</a></li>"."\n";
