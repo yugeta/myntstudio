@@ -1,19 +1,30 @@
 .login{
 	max-width:300px;
+	width:300px;
 	margin:20px auto;
 	padding:0px;
 	border-radius:4px;
-	border:1px solid #048;
+	border:1px solid #CCC;
 }
 .login .title{
 	margin:0;
-	background-color:#048;
-	color:white;
+	background-color:#EEE;
+	color:#048;
 	font-weight:bold;
 	text-align:center;
 	height:30px;
 	line-height:30px;
+	border-bottom:1px solid #CCC;
 }
+.login .input-area{
+	padding:30px 10px;
+}
+
+.input-group-addon{
+	width:100px;
+}
+
+
 .login .inputs{
 	margin:0;
 	padding:12px 8px;

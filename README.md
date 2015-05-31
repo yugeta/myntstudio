@@ -1,7 +1,8 @@
 # login
     wrote  @ yugeta.koji
     ver0.1 @ 2015. 4.11
-    ver0.2 @ 2015. 5.20 :
+    ver0.2 @ 2015. 5.20
+    framework/ver2 @ 2015. 5.31
 
 # 概要
     ## 修正
