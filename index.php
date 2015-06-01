@@ -150,7 +150,7 @@ class fw_define{
         return "torisetsu";
     }
 
-    function fw_menu($plugins){//return "<li><a href='http://google.com'>".$_REQUEST['plugins']."</a></li>";
+    function fw_menu($plugins){
 
         if(!$plugins){return;}
 

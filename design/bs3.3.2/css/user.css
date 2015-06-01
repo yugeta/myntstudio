@@ -49,3 +49,13 @@
 .user .button button:hover{
 	opacity:0.5;
 }
+.input-group{
+	width:100%;
+	margin-bottom:30px;
+}
+.input-group-addon{
+	width:100px;
+}
+.login-submit{
+	text-align:right;
+}

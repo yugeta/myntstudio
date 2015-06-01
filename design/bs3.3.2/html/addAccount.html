@@ -12,39 +12,11 @@
 <!-- /head -->
 
 <body>
-	<div class="navbar navbar-inverse navbar-dash">
+	<!-- header -->
+	<%design-tpl:login_menu.html%>
+	<!-- /header -->
 
-		<!-- header -->
-		<div class="navbar-inner">
-			<div class="container">
 
-				<!-- Responsive-icon -->
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
-
-<!-- title -->
-<a class="brand" href="./">
-	<strong><%globals:config:name%></strong>
-</a>
-
-<!-- /title -->
-
-				<div class="nav-collapse collapse">
-<!-- menu -->
-<a class="brand" href="./">
-	<strong><%globals:config:name%></strong>
-</a>
-
-<!-- /menu -->
-				</div>
-			</div>
-		</div>
-	</div>
-
-<h2>Userアカウントの作成</h2>
 
 <form name="form1" method="post" action="<%class:libUrl:getUrl%>">
 <input type="hidden" name="menu" value="user">
@@ -53,7 +25,34 @@
 <!-- contents -->
 <main class="bs-docs-masthead" id="content" role="main">
 	<div class="container">
+
+
 		<div class="user">
+
+			<div class="input-group">
+				<h3>Userアカウントの作成</h3>
+			</div>
+
+			<div class="input-group">
+				<span class="input-group-addon">Login-ID</span>
+				<input class="form-control" type="text" name="user[id]" autocomplete="off">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon">Mail</span>
+				<input class="form-control" type="text" name="user[mail]" autocomplete="off">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon">Password</span>
+				<input class="form-control" type="password" name="login_pw" autocomplete="off">
+			</div>
+			<div class="login-submit">
+				<button class="btn btn-default">
+					<span>Sign-up</span>
+				</button>
+			</div>
+		</div>
+
+		<!-- <div class="user">
 			<table>
 				<tr class="contents">
 					<th class="title">User-ID</th>
@@ -69,7 +68,8 @@
 				</tr>
 			</table>
 			<div class="button"><button id="user_submit">アカウントを作成</button></div>
-		</div>
+		</div> -->
+
 	</div>
 </main>
 <!-- /contents -->

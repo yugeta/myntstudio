@@ -12,7 +12,7 @@
 <body>
 
 	<!-- header -->
-	<%design-tpl:common_header_1.html%>
+	<%design-tpl:login_menu.html%>
 	<!-- /header -->
 
 
@@ -24,7 +24,6 @@
 			<input type="hidden" name="mode" value="login">
 
 			<div class="login">
-				<div class="title">認証</div>
 
 				<div class="input-area">
 					<!--
@@ -41,13 +40,19 @@
 						<input class="form-control" type="tpasswordext" name="login_pw" autocomplete="off">
 					</div>
 
-					<div class="submit"><input type="submit" value="Login"></div>
+					<div class="login-submit">
+						<button class="btn btn-default">
+							<span>Login</span>
+						</button>
+
+					</div>
+
 				</div><!--/class:row-->
 			</div><!--/class:login-->
 
 		</form>
 		<div class="user_add">
-			<a href="?menu=addAccount">アカウントを作成</a>
+			<a href="?menu=addAccount">アカウントを新規作成</a>
 		</div>
 	</div>
 </main>

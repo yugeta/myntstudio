@@ -4,20 +4,25 @@
 	margin:20px auto;
 	padding:0px;
 	border-radius:4px;
-	border:1px solid #CCC;
+	/*border:1px solid #CCC;*/
+
 }
 .login .title{
 	margin:0;
 	background-color:#EEE;
-	color:#048;
-	font-weight:bold;
+	/*color:#048;*/
+	/*font-weight:bold;*/
 	text-align:center;
-	height:30px;
-	line-height:30px;
+	height:40px;
+	line-height:40px;
 	border-bottom:1px solid #CCC;
+}
+.login .input-group{
+	margin-bottom:30px;
 }
 .login .input-area{
 	padding:30px 10px;
+	text-align:center;
 }
 
 .input-group-addon{
@@ -49,12 +54,11 @@
 	padding:0 20px;
 	text-align:right;
 }
-.login .inputs .submit input{
-	width:40%;
-	height:30px;
-	border-radius:4px;
-	border:0;
-	background-color:#CCC;
+.login .login-submit{
+	text-align:left;
+}
+.login .login-submit button{
+	width:272px;
 }
 
 .user_add{
