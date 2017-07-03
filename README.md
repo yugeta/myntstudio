@@ -26,9 +26,6 @@ tokenなどの情報をセットする機能
 /
 ┣ data/	*SQLを使う場合は不要
 ┃
-┣ plugin/   *systemはシステム
-┃┗ jsondb
-┃
 ┣ design/
 ┃┣ sample
 ┃┗ blog
@@ -36,6 +33,9 @@ tokenなどの情報をセットする機能
 ┣ library/
 ┃┣ bootstrap
 ┃┗ js
+┃
+┣ plugin/   *systemはシステム
+┃┗ jsondb
 ┃
 ┣ system/
 ┃┣ php
