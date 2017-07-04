@@ -24,24 +24,24 @@ tokenなどの情報をセットする機能
 
 # Hierarchy
 /
-┣ data/	*SQLを使う場合は不要
+┣ data/	#SQLを使う場合は不要
 ┃
 ┣ design/
-┃┣ sample
-┃┗ blog
+┃	┣ sample
+┃	┗ blog
 ┃
 ┣ library/
-┃┣ bootstrap
-┃┗ js
+┃	┣ bootstrap
+┃	┗ js
 ┃
-┣ plugin/   *systemはシステム
-┃┗ jsondb
+┣ plugin/   #systemはシステム
+┃	┗ sample
 ┃
 ┣ system/
-┃┣ php
-┃┗ js
+┃	┣ php
+┃	┗ js
 ┃
-┗ index.php *起動モジュール
+┗ index.php #起動モジュール
 
 # フォルダ要件
 - design
@@ -88,10 +88,20 @@ index.phpの認証フロー
 3.商品お知らせ
 4.Q&Aクロール（カカクコム、amazon、他）
 
+htmlページ情報
+指定がなければデフォルトではindex.html
+ログインページはlogin.html
+ブログページは、blog.html
+それぞれ、p=###のページ番号指定で、コンテンツ内容を表示できる。
+UTL :
+	http://hoge.com/?p=001
+	http://hoge.com/?p=001&h=blog
+	#blogとindex.htmlは同じものでも可
+
 # 仕様
 1.商品ラインナップから商品一覧のURL取得
 2.商品別マニュアルのURL取得
-    *サイト内リンクからPDFリンクを取得※PDFが設置されているページURLも取得
+    #サイト内リンクからPDFリンクを取得※PDFが設置されているページURLも取得
 
 3.パンくず構造（マニュアル付随情報）
     カテゴリ
@@ -103,8 +113,8 @@ index.phpの認証フロー
 
 
     【詳細情報】
-    *発売日
-    *メーカー保証期間
+    -発売日
+    -メーカー保証期間
 
     【ユーザー情報】
     -購入日
@@ -125,6 +135,8 @@ manuals.json (マニュアルページ[array])
 brand.json (メーカー・ブランド一覧)
 
 # フロー
+
+
 
 
 # 使い方
