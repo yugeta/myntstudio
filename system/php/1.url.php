@@ -60,4 +60,21 @@ class URL{
 		if(!$url){return;}
 		header("Location: ".$url);
 	}
+
+	//
+	function getDesignRoot(){
+		return $this->getUrl().DIR_DESIGN."/".$GLOBALS["config"]["design"]["target"]."/";
+	}
+	function getLibraryRoot(){
+		return $this->getUrl().DIR_LIBRARY."/";
+	}
+	function getPluginRoot(){
+		return $this->getUrl().DIR_PLUGIN."/";
+	}
+	function getDataRoot(){
+		return $this->getUrl().DIR_DATA."/";
+	}
+	function getSystemRoot(){
+		return $this->getUrl().DIR_SYSTEM."/";
+	}
 }

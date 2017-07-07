@@ -2,5 +2,6 @@
 	"data"		:"data",
 	"design"	:"design",
 	"plugin"	:"plugin",
-	"library"	:"library"
+	"library"	:"library",
+	"system"	:"system"
 }

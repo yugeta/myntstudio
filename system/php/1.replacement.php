@@ -13,11 +13,11 @@ class RepTag{
     return $this->getPattern($source);
   }
 
-  public function getFile($targetFile){
-    if(!is_file(THEME_DIR."/html/".$targetFile)){return;}
-    $source = file_get_contents(THEME_DIR."/html/".$targetFile);
-    return $this->getPattern($source);
-  }
+  // public function getFile($targetFile){
+  //   if(!is_file(THEME_DIR."/html/".$targetFile)){return;}
+  //   $source = file_get_contents(THEME_DIR."/html/".$targetFile);
+  //   return $this->getPattern($source);
+  // }
 
   /**
   * Pattern-split
@@ -54,7 +54,7 @@ class RepTag{
   public function getPattern_Lite($source=""){
     $source = $this->getPatternMatch($source , "IF");
     $source = $this->getPatternMatch($source , "GLOBALS");
-		$source = $this->getPatternMatch($source , "DEFAULT");
+		$source = $this->getPatternMatch($source , "CONFIG");
     $source = $this->getPatternMatch($source , "REQUEST");
     $source = $this->getPatternMatch($source , "POST");
     $source = $this->getPatternMatch($source , "GET");
@@ -70,7 +70,9 @@ class RepTag{
 
   public function getPatternMatch($source , $key){
     preg_match_all('/<%'.$key.':'.'(.+?)'.':'.$key.'%>/s' , $source  , $match);
-    $source = $this->setTemplate($key , $match , $source);
+		if(count($match[1])){
+			$source = $this->setTemplate($key , $match , $source);
+		}
     return $source;
   }
 
@@ -94,8 +96,8 @@ class RepTag{
     else if($key === "FILE"){
       $value = $this->getData_FILE($val);
     }
-		else if($key === "DEFAULT"){
-      $value = $this->getData_DEFAULT($val);
+		else if($key === "CONFIG"){
+      $value = $this->getData_CONFIG($val);
     }
     else{
       $value = $this->getData($key , $val);
@@ -162,9 +164,10 @@ class RepTag{
 		return $this->getArrayValue($arr[$first_key] , join("/",$keys));
 	}
 
-	public function getData_DEFAULT($val){
-    return $this->getArrayValue($GLOBALS["default"] , $val);
+	public function getData_CONFIG($val){//return $GLOBALS["config"]["page"]["title"];
+    return $this->getArrayValue($GLOBALS["config"] , $val);
   }
+
 
   public function getData_Class($val){
     $data = explode(":",$val);
