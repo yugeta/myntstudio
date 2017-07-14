@@ -42,14 +42,14 @@ class RepTag{
     return $source;
   }
 
-	public function getPattern_Auto($source=""){
-		preg_match_all('/<%(.+?):(.+?):(.+?)%>/s' , $source  , $match);
-		for($i=0; $i<count($match[1]); $i++){
-			if($match[1][$i] != $match[3][$i]){continue;}
-			$source = $this->setTemplate_local($match[1][$i] , $match[2][$i] , $match[0][$i] , $source);
-		}
-    return $source;
-  }
+	// public function getPattern_Auto($source=""){
+	// 	preg_match_all('/<%(.+?):(.+?):(.+?)%>/s' , $source  , $match);
+	// 	for($i=0; $i<count($match[1]); $i++){
+	// 		if($match[1][$i] != $match[3][$i]){continue;}
+	// 		$source = $this->setTemplate_local($match[1][$i] , $match[2][$i] , $match[0][$i] , $source);
+	// 	}
+  //   return $source;
+  // }
 
   public function getPattern_Lite($source=""){
     $source = $this->getPatternMatch($source , "IF");

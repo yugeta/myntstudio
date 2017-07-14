@@ -29,9 +29,14 @@
     <![endif]-->
 
 		<link href="<%CLASS:URL:getLibraryRoot:CLASS%>bootstrap-3.3.2-dist/css/bootstrap.css" rel="stylesheet">
+		<link href="<%CLASS:URL:getLibraryRoot:CLASS%>bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
+		<!-- <link href="<%CLASS:URL:getLibraryRoot:CLASS%>bootstrap-3.3.2-dist/css/bootstrap-theme.min.css" rel="stylesheet"> -->
+		<link href="<%CLASS:URL:getDesignRoot:CLASS%>css/login.css" rel="stylesheet">
+		<!-- <link href="<%CLASS:URL:getDesignRoot:CLASS%>css/theme.css" rel="stylesheet"> -->
 		<!-- <link href="<%CLASS:URL:getLibraryRoot:CLASS%>bootstrap-3.3.2-dist/css/bootstrap-responsive.css" rel="stylesheet"> -->
 		<!-- <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> -->
 		<script src="<%CLASS:URL:getLibraryRoot:CLASS%>jquery/jquery-1.11.3.min.js"></script>
+		<script src="<%CLASS:URL:getLibraryRoot:CLASS%>bootstrap-3.3.2-dist/js/bootstrap.js"></script>
 		<script src="<%CLASS:URL:getLibraryRoot:CLASS%>bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
 		<script src="<%CLASS:URL:getDesignRoot:CLASS%>js/test.js"></script>
 		<script>/* <![CDATA[ */(function(d,s,a,i,j,r,l,m,t){try{l=d.getElementsByTagName('a');t=d.createElement('textarea');for(i=0;l.length-i;i++){try{a=l[i].href;s=a.indexOf('/cdn-cgi/l/email-protection');m=a.length;if(a&&s>-1&&m>28){j=28+s;s='';if(j<m){r='0x'+a.substr(j,2)|0;for(j+=2;j<m&&a.charAt(j)!='X';j+=2)s+='%'+('0'+('0x'+a.substr(j,2)^r).toString(16)).slice(-2);j++;s=decodeURIComponent(s)+a.substr(j,m-j)}t.innerHTML=s.replace(/</g,'&lt;').replace(/\>/g,'&gt;');l[i].href='mailto:'+t.value}}catch(e){}}}catch(e){}})(document);/* ]]> */</script>
@@ -115,12 +120,9 @@
 								<li><a href="../yeti/">Yeti</a></li>
 							</ul>
 						</li> -->
-						<!-- <li>
-							<a href="../help/">Help</a>
-						</li>
 						<li>
-							<a href="http://news.bootswatch.com">Blog</a>
-						</li> -->
+							<a href="<%CLASS:URL:getDir:CLASS%>?p=login">Login</a>
+						</li>
 						<!-- <li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Darkly <span class="caret"></span></a>
 							<ul class="dropdown-menu" aria-labelledby="download">

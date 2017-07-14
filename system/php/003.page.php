@@ -6,12 +6,12 @@ class PAGE{
 	function viewPage(){
 		$source = "";
 		if(isset($_REQUEST["p"])){
-			$source = $this->getPageSource($_REQUEST["p"]);
+			$source = $this->getPageSource("data/page/source/".$_REQUEST["p"].".dat");
 		}
 		else{
-			$source = $this->getPageSource("top");
+			$source = $this->getPageSource("data/page/source/top.dat");
 		}
-		return $this->changePageLine($source);
+		return $this->changePageNewLine($source);
 	}
 
 	function viewTitle(){
@@ -24,10 +24,10 @@ class PAGE{
 	}
 
 	//
-	function getPageSource($pageID){
+	function getPageSource($target){
 		$source = "";
-		if(is_file("data/page/source/".$pageID.".dat")){
-			$source = file_get_contents("data/page/source/".$pageID.".dat");
+		if(is_file($target)){
+			$source = file_get_contents($target);
 		}
 		else{
 
@@ -44,7 +44,7 @@ class PAGE{
 		}
 	}
 
-	// 
+	//
 	function changePageSource($source){
 		$sources = explode("\n",$source);
 		$new_source = "";
@@ -57,7 +57,7 @@ class PAGE{
 		$sources = explode("\n",$source);
 		$new_source = "";
 		for($i=0; $i<count($sources); $i++){
-			$new_source .= $sources[$i]."<br>".PHP_EOL;
+			$new_source .= $sources[$i].PHP_EOL;
 		}
 		return $new_source;
 	}
