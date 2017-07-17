@@ -158,6 +158,11 @@ http://hoge.com/?grp=program
 http://hoge.com/?m=login , logout   : mode
 http://hoge.com/?api=**
 
+# Query
+p=***		// data/page/source/***.dat
+h=***		// design/*target*/***.html
+
+
 ## ページからdesignの個別モジュールにアクセスする方法
 -- JS
 http://hoge.com/?js=js/test.js
@@ -199,7 +204,7 @@ pluginは、自動実行をしない構成が良い
 - SNSリンクボタン
 - GA設定
 - 各種ガジェット
-- 
+-
 
 
 

@@ -63,18 +63,18 @@ class URL{
 
 	//
 	function getDesignRoot(){
-		return $this->getUrl().DIR_DESIGN."/".$GLOBALS["config"]["design"]["target"]."/";
+		return $this->getDir().DIR_DESIGN."/".$GLOBALS["config"]["design"]["target"]."/";
 	}
 	function getLibraryRoot(){
-		return $this->getUrl().DIR_LIBRARY."/";
+		return $this->getDir().DIR_LIBRARY."/";
 	}
 	function getPluginRoot(){
-		return $this->getUrl().DIR_PLUGIN."/";
+		return $this->getDir().DIR_PLUGIN."/";
 	}
 	function getDataRoot(){
-		return $this->getUrl().DIR_DATA."/";
+		return $this->getDir().DIR_DATA."/";
 	}
 	function getSystemRoot(){
-		return $this->getUrl().DIR_SYSTEM."/";
+		return $this->getDir().DIR_SYSTEM."/";
 	}
 }

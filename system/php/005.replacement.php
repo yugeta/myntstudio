@@ -209,8 +209,7 @@ class RepTag{
     $value = $this->getPattern_Lite($value);
     return $value;
   }
-  public function getData_FILE($val){
-    $path = THEME_DIR ."/".$val;
+  public function getData_FILE($path){
     if(!is_file($path)){return;}
     $source = file_get_contents($path);
     $source = $this->setSource($source);

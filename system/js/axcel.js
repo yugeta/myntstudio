@@ -122,6 +122,13 @@
 	* getLinkSource
 	*/
 	$$.prototype.setSourceChange = function(res){
+
+		// check
+		if(document.getElementById("contents") === null){
+			location.href = this.url;
+			return;
+		}
+
 		// System
 		console.log("WPA-LinkSourceGetter : [click] : " + this.url);
 
@@ -291,6 +298,7 @@
 	* History.back対応
 	*/
 	$$.prototype.setHistoryBack = function(){
+
 		// 遷移したURLリストに存在するかの確認
 		if($$.prototype.urls.indexOf(location.href) !== -1){
 			$$.prototype.setHrefSource(location.href);

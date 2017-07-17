@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%FILE:design/sample/head_tag.html:FILE%>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+				<%FILE:design/sample/header_menu.html:FILE%>
+      </div>
+    </div>
+
+    <div class="container">
+			<article class="contents">
+				<main class="bs-docs-masthead" role="main">
+					<form method="post">
+						<input type="hidden" name="mode" value="login">
+						<div class="login">
+							<div class="input-area">
+								<div class="input-group">
+									<span class="input-group-addon">ID</span>
+									<input class="form-control" type="text" name="login_id" autocomplete="off">
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon">Password</span>
+									<input class="form-control" type="password" name="login_pw" autocomplete="off">
+								</div>
+								<div class="login-submit">
+									<button class="btn btn-default"><span>Login</span></button>
+								</div>
+								<div class="user_add">
+									<a href="<%CLASS:URL:getUrl:CLASS%>?mode=user-add">新規登録</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</main>
+			</atricle>
+    </div>
+
+	</body>
+</html>
