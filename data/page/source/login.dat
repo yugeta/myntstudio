@@ -1,7 +1,8 @@
+<%!IF:<%SESSION:login_id:SESSION%>:<!%EVAL:header("location : //yahoo.com"):EVAL%>::IF%>
 <main class="bs-docs-masthead" role="main">
 	<form method="post" action="<%CLASS:URL:getDir:CLASS%>login.php">
 	<input type="hidden" name="login" value="login">
-	
+
 	<div class="login">
 		<div class="input-area">
 			<div class="input-group">

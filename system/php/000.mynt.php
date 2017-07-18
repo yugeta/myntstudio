@@ -113,4 +113,9 @@ class MYNT{
       exit();
   }
 
+  // ローカルパス [ design/***/ ]
+  function getDesignTarget(){
+		return DIR_DESIGN."/".$GLOBALS["config"]["design"]["target"]."/";
+	}
+
 }
