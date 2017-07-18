@@ -10,6 +10,20 @@ class MYNT{
 		define(DIR_DATA			,"data"		);
   }
 
+	function loadConfig(){
+		$dir = "system/config/";
+
+		$files = scandir($dir);
+		$data = array();
+
+		for($i=0; $i<count($files); $i++){
+			if($files[$i] == "." || $files[$i] == ".." || !preg_match("/\.json$/",$files[$i])){continue;}
+			$key = str_replace(".json","",$files[$i]);
+			$data[$key] = json_decode(file_get_contents($dir.$files[$i]),true);
+		}
+		return $data;
+	}
+
   function loadModulePHPs($dir){
     if(!preg_match("/\/$/",$dir)){
         $dir .= "/";
@@ -23,11 +37,11 @@ class MYNT{
     }
   }
 
-	function loadPlugins(){
+	function loadPlugins($dir){
     $dir = $GLOBALS["config"]["define"]["plugin"];
 
-    if(!is_dir($dir)){
-      $this->viewError("Not found directory [ ".$dir." ]");
+    if(!$dir || !is_dir($dir)){
+      $this->viewError("Not found directory [loadPlugins] [ ".$dir." ]");
     }
 
     if(!preg_match("/\/$/",$dir)){

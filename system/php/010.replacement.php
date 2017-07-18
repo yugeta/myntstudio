@@ -52,7 +52,6 @@ class RepTag{
   // }
 
   public function getPattern_Lite($source=""){
-    $source = $this->getPatternMatch($source , "IF");
     $source = $this->getPatternMatch($source , "GLOBALS");
 		$source = $this->getPatternMatch($source , "CONFIG");
     $source = $this->getPatternMatch($source , "REQUEST");
@@ -64,6 +63,7 @@ class RepTag{
     $source = $this->getPatternMatch($source , "FUNCTION");
     $source = $this->getPatternMatch($source , "EVAL");
     $source = $this->getPatternMatch($source , "FILE");
+		$source = $this->getPatternMatch($source , "IF");
     return $source;
   }
 
@@ -138,7 +138,7 @@ class RepTag{
         }
         break;
       case "SESSION":
-        if(isset($SESSION[$val])){
+        if(isset($_SESSION[$val])){
           $value = $_SESSION[$val];
         }
         break;
@@ -216,6 +216,13 @@ class RepTag{
     return $source;
   }
   public function getData_IF($val){
+		$sp = explode(":",$val);
+		if($sp[0]){
+			return $sp[1];
+		}
+		else{
+			return $sp[2];
+		}
     // $path = THEME_DIR ."/".$val;
     // if(!is_file($path)){return;}
     // $source = file_get_contents($path);

@@ -44,9 +44,16 @@
 				<li><a href="../yeti/">Yeti</a></li>
 			</ul>
 		</li> -->
-		<li>
-			<a href="<%CLASS:URL:getDir:CLASS%>?h=login">Login</a>
+		<li style="display:<%IF:<%SESSION:login_id:SESSION%>:none:inline:IF%>;">
+			<a href="<%CLASS:URL:getDir:CLASS%>login.php">Login</a>
 		</li>
+		<li style="display:<%IF:<%SESSION:login_id:SESSION%>:inline:none:IF%>;">
+			<a href="<%CLASS:URL:getDir:CLASS%>?p=Account_edit">Account</a>
+		</li>
+		<li style="display:<%IF:<%SESSION:login_id:SESSION%>:inline:none:IF%>;">
+			<a href="<%CLASS:URL:getDir:CLASS%>login.php?login=logout">Logout</a>
+		</li>
+			<!-- <%!IF:1:aaa:bbb:IF%><br> -->
 		<!-- <li class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Darkly <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
