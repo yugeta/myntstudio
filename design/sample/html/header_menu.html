@@ -1,5 +1,5 @@
 <div class="navbar-header">
-	<a href="<%CLASS:URL:getDir:CLASS%>" class="navbar-brand"><%CONFIG:page/title:CONFIG%></a>
+	<a href="<CLASS:URL->getDir()>" class="navbar-brand"><GLOBALS:config/page/title></a>
 	<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
@@ -44,14 +44,14 @@
 				<li><a href="../yeti/">Yeti</a></li>
 			</ul>
 		</li> -->
-		<li style="display:<%IF:<%SESSION:login_id:SESSION%>:none:inline:IF%>;">
-			<a href="<%CLASS:URL:getDir:CLASS%>login.php">Login</a>
+		<li style="display:<if("<SESSION:login_id>")>none<else>inline<if-end>;">
+			<a href="<CLASS:URL->getDir()>login.php">Login</a>
 		</li>
-		<li style="display:<%IF:<%SESSION:login_id:SESSION%>:inline:none:IF%>;">
-			<a href="<%CLASS:URL:getDir:CLASS%>?p=Account_edit">Account</a>
+		<li style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
+			<a href="<CLASS:URL->getDir()>?p=Account_edit">Account</a>
 		</li>
-		<li style="display:<%IF:<%SESSION:login_id:SESSION%>:inline:none:IF%>;">
-			<a href="<%CLASS:URL:getDir:CLASS%>login.php?login=logout">Logout</a>
+		<li style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
+			<a href="<CLASS:URL->getDir()>login.php?login=logout">Logout</a>
 		</li>
 			<!-- <%!IF:1:aaa:bbb:IF%><br> -->
 		<!-- <li class="dropdown">

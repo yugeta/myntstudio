@@ -78,8 +78,10 @@ class MYNT{
     $source = file_get_contents("design/".$design."/".$htmlFile);
 
 		if($source){
-			$RepTag = new RepTag;
-			echo $RepTag->setSource($source);
+			// $RepTag = new RepTag;
+			// echo $RepTag->setSource($source);
+			$MYNT_SOURCE = new MYNT_SOURCE;
+			echo $MYNT_SOURCE->rep($source);
 		}
 		else{
 			$this->viewError("Not Source");
