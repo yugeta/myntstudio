@@ -32,8 +32,10 @@ class PAGE{
 		else{
 
 		}
-		$RepTag = new RepTag;
-		return $RepTag->setSource($source);
+		// $RepTag = new RepTag;
+		// return $RepTag->setSource($source);
+		$MYNT_SOURCE = new MYNT_SOURCE;
+		return $MYNT_SOURCE->rep($source);
 	}
 	function getPageTitle($pageID){
 		if(is_file("data/page/title/".$pageID.".dat")){

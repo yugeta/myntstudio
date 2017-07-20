@@ -1,6 +1,7 @@
-<a href="<%CLASS:URL:getDir:CLASS%>?p=001">%001</a><br>
+<a href="<CLASS:URL/getDir()>?p=001">%001</a><br>
+<CLASS:URL/getDir()>
 
-[[file:html/index.html]]<br>
+<file:"design/sample/test.html"><br>
 
 <!--[[file:html/index.html]]-->
 <!--[file](html/index.html)-->

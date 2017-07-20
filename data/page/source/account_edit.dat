@@ -19,7 +19,7 @@
 				<div class='account_image' id='account_image'>
 					<div class='account_image_default'><i class='glyphicon glyphicon-user'></i></div>
 				</div>
-				<iframe class='account_upload' id='account_upload' src='<%CLASS:URL:getURL:CLASS>?p=account_image_upload'></iframe>
+				<iframe class='account_upload' id='account_upload' src='<CLASS:URL->getURL>?p=account_image_upload'></iframe>
 			</div>
 		</div>
 
@@ -27,7 +27,7 @@
 			<div class='base-default base-color-gray'>
 
 				<form name='form1' method='post' class="form-horizontal">
-					<input type='hidden' name='s' value='<!--%request:s%-->' />
+					<input type='hidden' name='s' value='<request:s>' />
 					<input type='hidden' name='c' value='USER_REGIST' />
 					<input type='hidden' name='f' value='user_update' />
 

@@ -18,6 +18,8 @@ class MYNT_SOURCE{
 		$source = $this->pattern1($source);
 		$source = $this->pattern2($source);
 		$source = $this->pattern3($source);
+		// $source = $this->pattern_variable($source);
+		// $source = $this->pattern_echo($source);
 		$source = $this->pattern_if($source);
 		$source = $this->pattern_for($source);
 		return $source;
@@ -50,6 +52,7 @@ class MYNT_SOURCE{
 		if(!count($match[1])){
 			return $source;
 		}
+		// print_r($match);
 
 		for($i=0, $c=count($match[1]); $i<$c; $i++){
 			if($match[0][$i]===""){continue;}
@@ -83,6 +86,45 @@ class MYNT_SOURCE{
 	// 	$keys = array("for","config");
 	// 	$pattern = '\[\[(['.join('|',$keys).']+)\:\:(.+?)\]\]';
 	// 	preg_match_all("/".$pattern."/is" , $source  , $match);
+	// }
+	// public function pattern_variable($source){
+	// 	$ptn = '<variable:(.*?)\=(.*?)>';
+	// 	preg_match_all("/".$ptn."/is" , $source  , $match);
+	// 	if(!count($match[1])){
+	// 		return $source;
+	// 	}
+	// 	if(!isset($GLOBALS["variable"])){
+	// 		$GLOBALS["variable"] = array();
+	// 	}
+	//
+	// 	for($i=0, $c=count($match[1]); $i<$c; $i++){
+	// 		if($match[0][$i]===""){continue;}
+	//
+	// 		eval($match[1][$i]."=".$match[2][$i].";");
+	// 		// eval($GLOBALS["variable"][[$match[1][$i]]."=".$match[2][$i].";");
+	// 		// $GLOBALS["variable"][$match[1][$i]] = $match[2][$i];
+	// 		$source = str_replace($match[0][$i] , "" , $source);
+	// 	}
+	// 	// echo "hoge:".$hoge;
+	// 	return $source;
+	// }
+	// public function pattern_echo($source){
+	// 	$ptn = '<echo:(.+?)>';
+	// 	preg_match_all("/".$ptn."/is" , $source  , $match);
+	//
+	// 	if(!count($match[1])){
+	// 		return $source;
+	// 	}
+	//
+	// 	for($i=0, $c=count($match[1]); $i<$c; $i++){
+	// 		if($match[0][$i]===""){continue;}
+	//
+	// 		// eval($match[1][$i]."=".$match[2][$i].";");
+	// 		$source = str_replace($match[0][$i] , eval("return ".$match[1][$i].";").$hoge , $source);
+	// 		// $source = str_replace($match[0][$i] , $hoge , $source);
+	// 	}
+	// 	// echo $GLOBALS["variable"]['hoge'];
+	// 	return $source;
 	// }
 	public function pattern_if($source){
 
@@ -142,8 +184,9 @@ class MYNT_SOURCE{
 			if($match[0][$i]===""){continue;}
 			$str = $match[3][$i];
 			$str = str_replace('"','\"',$str);
-
-			$evalStr = '$s="";for($j='.$match[1][$i].'; $j<='.$match[2][$i].'; $j++){$s.= str_replace("##",$j,"'.$str.'");}return $s;';
+			$str = str_replace("\n",'',$str);
+			$match[2][$i] = ($match[2][$i] === "")?$match[1][$i]:$match[2][$i];
+			$evalStr = '$s=""; for($j='.$match[1][$i].'; $j<='.$match[2][$i].'; $j++){$s.= str_replace("##",$j,"'.$str.'");} return $s;';
 			$res = eval($evalStr);
 			$source = str_replace($match[0][$i],$res,$source);
 		}
@@ -157,25 +200,46 @@ class MYNT_SOURCE{
 		$key = strtoupper($key);
 		switch($key){
 			case "POST":
-				$res = $_POST[$val];
+				$res = $this->getArrayValue($_POST,$val);
 				break;
 			case "GET":
-				$res = $_GET[$val];
+				$res = $this->getArrayValue($_GET,$val);
 				break;
 			case "REQUEST":
-				$res = $_REQUEST[$val];
+				$res = $this->getArrayValue($_REQUEST,$val);
 				break;
 			case "GLOBALS":
-				$res = $GLOBALS[$val];
+				$res = $this->getArrayValue($GLOBALS,$val);
 				break;
 			case "DEFINE":
 				$res = constant($val);
 				break;
 			case "SESSION":
-				$res = $_SESSION[$val];
+				$res = $this->getArrayValue($_SESSION,$val);
 				break;
 		}
 		return $res;
+	}
+	public function getArrayValue($datas,$key=""){
+		if($key===""){
+			return "";
+		}
+
+		$keys = explode("/",$key);
+
+		if(count($keys) === 1){
+			if(isset($datas[$key])){
+				return $datas[$key];
+			}
+			else{
+				return "";
+			}
+
+		}
+
+		$first_key = array_shift($keys);
+
+		return $this->getArrayValue($datas[$first_key] , join("/",$keys));
 	}
 
 	public function getProcs($key,$proc,$val){
@@ -210,7 +274,8 @@ class MYNT_SOURCE{
 	}
 
   public function getProcs_class($func,$val){
-    $data = explode("->" , $func);
+    $data = explode("/" , $func);
+
     if(count($data)!==2 || !class_exists($data[0])){return "";}
 
     $query = ($val=="")?array():explode(",",$val);
@@ -222,6 +287,7 @@ class MYNT_SOURCE{
 
     if(!method_exists($data[0],$data[1])){return;}
 		$cls = new $data[0];
+
 		return call_user_func_array(array($cls , $data[1]) , $query);
   }
 

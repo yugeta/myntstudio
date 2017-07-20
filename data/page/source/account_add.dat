@@ -1,5 +1,5 @@
 <main class="bs-docs-masthead" role="main">
-	<form method="post" action="<%CLASS:URL:getDir:CLASS%>login.php">
+	<form method="post" action="<CLASS:URL->getDir()>login.php">
 	<input type="hidden" name="login" value="account_add">
 
 	<div class="login">
