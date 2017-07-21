@@ -1,3 +1,5 @@
+<if(!"<class:MYNT_LOGIN/checkAuth()>")><class:URL/setURL("?p=login")><if-end>
+
 
 <div class='container'>
 	<div class='row'>

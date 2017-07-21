@@ -45,13 +45,13 @@
 			</ul>
 		</li> -->
 		<li style="display:<if("<SESSION:login_id>")>none<else>inline<if-end>;">
-			<a href="<CLASS:URL/getDir()>login.php">Login</a>
+			<a href="<CLASS:URL/getLocalFilename()>?p=login">Login</a>
 		</li>
 		<li style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
-			<a href="<CLASS:URL/getDir()>?p=Account_edit">Account</a>
+			<a href="<CLASS:URL/getLocalFilename()>?p=Account_edit">Account</a>
 		</li>
 		<li style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
-			<a href="<CLASS:URL/getDir()>login.php?login=logout">Logout</a>
+			<a href="<CLASS:URL/getLocalFilename()>?login=logout">Logout</a>
 		</li>
 			<!-- <%!IF:1:aaa:bbb:IF%><br> -->
 		<!-- <li class="dropdown">

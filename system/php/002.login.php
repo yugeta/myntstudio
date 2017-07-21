@@ -140,7 +140,7 @@ class MYNT_LOGIN extends MYNT{
 			//unset($_SESSION["login_id"]);
 			$_SESSION = array();
 			session_destroy();
-			header("Location: ".$url->getDir()."login.php");
+			header("Location: ".$url->getDir()."admin.php");
 		}
 
 		//auth

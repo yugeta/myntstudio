@@ -77,4 +77,13 @@ class URL{
 	function getSystemRoot(){
 		return $this->getDir().DIR_SYSTEM."/";
 	}
+
+	public function getLocalDir(){
+		$req = explode('?',$_SERVER['REQUEST_URI']);
+		return dirname($req[0]." ")."/";
+	}
+	public function getLocalFilename(){
+		return $_SERVER['SCRIPT_NAME'];
+	}
+
 }
