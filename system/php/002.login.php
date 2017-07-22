@@ -204,7 +204,7 @@ class MYNT_LOGIN extends MYNT{
 
 		//リダイレクト
 		$URL = new MYNT_URL();
-		header("Location: ".$URL->getDir()."?p=login");
+		header("Location: ".$URL->getDir()."?s=login");
 
 		exit();
 	}

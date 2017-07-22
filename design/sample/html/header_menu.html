@@ -12,14 +12,14 @@
 		<li class="dropdown" style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Account <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
-				<li><a href="<CLASS:URL/getLocalFilename()>?p=Account_edit">Setting</a></li>
+				<li><a href="<CLASS:URL/getLocalFilename()>?s=Account_edit">Setting</a></li>
 				<li class="divider"></li>
-				<li><a href="<CLASS:URL/getLocalFilename()>?mode=logout">Logout</a></li>
+				<li><a href="javascript:void(0)" onclick="location.href='<CLASS:URL/getLocalFilename()>?mode=logout'">Logout</a></li>
 			</ul>
 		</li>
 
 		<li style="display:<if("<SESSION:login_id>")>none<else>inline<if-end>;">
-			<a href="<CLASS:URL/getLocalFilename()>?p=login">Login</a>
+			<a href="<CLASS:URL/getLocalFilename()>?s=login">Login</a>
 		</li>
 
 	</ul>
