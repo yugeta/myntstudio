@@ -15,7 +15,7 @@ class MYNT{
 		$GLOBALS["config"] = $this->getConfig();
 	}
 	function getConfig(){
-		$dir = "system/config/";
+		$dir = "data/config/";
 
 		$files = scandir($dir);
 		$data = array();
