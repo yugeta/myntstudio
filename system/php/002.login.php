@@ -17,7 +17,7 @@ class MYNT_LOGIN extends MYNT{
 	//
 	// 	$openid  = new OPENID();
 	// 	$account = new ACCOUNT();
-	// 	$url     = new URL();
+	// 	$url     = new MYNT_URL();
 	//
 	// 	//ログイン処理
 	// 	if($mode=='login'){
@@ -111,44 +111,44 @@ class MYNT_LOGIN extends MYNT{
 	// }
 
 
-	/*==========
-	　ログイン処理
-	==========*/
-	function setLogin(){
-
-		$url = new URL;
-
-		// Session-Start
-		session_name($GLOBALS["config"]["define"]["session_name"]);
-		session_start();
-
-		$flg = false;
-
-		// Log-in
-		if(isset($_REQUEST["login"]) && $_REQUEST["login"]==="login"){
-			if($this->checkLogin($_REQUEST["login_id"] , $_REQUEST["login_pw"])){
-				$_SESSION["login_id"] = $_REQUEST["login_id"];
-			}
-			else if(isset($_SESSION["login_id"])){
-				unset($_SESSION["login_id"]);
-			}
-			header("Location: ".$url->getDir());
-		}
-
-		// Log-out
-		else if(isset($_REQUEST["login"]) && $_REQUEST["login"]==="logout"){
-			//unset($_SESSION["login_id"]);
-			$_SESSION = array();
-			session_destroy();
-			header("Location: ".$url->getDir()."admin.php");
-		}
-
-		//auth
-		else if($this->checkAuth()){
-			$flg = true;
-		}
-		return $flg;
-	}
+	// /*==========
+	// 　ログイン処理
+	// ==========*/
+	// function setLogin(){
+	//
+	// 	$url = new MYNT_URL;
+	//
+	// 	// Session-Start
+	// 	session_name($GLOBALS["config"]["define"]["session_name"]);
+	// 	session_start();
+	//
+	// 	$flg = false;
+	//
+	// 	// Log-in
+	// 	if(isset($_REQUEST["login"]) && $_REQUEST["login"]==="login"){
+	// 		if($this->checkLogin($_REQUEST["login_id"] , $_REQUEST["login_pw"])){
+	// 			$_SESSION["login_id"] = $_REQUEST["login_id"];
+	// 		}
+	// 		else if(isset($_SESSION["login_id"])){
+	// 			unset($_SESSION["login_id"]);
+	// 		}
+	// 		header("Location: ".$url->getDir());
+	// 	}
+	//
+	// 	// Log-out
+	// 	else if(isset($_REQUEST["login"]) && $_REQUEST["login"]==="logout"){
+	// 		//unset($_SESSION["login_id"]);
+	// 		$_SESSION = array();
+	// 		session_destroy();
+	// 		header("Location: ".$url->getDir()."admin.php");
+	// 	}
+	//
+	// 	//auth
+	// 	else if($this->checkAuth()){
+	// 		$flg = true;
+	// 	}
+	// 	return $flg;
+	// }
 
 	// Authorize
 	function checkAuth(){
@@ -203,13 +203,25 @@ class MYNT_LOGIN extends MYNT{
 		}
 
 		//リダイレクト
-		$url = new URL();
-		header("Location: ".$url->getUrl());
+		$URL = new MYNT_URL();
+		header("Location: ".$URL->getDir()."?p=login");
 
+		exit();
 	}
 
 	//Login-check
-	function checkLogin($id="",$pw=""){
+	function checkLogin(){
+		// if(isset($_SESSION["login_id"])){
+		// 	// unset($_SESSION["login_id"]);
+		// }
+		if($this->setLogin($_REQUEST["login_id"] , $_REQUEST["login_pw"])){
+			$_SESSION["login_id"] = $_REQUEST["login_id"];
+		}
+		$URL = new MYNT_URL;
+		header("Location: ".$URL->getDir());
+	}
+
+	function setLogin($id="",$pw=""){
 
 		if($id==="" || $pw===""){return;}
 
@@ -298,7 +310,7 @@ class MYNT_LOGIN extends MYNT{
 		}
 
 		// $regist = new SYSTEM_REGIST();
-		$passwdFile = DIR_DATA."/system/users.json";
+		$passwdFile = "data/system/users.json";
 
 		if(!file_exists($passwdFile)){return;}
 

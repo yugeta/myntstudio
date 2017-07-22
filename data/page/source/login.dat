@@ -2,7 +2,7 @@
 
 <main class="bs-docs-masthead" role="main">
 	<form method="post" action="<CLASS:URL/getLocalFilename()>">
-	<input type="hidden" name="login" value="login">
+	<input type="hidden" name="method" value="MYNT_LOGIN/checkLogin">
 
 	<div class="login">
 		<div class="input-area">

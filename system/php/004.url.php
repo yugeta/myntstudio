@@ -1,6 +1,6 @@
 <?php
 
-class URL{
+class MYNT_URL{
 
 	//port + domain [http://hoge.com:8800/]
 	//現在のポートの取得（80 , 443 , その他）
@@ -63,19 +63,19 @@ class URL{
 
 	//
 	function getDesignRoot(){
-		return $this->getDir().DIR_DESIGN."/".$GLOBALS["config"]["design"]["target"]."/";
+		return $this->getDir()."design/".$GLOBALS["config"]["design"]["target"]."/";
 	}
 	function getLibraryRoot(){
-		return $this->getDir().DIR_LIBRARY."/";
+		return $this->getDir()."library/";
 	}
 	function getPluginRoot(){
-		return $this->getDir().DIR_PLUGIN."/";
+		return $this->getDir()."plugin/";
 	}
 	function getDataRoot(){
-		return $this->getDir().DIR_DATA."/";
+		return $this->getDir()."data/";
 	}
 	function getSystemRoot(){
-		return $this->getDir().DIR_SYSTEM."/";
+		return $this->getDir()."system/";
 	}
 
 	public function getLocalDir(){

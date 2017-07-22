@@ -1,6 +1,6 @@
 <?php
 
-class PAGE{
+class MYNT_PAGE{
 
 	// クエリを判別してページを表示（ない場合はエラーページ）
 	function viewPage(){

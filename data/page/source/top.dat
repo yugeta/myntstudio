@@ -1,4 +1,14 @@
 <a href="<CLASS:URL/getDir()>?p=001">%001</a><br>
+
+<hr>
+
+<h3><SERVER:DOCUMENT_URI></h3>
+<h3><SERVER:REQUEST_URI></h3>
+<h3><SERVER:SCRIPT_NAME></h3>
+<h3><SERVER:PHP_SELF></h3>
+
+<hr>
+
 <CLASS:URL/getDir()>
 
 <file:"design/sample/test.html"><br>

@@ -2,15 +2,19 @@
 
 class MYNT{
 
-  function setDefine(){
+	function setDefine(){
 		define(DIR_DESIGN		,"design"	);
 		define(DIR_PLUGIN		,"plugin"	);
 		define(DIR_LIBRARY	,"library");
 		define(DIR_SYSTEM		,"system");
 		define(DIR_DATA			,"data"		);
-  }
+	}
 
+	// Config
 	function loadConfig(){
+		$GLOBALS["config"] = $this->getConfig();
+	}
+	function getConfig(){
 		$dir = "system/config/";
 
 		$files = scandir($dir);
@@ -24,52 +28,52 @@ class MYNT{
 		return $data;
 	}
 
-  function loadModulePHPs($dir){
-    if(!preg_match("/\/$/",$dir)){
-        $dir .= "/";
-    }
+	function loadModulePHPs($dir){
+		if(!preg_match("/\/$/",$dir)){
+			$dir .= "/";
+		}
 
-    $files = scandir($dir);
+		$files = scandir($dir);
 
-    for($i=0; $i<count($files); $i++){
-        if($files[$i] == "." || $files[$i] == ".." || !preg_match("/\.php$/",$files[$i])){continue;}
-        require_once $dir.$files[$i];
-    }
-  }
+		for($i=0; $i<count($files); $i++){
+			if($files[$i] == "." || $files[$i] == ".." || !preg_match("/\.php$/",$files[$i])){continue;}
+			require_once $dir.$files[$i];
+		}
+	}
 
 	function loadPlugins($dir){
-    $dir = $GLOBALS["config"]["define"]["plugin"];
+		$dir = $GLOBALS["config"]["define"]["plugin"];
 
-    if(!$dir || !is_dir($dir)){
-      $this->viewError("Not found directory [loadPlugins] [ ".$dir." ]");
-    }
+		if(!$dir || !is_dir($dir)){
+			$this->viewError("Not found directory [loadPlugins] [ ".$dir." ]");
+		}
 
-    if(!preg_match("/\/$/",$dir)){
-      $dir .= "/";
-    }
+		if(!preg_match("/\/$/",$dir)){
+			$dir .= "/";
+		}
 
-    if(!isset($GLOBALS["config"]["plugins"]) || !count($GLOBALS["config"]["plugins"])){
-      return;
-    }
+		if(!isset($GLOBALS["config"]["plugins"]) || !count($GLOBALS["config"]["plugins"])){
+			return;
+		}
 
-    for($i=0; $i<count($GLOBALS["config"]["plugins"]); $i++){
-      $path = $dir . $GLOBALS["config"]["plugins"][$i] ."/php/lib/";
+		for($i=0; $i<count($GLOBALS["config"]["plugins"]); $i++){
+			$path = $dir . $GLOBALS["config"]["plugins"][$i] ."/php/lib/";
 			// echo $path."<br>".PHP_EOL;
-      if(!is_dir($path)){continue;}
-      $this->loadModulePHPs($path);
-    }
-  }
+			if(!is_dir($path)){continue;}
+			$this->loadModulePHPs($path);
+		}
+	}
 
 	function viewDesign($htmlFile="index.html"){
-    if(!isset($GLOBALS["config"]["design"]["target"])){
-      $this->viewError("Not setting Design.");
-    }
+		if(!isset($GLOBALS["config"]["design"]["target"])){
+			$this->viewError("Not setting Design.");
+		}
 
-    $design = $GLOBALS["config"]["design"]["target"];
+		$design = $GLOBALS["config"]["design"]["target"];
 
-    if(!$design || !is_dir("design/".$design)){
-      $this->viewError("Not found Design [ ".$design." ]");
-    }
+		if(!$design || !is_dir("design/".$design)){
+			$this->viewError("Not found Design [ ".$design." ]");
+		}
 
 		// Load - HTML
 		if(isset($_REQUEST["h"]) && is_file("design/".$design."/".$_REQUEST["h"].".html")){
@@ -111,13 +115,14 @@ class MYNT{
 	}
 
 	function viewError($msg){
-      echo "<h1>".$msg."</h1>";
-      exit();
-  }
-
-  // ローカルパス [ design/***/ ]
-  function getDesignTarget(){
-		return DIR_DESIGN."/".$GLOBALS["config"]["design"]["target"]."/";
+		echo "<h1>".$msg."</h1>";
+		exit();
 	}
+
+	// ローカルパス [ design/***/ ]
+	function getDesignTarget(){
+		return "design/".$GLOBALS["config"]["design"]["target"]."/";
+	}
+
 
 }
