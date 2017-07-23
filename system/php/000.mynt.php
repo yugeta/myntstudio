@@ -1,5 +1,10 @@
 <?php
 
+date_default_timezone_set('Asia/Tokyo');
+
+// //IE iframe 3rd party cookie 対応
+// header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
+
 class MYNT{
 
 	function setDefine(){
@@ -124,5 +129,8 @@ class MYNT{
 		return "design/".$GLOBALS["config"]["design"]["target"]."/";
 	}
 
+	function currentTime(){
+		return date("YmdHis");
+	}
 
 }

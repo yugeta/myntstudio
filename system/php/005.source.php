@@ -84,6 +84,68 @@ class MYNT_SOURCE{
 
 	public function pattern_if($source){
 
+		$ptn = '<if\((.+?)\)>(.+?)<if\-end>';
+		preg_match_all("/".$ptn."/is" , $source  , $match);
+
+		if(!count($match[1])){
+			return $source;
+		}
+
+		for($i=0, $c=count($match[1]); $i<$c; $i++){
+			if($match[0][$i]===""){continue;}
+
+			// else-check
+			$val_else = "";
+			$val_then = $match[2][$i];
+
+			$ptn_else = '(.*)<else>(.*)';
+			preg_match_all("/".$ptn_else."/is" , $val_then , $match_else);
+
+			if(count($match_else[0])){
+				$val_else = $match_else[2][0];
+				$val_then = $match_else[1][0];
+			}
+
+			// if-else
+			if(!preg_match("/<elif\(.+?\)>/",$val_then)){
+				$evalStr = "if(".$match[1][$i]."){return '".$val_then."';}";
+				if($val_else !== ""){
+					$evalStr .= "else{return '".$val_else."';}";
+				}
+				$res = eval($evalStr);
+			}
+
+			// if-elseif-else
+			else{
+				$ptn2 = '<elif\((.+?)\)>';
+				$str = $val_then;
+				$str = str_replace("\n","",$str);
+				$str = str_replace("\r","",$str);
+				preg_match_all("/".$ptn2."/is" , $str  , $elifs);
+
+				$elif = "";
+				for($j=0; $j<count($elifs[0]); $j++){
+					$elif .= "<elif\(.+?\)>(.+?)";
+				}
+				$ptn3 = '<if\(.+?\)>(.+?)'.$elif.'<else>.+?<if\-end>';
+				preg_match_all("/".$ptn3."/is" , $match[0][$i]  , $elifs2);
+
+				$evalStr = "if(".$match[1][$i]."){return '".$elifs2[1][0]."';}";
+				for($j=2; $j<count($elifs2); $j++){
+					$evalStr .= "elseif(".$elifs[1][$j-2]."){return '".$elifs2[$j][0]."';}";
+				}
+				$evalStr .= "else{return '".$val_else."';}";
+
+				$res = eval($evalStr);
+			}
+
+			$source = str_replace($match[0][$i],$res,$source);
+		}
+		return $source;
+	}
+
+	public function pattern_if_bak($source){
+
 		//
 		// $ptn = '<if\((.+?)\)>(.+?)<else>(.+?)<if\-end>';
 		$ptn = '<if\((.+?)\)>(.+?)<if\-end>';
@@ -102,15 +164,11 @@ class MYNT_SOURCE{
 
 			$ptn_else = '(.*)<else>(.*)';
 			preg_match_all("/".$ptn_else."/is" , $val_then , $match_else);
-// echo $match[2][$i].PHP_EOL;
-// print_r($match_else);
+
 			if(count($match_else[0])){
 				$val_else = $match_else[2][0];
 				$val_then = $match_else[1][0];
 			}
-
-			// //else-if check
-			// preg_match("/<elif\(.+?\)>/",$val_elseif , $mutch_elseif);
 
 			// if-else
 			if(!preg_match("/<elif\(.+?\)>/",$val_then)){

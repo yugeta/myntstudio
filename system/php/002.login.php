@@ -204,7 +204,7 @@ class MYNT_LOGIN extends MYNT{
 
 		//リダイレクト
 		$URL = new MYNT_URL();
-		header("Location: ".$URL->getDir()."?s=login");
+		header("Location: ".$URL->getDir()."?html=login");
 
 		exit();
 	}
@@ -387,7 +387,7 @@ class MYNT_LOGIN extends MYNT{
 	}
 
 	function viewPageLogin(){
-		$page = new PAGE;
+		$page = new MYNT_PAGE;
 		$source = "";
 		if(!isset($_SESSION["login_id"]) || !$_SESSION["login_id"]){
 			$source = $page->getPageSource("data/page/source/login.dat");

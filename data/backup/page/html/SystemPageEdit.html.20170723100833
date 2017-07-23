@@ -1,0 +1,67 @@
+<div class='container'>
+	<div class='row'>
+		<div class='col-sm-12'>
+			<div class='base-default base-color-green'>
+				<h1>
+					<i class='glyphicon glyphicon-pencil'></i> System Page Edit
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class='container'>
+	<div class='row'>
+
+		<div class='col-sm-12'>
+			<div class='base-default base-color-gray'>
+
+				<form name='form1' method='post' class="form-horizontal">
+					<input type='hidden' name='method' value='MYNT_PAGE/setSystemPage' />
+					<input type="hidden" name="type" value="<REQUEST:type>">
+					<input type="hidden" name="file" value="<REQUEST:file>">
+
+					<div class="control-group">
+						<label class="control-label" for="title">Select File</label>
+						<div class="controls">
+							<select id="pageSelect" class='form-control' style="width:200px;"/>
+							<option value="" selected>+ new file</option>
+							<class:MYNT_PAGE/getFileListsOptions("html")>
+							</select>
+						</div>
+					</div>
+					<div class="control-group" style="display:none;">
+						<label class="control-label" for="title">File Name</label>
+						<div class="controls">
+							<input type='text' id="fileName" name='fileName'  class='form-control'/>
+						</div>
+					</div>
+<!--
+					<div class="control-group">
+						<label class="control-label" for="title">Title</label>
+						<div class="controls">
+							<input type='text' id="title" name='title' value='' class='form-control'/>
+						</div>
+					</div>
+-->
+					<div class="control-group">
+						<label class="control-label" for="source">Source</label>
+						<div class="controls">
+							<textarea style="height:300px;" id="source" name='source' class='form-control' /><CLASS:MYNT_PAGE/getFile("data/page/<REQUEST:type>/<REQUEST:file>.html")></textarea>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="control-label"></div>
+						<div class="controls">
+							<input type='submit' value='Update' class='btn btn-default' />
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="system/js/systemPageEdit.js"></script>
