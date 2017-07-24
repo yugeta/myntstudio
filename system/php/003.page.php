@@ -178,7 +178,9 @@ class MYNT_PAGE{
 		for($i=0,$c=count($fileNames); $i<$c; $i++){
 			// preg_match("/(.+?)\.(.+?)/",$files[$i] , $match);
 			$selected = (isset($_REQUEST["file"]) && $_REQUEST["file"] === $fileNames[$i])?"selected":"";
-			$options[] = "<option value='".$fileNames[$i]."' ".$selected.">".$this->getPageInfoString($fileNames[$i],"title")."</option>".PHP_EOL;
+			$viewTitle = $this->getPageInfoString($fileNames[$i],"title");
+			if(!$viewTitle){$viewTitle = "* ".$fileNames[$i];}
+			$options[] = "<option value='".$fileNames[$i]."' ".$selected.">".$viewTitle."</option>".PHP_EOL;
 		}
 		// print_r($options);
 		return join("",$options);

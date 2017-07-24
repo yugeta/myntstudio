@@ -49,16 +49,23 @@ class MYNT_SOURCE{
 		$ptn = '<('.join('|',$keys).')\:(.+?)\((.*?)\)>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
-		if(!count($match[1])){
-			return $source;
+		if(count($match[1])){
+			for($i=0, $c=count($match[1]); $i<$c; $i++){
+				if($match[0][$i]===""){continue;}
+				$res = $this->getProcs($match[1][$i],$match[2][$i],$match[3][$i]);
+				$source = str_replace($match[0][$i],$res,$source);
+			}
 		}
-		// print_r($match);
-
-		for($i=0, $c=count($match[1]); $i<$c; $i++){
-			if($match[0][$i]===""){continue;}
-			$res = $this->getProcs($match[1][$i],$match[2][$i],$match[3][$i]);
-			$source = str_replace($match[0][$i],$res,$source);
-		}
+		// else{
+		// 	$ptn = '<class\:(.+)\/(.+)>';
+		// 	preg_match_all("/".$ptn."/is" , $source  , $match2);
+		// 	if(count($match2[1])){echo $match2[1][0];
+		// 		for($i=0, $c=count($match2[1]); $i<$c; $i++){echo $match2[2][$i];
+		// 			$cls = new $match2[1][$i];
+		// 			$source = call_user_func_array(array($cls , $match2[2][$i]));
+		// 		}
+		// 	}
+		// }
 
 		return $source;
 	}
