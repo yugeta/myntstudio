@@ -204,7 +204,7 @@ class MYNT_LOGIN extends MYNT{
 
 		//リダイレクト
 		$URL = new MYNT_URL();
-		header("Location: ".$URL->getDir()."?html=login");
+		header("Location: ".$URL->getURL()."?p=login");
 
 		exit();
 	}
@@ -218,7 +218,7 @@ class MYNT_LOGIN extends MYNT{
 			$_SESSION["login_id"] = $_REQUEST["login_id"];
 		}
 		$URL = new MYNT_URL;
-		header("Location: ".$URL->getDir());
+		header("Location: ".$URL->getURL());
 	}
 
 	function setLogin($id="",$pw=""){
