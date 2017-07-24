@@ -9,7 +9,7 @@
 <div class="navbar-collapse collapse" id="navbar-main">
 
 	<ul class="nav navbar-nav" style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
-		<li><a href="<CLASS:URL/getLocalFilename()>?html=SystemPageEdit&type=html">SystemPageEdit</a></li>
+		<li><a href="<CLASS:URL/getLocalFilename()>?p=SystemPageEdit&type=html">SystemPageEdit</a></li>
 	</ul>
 
 	<ul class="nav navbar-nav navbar-right">
@@ -17,7 +17,7 @@
 		<li class="dropdown" style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Account <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
-				<li><a href="<CLASS:URL/getLocalFilename()>?html=account_edit">Setting</a></li>
+				<li><a href="<CLASS:URL/getLocalFilename()>?p=account_edit">Setting</a></li>
 				<li class="divider"></li>
 				<li><a href="javascript:void(0)" onclick="location.href='<CLASS:URL/getLocalFilename()>?mode=logout'">Logout</a></li>
 			</ul>

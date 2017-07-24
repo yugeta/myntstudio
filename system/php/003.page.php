@@ -2,106 +2,111 @@
 
 class MYNT_PAGE{
 
+	public $default_dir  = "data/page/";
+	public $default_file = "top";
+	public $default_404  = "404";
+
 	// クエリを判別してページを表示（ない場合はエラーページ）
-	function viewPage($root = "html/top"){
-		$source = $this->getPageData($root);
-		// $json = json_decode($file,true);
+	function getSource($file = ""){
+		if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
+			$file = $_REQUEST["p"];
+		}
+		else if($file === ""){
+			$file = $this->default_file;
+		}
+
+		$path = $this->default_dir;
+		if(is_file($path.$file.".html")){
+			$path .= $file.".html";
+		}
+		else{
+			$path .= $this->default_404.".html";
+		}
+
+		$source = file_get_contents($path);
+
 		$MYNT_SOURCE = new MYNT_SOURCE;
 		return $MYNT_SOURCE->rep($source);
 	}
-	function getPageData($root){
-		$source = "";
 
-		$err404 = "data/page/html/404.html";
+	// infoデータからタイトルを取得
+	function getTitle($file = ""){
+		$info = $this->getPageInfo($file);
 
-		if(isset($_REQUEST["s"]) && $_REQUEST["s"] !== ""){
-			$path = "data/page/s/".$_REQUEST["s"].".html";
-			if(is_file($path)){
-				$source = file_get_contents($path);
-			}
-			else{
-				$source = file_get_contents($err404);
-			}
-		}
-		else if(isset($_REQUEST["html"]) && $_REQUEST["html"] !== ""){
-			$path = "data/page/html/".$_REQUEST["html"].".html";
-			if(is_file($path)){
-				// $source = $this->getJsonData("",file_get_contents("data/page/html/".$_REQUEST["html"].".html"));
-				$source = file_get_contents($path);
-			}
-			else{
-				$source = file_get_contents($err404);
-			}
-		}
-		else{
-			$path = "data/page/".$root.".html";
-			if(is_file($path)){
-				$source = file_get_contents($path);
-			}
-			else{
-				$source = file_get_contents($err404);
-			}
+		if(!isset($info["title"])){
+			return "";
 		}
 
-		return $source;
-	}
-
-	function getPageDat($root = "html-info/top"){
-		$source = "";
-
-		$err404 = "data/page/html-info/404.dat";
-
-		if(isset($_REQUEST["s"]) && $_REQUEST["s"] !== ""){
-			$path = "data/page/s/".$_REQUEST["s"].".html";
-			if(is_file($path)){
-				$source = file_get_contents($path);
-			}
-			else{
-				$source = file_get_contents($err404);
-			}
-		}
-		else if(isset($_REQUEST["html"]) && $_REQUEST["html"] !== ""){
-			$path = "data/page/html/".$_REQUEST["html"].".html";
-			if(is_file($path)){
-				// $source = $this->getJsonData("",file_get_contents("data/page/html/".$_REQUEST["html"].".html"));
-				$source = file_get_contents($path);
-			}
-			else{
-				$source = file_get_contents($err404);
-			}
-		}
-		else{
-			$path = "data/page/".$root.".html";
-			if(is_file($path)){
-				$source = file_get_contents($path);
-			}
-			else{
-				$source = file_get_contents($err404);
-			}
-		}
-
-		return $source;
-	}
-
-	function getJsonData($title,$source){
-		$jsonArr = array("title"=>$title , "source"=>$source);
-		$jsonStr = json_encode($jsonArr);
-		$jsonStr = preg_replace_callback('/\\\\u([0-9a-zA-Z]{4})/', function ($matches) {return mb_convert_encoding(pack('H*',$matches[1]),'UTF-8','UTF-16');},$jsonStr);
-		return $jsonStr;
-	}
-
-	function viewTitle(){
-		// if(isset($_REQUEST["p"])){
-		// 	$source = $this->getPageTitle($_REQUEST["p"]);
-		// 	$source = str_replace("\n","",$source);
-		// 	$source = str_replace("\r","",$source);
-		// 	return $this->changePageSource($source);
-		// }
-		$file = $this->getPageDat();
-		$json = json_decode($file , true);
 		$MYNT_SOURCE = new MYNT_SOURCE;
-		return $MYNT_SOURCE->rep($json["title"]);
+		return $MYNT_SOURCE->rep($info["title"]);
 	}
+
+	function getPageInfo($file = ""){
+		if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
+			$file = $_REQUEST["p"];
+		}
+		else if($file === ""){
+			$file = $this->default_file;
+		}
+
+		$path = $this->default_dir;
+		if(is_file($path.$file.".info")){
+			$path .= $file.".info";
+		}
+		else{
+			$path .= $this->default_404.".info";
+		}
+
+		$source = file_get_contents($path);
+
+		return json_decode($source , true);
+	}
+	//
+	// function getPageDat($root = "html-info/top"){
+	// 	$source = "";
+	//
+	// 	$err404 = "data/page/html-info/404.dat";
+	//
+	// 	if(isset($_REQUEST["s"]) && $_REQUEST["s"] !== ""){
+	// 		$path = "data/page/s/".$_REQUEST["s"].".html";
+	// 		if(is_file($path)){
+	// 			$source = file_get_contents($path);
+	// 		}
+	// 		else{
+	// 			$source = file_get_contents($err404);
+	// 		}
+	// 	}
+	// 	else if(isset($_REQUEST["html"]) && $_REQUEST["html"] !== ""){
+	// 		$path = "data/page/html/".$_REQUEST["html"].".html";
+	// 		if(is_file($path)){
+	// 			// $source = $this->getJsonData("",file_get_contents("data/page/html/".$_REQUEST["html"].".html"));
+	// 			$source = file_get_contents($path);
+	// 		}
+	// 		else{
+	// 			$source = file_get_contents($err404);
+	// 		}
+	// 	}
+	// 	else{
+	// 		$path = "data/page/".$root.".html";
+	// 		if(is_file($path)){
+	// 			$source = file_get_contents($path);
+	// 		}
+	// 		else{
+	// 			$source = file_get_contents($err404);
+	// 		}
+	// 	}
+	//
+	// 	return $source;
+	// }
+
+	// function getJsonData($title,$source){
+	// 	$jsonArr = array("title"=>$title , "source"=>$source);
+	// 	$jsonStr = json_encode($jsonArr);
+	// 	$jsonStr = preg_replace_callback('/\\\\u([0-9a-zA-Z]{4})/', function ($matches) {return mb_convert_encoding(pack('H*',$matches[1]),'UTF-8','UTF-16');},$jsonStr);
+	// 	return $jsonStr;
+	// }
+
+
 
 	// function getPageTitle($pageID){
 	// 	if(is_file("data/page/title/".$pageID.".dat")){
@@ -138,6 +143,7 @@ class MYNT_PAGE{
 	// 	return $new_source;
 	// }
 
+	//
 	public function getFile($filePath){
 		if(!is_file($filePath)){return;}
 		$data = file_get_contents($filePath);

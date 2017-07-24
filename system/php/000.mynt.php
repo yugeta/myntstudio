@@ -46,7 +46,7 @@ class MYNT{
 		}
 	}
 
-	function loadPlugins($dir){
+	function loadPlugins($dir = ""){
 		$dir = $GLOBALS["config"]["define"]["plugin"];
 
 		if(!$dir || !is_dir($dir)){

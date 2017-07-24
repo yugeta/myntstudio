@@ -332,7 +332,7 @@ class MYNT_LOGIN extends MYNT{
 			//アカウント判別
 			if($json["id"]===$id){
 
-				if($json["flg"]==="1"){
+				if(isset($json["flg"]) && $json["flg"]==="1"){
 					break;
 				}
 
