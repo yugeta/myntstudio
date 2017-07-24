@@ -4,29 +4,27 @@
 	};
 
 	$$.prototype.set = function(){
-		var pageSelectElm = document.getElementById("pageSelect");
-		if(pageSelect === null){return;}
+		var fileNameElm = document.getElementById("fileName");
+		if(fileNameElm === null){return;}
 
 
 		// select-value
 		var urlData = $$.prototype.urlinfo();
-		if(typeof(urlData.query.file) === -1 || !urlData.query.file){console.log(1);
-			document.getElementById("fileNameArea").style.setProperty("display","block","");
-		}
-		else{console.log(2);
-			pageSelectElm.value = urlData.query.file;
+		if(typeof(urlData.query.file) !== -1 || urlData.query.file){
+		// 	document.getElementById("fileNameArea").style.setProperty("display","block","");
+		// }
+		// else{
+			fileNameElm.value = urlData.query.file;
 		}
 
 		// url-change
-		pageSelect.onchange = $$.prototype.changeSelect;
+		fileNameElm.onchange = $$.prototype.changeSelect;
 	};
 
-	$$.prototype.changeSelect = function(event){
+	$$.prototype.changeSelect = function(event){console.log(+new Date())
 		var target = event.target;
-		//console.log(target.value);
-		//http://localhost/tools/myntstudio/index.php?file=SystemPageEdit&type=html
 		var urlData = $$.prototype.urlinfo();
-		var url = urlData.url+"?html="+urlData.query.html+"&file="+target.value+"&type="+urlData.query.type;
+		var url = urlData.url+"?p="+urlData.query.p+"&file="+target.value;
 		// console.log(url);
 		// alert(url);
 		location.href = url;

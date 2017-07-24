@@ -152,31 +152,32 @@ class MYNT_PAGE{
 		return $data;
 	}
 
-	public function getFileLists($type){
-		if(!$type){return;}
+	public function getFileLists($ext="html"){
+		// if(!$type){return;}
 
-		$path = "data/page/".$type."/";
+		$path = "data/page/";
 		if(!is_dir($path)){return;}
 
 		$lists = array();
 		$files = scandir($path);
 		for($i=0,$c=count($files); $i<$c; $i++){
 			if($files[$i]==="." || $files[$i]===".."){continue;}
-			// if(!preg_match("/\.dat$/",$files[$i])){continue;}
-			$lists[] = $files[$i];
+			if($ext && !preg_match("/(.+?)\.".$ext."/",$files[$i],$match)){continue;}
+			// $lists[] = $files[$i];
+			$lists[] = $match[1];
 		}
 		// print_r($lists);
 		return $lists;
 	}
-	public function getFileListsOptions($type){
-		if(!$type){return;}
+	public function getFileListsOptions($ext="html"){
+		// if(!$type){return;}
 
-		$files = $this->getFileLists($type);
+		$fileNames = $this->getFileLists($ext);
 
 		$options = array();
-		for($i=0,$c=count($files); $i<$c; $i++){
-			preg_match("/(.+?)\.(.+?)/",$files[$i] , $match);
-			$options[] = "<option value='".$match[1]."'>".$match[1]."</option>".PHP_EOL;
+		for($i=0,$c=count($fileNames); $i<$c; $i++){
+			// preg_match("/(.+?)\.(.+?)/",$files[$i] , $match);
+			$options[] = "<option value='".$fileNames[$i]."'>".$fileNames[$i]."</option>".PHP_EOL;
 		}
 		// print_r($options);
 		return join("",$options);
@@ -189,7 +190,7 @@ class MYNT_PAGE{
 		// die($_REQUEST["file"]." | ".$_REQUEST["type"]);
 
 		// file^path
-		$path = "data/page/".$_REQUEST["type"]."/".$_REQUEST["file"].".html";
+		$path = "data/page/".$_REQUEST["file"].".html";
 		$backupDir = "data/backup/page/".$_REQUEST["type"]."/";
 
 		// backup-folder
@@ -207,7 +208,7 @@ class MYNT_PAGE{
 
 		//redirect
 		$url = new MYNT_URL;
-		header("Location: ". $url->getUrl()."?html=".$_REQUEST["html"]."&file=".$_REQUEST["file"]."&type=".$_REQUEST["type"]);
+		header("Location: ". $url->getUrl()."?p=".$_REQUEST["p"]."&file=".$_REQUEST["file"]);
 
 	}
 }

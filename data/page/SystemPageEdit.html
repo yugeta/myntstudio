@@ -10,58 +10,105 @@
 	</div>
 </div>
 
-<div class='container'>
-	<div class='row'>
+<form name='form1' method='post' class="form-horizontal" action="<class:MYNT_URL/getUrl()>?p=<request:p>">
 
-		<div class='col-sm-12'>
-			<div class='base-default base-color-gray'>
+	<div class='container'>
+		<div class='row'>
 
-				<form name='form1' method='post' class="form-horizontal">
-					<input type='hidden' name='method' value='MYNT_PAGE/setSystemPage' />
-					<input type="hidden" name="type" value="<REQUEST:type>">
-					<input type="hidden" name="file" value="<REQUEST:file>">
+			<div class='col-sm-8'>
+				<div class='base-default base-color-gray'>
+
+
+						<input type='hidden' name='method' value='MYNT_PAGE/setSystemPage' />
+						<!-- <input type="hidden" name="type" value="<REQUEST:type>"> -->
+						<input type="hidden" name="file" value="<REQUEST:file>">
+
+
+
+
+						<div class="control-group">
+							<label class="control-label" for="title">Title</label>
+							<div class="controls">
+								<input type='text' id="title" name='title' value='' class='form-control'/>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label" for="source">Source</label>
+							<div class="controls">
+								<textarea style="min-height:300px;" id="source" name='source' class='form-control' /><CLASS:MYNT_PAGE/getFile("data/page/<REQUEST:type>/<REQUEST:file>.html")></textarea>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<div class="control-label"></div>
+							<div class="controls">
+								<input type='submit' value='Update' class='btn btn-default' />
+							</div>
+						</div>
+
+
+
+				</div>
+			</div>
+
+			<div class='col-sm-4'>
+				<div class='base-default base-color-gray'>
 
 					<div class="control-group">
 						<label class="control-label" for="title">Select File</label>
 						<div class="controls">
-							<select id="pageSelect" class='form-control' style="width:200px;"/>
+							<select id="fileName" name="fileName" class='form-control'/>
 							<option value="" selected>+ new file</option>
-							<class:MYNT_PAGE/getFileListsOptions("html")>
+							<class:MYNT_PAGE/getFileListsOptions()>
 							</select>
 						</div>
 					</div>
-					<div class="control-group" id="fileNameArea" style="display:none;">
+
+					<!-- <div class="control-group" id="fileNameArea" style="display:none;">
 						<label class="control-label" for="title">File Name</label>
 						<div class="controls">
-							<input type='text' id="fileName" name='fileName'  class='form-control' style="display:inline-block;width:200px;"/> .html
+							<input type='hidden' id="fileName" name='fileName'  class='form-control' style="display:inline-block;width:200px;"/> .html
+						</div>
+					</div> -->
+
+					<div class="control-group">
+						<label class="control-label" for="title">Page Type</label>
+						<div class="controls">
+							<select id="pageType" name="pageType" class='form-control'/>
+								<option value="blog">Blog</option>
+								<option value="system">System</option>
+							</select>
 						</div>
 					</div>
-<!--
-					<div class="control-group">
-						<label class="control-label" for="title">Title</label>
+
+					<div class="control-group" id="fileNameArea">
+						<label class="control-label" for="title">Group</label>
 						<div class="controls">
-							<input type='text' id="title" name='title' value='' class='form-control'/>
+							<input type='text' id="group" name='group'  class='form-control' />
 						</div>
 					</div>
--->
-					<div class="control-group">
-						<label class="control-label" for="source">Source</label>
+
+					<div class="control-group" id="fileNameArea">
+						<label class="control-label" for="title">Tag</label>
 						<div class="controls">
-							<textarea style="height:300px;" id="source" name='source' class='form-control' /><CLASS:MYNT_PAGE/getFile("data/page/<REQUEST:type>/<REQUEST:file>.html")></textarea>
+							<input type='text' id="tag" name='tag'  class='form-control' />
 						</div>
 					</div>
 
 					<div class="control-group">
-						<div class="control-label"></div>
+						<label class="control-label" for="source">Infomation</label>
 						<div class="controls">
-							<input type='submit' value='Update' class='btn btn-default' />
+							Regist :
+							Update :
 						</div>
 					</div>
-				</form>
 
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+
+</form>
 
 <script src="system/js/systemPageEdit.js?<class:MYNT/currentTime()>"></script>
