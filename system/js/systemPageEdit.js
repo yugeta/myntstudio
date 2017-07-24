@@ -8,14 +8,14 @@
 		if(fileNameElm === null){return;}
 
 
-		// select-value
-		var urlData = $$.prototype.urlinfo();
-		if(typeof(urlData.query.file) !== -1 || urlData.query.file){
-		// 	document.getElementById("fileNameArea").style.setProperty("display","block","");
+		// // select-value
+		// var urlData = $$.prototype.urlinfo();
+		// if(typeof(urlData.query.file) !== -1 || urlData.query.file){
+		// // 	document.getElementById("fileNameArea").style.setProperty("display","block","");
+		// // }
+		// // else{
+		// 	fileNameElm.value = urlData.query.file;
 		// }
-		// else{
-			fileNameElm.value = urlData.query.file;
-		}
 
 		// url-change
 		fileNameElm.onchange = $$.prototype.changeSelect;

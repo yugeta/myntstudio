@@ -11,6 +11,8 @@
 </div>
 
 <form name='form1' method='post' class="form-horizontal" action="<class:MYNT_URL/getUrl()>?p=<request:p>">
+	<input type='hidden' name='method' value='MYNT_PAGE/setSystemPage' />
+	<input type="hidden" name="file" value="<REQUEST:file>">
 
 	<div class='container'>
 		<div class='row'>
@@ -18,18 +20,10 @@
 			<div class='col-sm-8'>
 				<div class='base-default base-color-gray'>
 
-
-						<input type='hidden' name='method' value='MYNT_PAGE/setSystemPage' />
-						<!-- <input type="hidden" name="type" value="<REQUEST:type>"> -->
-						<input type="hidden" name="file" value="<REQUEST:file>">
-
-
-
-
 						<div class="control-group">
 							<label class="control-label" for="title">Title</label>
 							<div class="controls">
-								<input type='text' id="title" name='title' value='' class='form-control'/>
+								<input type='text' id="title" name='title' value='<class:MYNT_PAGE/getPageInfoString("<request:file>","title")>' class='form-control'/>
 							</div>
 						</div>
 
@@ -46,8 +40,6 @@
 								<input type='submit' value='Update' class='btn btn-default' />
 							</div>
 						</div>
-
-
 
 				</div>
 			</div>
@@ -75,7 +67,7 @@
 					<div class="control-group">
 						<label class="control-label" for="title">Page Type</label>
 						<div class="controls">
-							<select id="pageType" name="pageType" class='form-control'/>
+							<select id="type" name="type" class='form-control'/>
 								<option value="blog">Blog</option>
 								<option value="system">System</option>
 							</select>
@@ -85,22 +77,22 @@
 					<div class="control-group" id="fileNameArea">
 						<label class="control-label" for="title">Group</label>
 						<div class="controls">
-							<input type='text' id="group" name='group'  class='form-control' />
+							<input type='text' id="group" name='group' value="<class:MYNT_PAGE/getPageInfoString("<request:file>","group")>" class='form-control' />
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
 						<label class="control-label" for="title">Tag</label>
 						<div class="controls">
-							<input type='text' id="tag" name='tag'  class='form-control' />
+							<input type='text' id="tag" name='tag' value="<class:MYNT_PAGE/getPageInfoString("<request:file>","tag")>" class='form-control' />
 						</div>
 					</div>
 
 					<div class="control-group">
 						<label class="control-label" for="source">Infomation</label>
 						<div class="controls">
-							Regist :
-							Update :
+							Regist : <class:MYNT_PAGE/getPageInfoString("<request:file>","regist")><br>
+							Update : <class:MYNT_PAGE/getPageInfoString("<request:file>","update")><br>
 						</div>
 					</div>
 

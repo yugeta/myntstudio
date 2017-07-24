@@ -177,7 +177,8 @@ class MYNT_PAGE{
 		$options = array();
 		for($i=0,$c=count($fileNames); $i<$c; $i++){
 			// preg_match("/(.+?)\.(.+?)/",$files[$i] , $match);
-			$options[] = "<option value='".$fileNames[$i]."'>".$fileNames[$i]."</option>".PHP_EOL;
+			$selected = (isset($_REQUEST["file"]) && $_REQUEST["file"] === $fileNames[$i])?"selected":"";
+			$options[] = "<option value='".$fileNames[$i]."' ".$selected.">".$this->getPageInfoString($fileNames[$i],"title")."</option>".PHP_EOL;
 		}
 		// print_r($options);
 		return join("",$options);
@@ -189,8 +190,20 @@ class MYNT_PAGE{
 		// die($_REQUEST["source"]);
 		// die($_REQUEST["file"]." | ".$_REQUEST["type"]);
 
-		// file^path
-		$path = "data/page/".$_REQUEST["file"].".html";
+		$current_time = time();
+
+		// file-name
+		if(!isset($_REQUEST["file"]) || !$_REQUEST["file"]){
+			$_REQUEST["file"] = $current_time;
+
+		}
+		if(!isset($_REQUEST["regist"]) || !$_REQUEST["regist"]){
+			$_REQUEST["regist"] = $current_time;
+		}
+
+		// file-path
+		$path_html = "data/page/".$_REQUEST["file"].".html";
+		$path_info = "data/page/".$_REQUEST["file"].".info";
 		$backupDir = "data/backup/page/".$_REQUEST["type"]."/";
 
 		// backup-folder
@@ -199,16 +212,44 @@ class MYNT_PAGE{
 		}
 
 		// backup
-		if(is_file($path)){
-			rename($path , $backupDir.$_REQUEST["file"].".html.".date(Ymdhis));
+		if(is_file($path_html)){
+			rename($path_html , $backupDir.$_REQUEST["file"].".html.".date(Ymdhis));
+		}
+		if(is_file($path_info)){
+			rename($path_info , $backupDir.$_REQUEST["file"].".info.".date(Ymdhis));
 		}
 
 		// source-save
-		file_put_contents($path , $_REQUEST["source"]);
+		file_put_contents($path_html , $_REQUEST["source"]);
+
+		// info-save
+		$info = array(
+			"title"  => $_REQUEST["title"],
+			"type"   => $_REQUEST["type"],
+			"tag"    => $_REQUEST["tag"],
+			"group"  => $_REQUEST["group"],
+			"regist" => $_REQUEST["regist"],
+			"update" => $current_time
+		);
+		$json = json_encode($info);
+		$json = preg_replace_callback('/\\\\u([0-9a-zA-Z]{4})/', function ($matches) {return mb_convert_encoding(pack('H*',$matches[1]),'UTF-8','UTF-16');},$json);
+		file_put_contents($path_info , $json);
+
 
 		//redirect
 		$url = new MYNT_URL;
 		header("Location: ". $url->getUrl()."?p=".$_REQUEST["p"]."&file=".$_REQUEST["file"]);
 
+	}
+
+	public function getPageInfoString($fileName = "" , $key = ""){
+		if($key === "" || $fileName === ""){return;}
+		if(!is_file($this->default_dir.$fileName.".info")){return;}
+
+		$json = json_decode(file_get_contents($this->default_dir.$fileName.".info"),true);
+
+		if(!isset($json[$key])){return;}
+
+		return $json[$key];
 	}
 }
