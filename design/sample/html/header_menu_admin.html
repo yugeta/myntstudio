@@ -9,10 +9,12 @@
 <div class="navbar-collapse collapse" id="navbar-main">
 
 	<ul class="nav navbar-nav">
+
+		<li><a href="<CLASS:URL/getLocalFilename()>?p=sys_post">+ NewPost</a></li>
+
 		<li class="dropdown" style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Page <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
-				<li><a href="<CLASS:URL/getLocalFilename()>?p=sys_post">+ NewPost</a></li>
 				<li><a href="<CLASS:URL/getLocalFilename()>?p=sys_pageEdit">PageEdit</a></li>
 				<li><a href="<CLASS:URL/getLocalFilename()>?p=sys_picture">Picture</a></li>
 				<li><a href="<CLASS:URL/getLocalFilename()>?p=sys_group">Group</a></li>
@@ -20,9 +22,7 @@
 				<li><a href="<CLASS:URL/getLocalFilename()>?p=sys_comment">Comment</a></li>
 			</ul>
 		</li>
-	</ul>
 
-	<ul class="nav navbar-nav">
 		<li class="dropdown" style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">System <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">

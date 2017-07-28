@@ -7,14 +7,21 @@ class MYNT_PAGE{
 	public $default_404  = "404";
 
 	// クエリを判別してページを表示（ない場合はエラーページ）
-	function getSource($file = ""){
+	function getSource($notLoginFile = "" , $loginedFile = ""){
+
+		// ログイン後に読み込みページが変わる場合の設定
+		$file = ($loginedFile !== "" && isset($_SESSION["login_id"]) && $_SESSION["login_id"])?$loginedFile:$notLoginFile;
+
+		// クエリにページ指定があるか確認
 		if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
 			$file = $_REQUEST["p"];
 		}
-		else if($file === ""){
+		// ページ指定が無ければデフォルトページを設定
+		else if($notLoginFile === ""){
 			$file = $this->default_file;
 		}
 
+		// 対象ファイルのセット
 		$path = $this->default_dir;
 		if(is_file($path.$file.".html")){
 			$path .= $file.".html";
@@ -226,12 +233,14 @@ class MYNT_PAGE{
 
 		// info-save
 		$info = array(
-			"title"  => $_REQUEST["title"],
-			"type"   => $_REQUEST["type"],
-			"tag"    => $_REQUEST["tag"],
-			"group"  => $_REQUEST["group"],
-			"regist" => $_REQUEST["regist"],
-			"update" => $current_time
+			"title"     => $_REQUEST["title"],
+			"type"      => $_REQUEST["type"],
+			"status"    => $_REQUEST["status"],
+			"tag"       => $_REQUEST["tag"],
+			"group"     => $_REQUEST["group"],
+			"category"  => $_REQUEST["category"],
+			"regist"    => $_REQUEST["regist"],
+			"update"    => $current_time
 		);
 		$json = json_encode($info);
 		$json = preg_replace_callback('/\\\\u([0-9a-zA-Z]{4})/', function ($matches) {return mb_convert_encoding(pack('H*',$matches[1]),'UTF-8','UTF-16');},$json);
@@ -253,5 +262,38 @@ class MYNT_PAGE{
 		if(!isset($json[$key])){return;}
 
 		return $json[$key];
+	}
+
+	public function getPageCategoryLists($key=""){
+		if($key===""){return array();}
+		$path = "data/config/pageCategoryLists.json";
+		if(!is_file($path)){return array();}
+		$json = json_decode(file_get_contents($path),true);
+		if(!isset($json[$key])){return array();}
+		return $json[$key];
+	}
+	public function getPageCategoryListsOptions($key=""){
+		if($key===""){return "";}
+
+		// configデータの取得
+		$lists = $this->getPageCategoryLists($key);
+
+		// 登録データの取得
+		$val = "";
+		if(isset($_REQUEST["file"])){
+			$val = $this->getPageInfoString($_REQUEST["file"],$key);
+		}
+
+
+		// optionタグの作成
+		$options = array();
+		for($i=0,$c=count($lists); $i<$c; $i++){
+			foreach($lists[$i] as $k => $v){
+				$selected = "";
+				if($val !== "" && $val === $k){$selected = " selected";}
+				$options[] = "<option value='".$k."'".$selected.">".$v."</option>";
+			}
+		}
+		return join(PHP_EOL,$options);
 	}
 }

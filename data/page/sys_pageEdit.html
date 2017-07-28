@@ -21,14 +21,14 @@
 				<div class='base-default base-color-gray'>
 
 						<div class="control-group">
-							<label class="control-label" for="title">Title</label>
+							<label class="control-label" for="title"><i class='glyphicon glyphicon-text-width'></i> Title</label>
 							<div class="controls">
 								<input type='text' id="title" name='title' value='<class:MYNT_PAGE/getPageInfoString("<request:file>","title")>' class='form-control'/>
 							</div>
 						</div>
 
 						<div class="control-group">
-							<label class="control-label" for="source">Source</label>
+							<label class="control-label" for="source"><i class='glyphicon glyphicon-edit'></i> Source</label>
 							<div class="controls">
 								<textarea style="min-height:300px;" id="source" name='source' class='form-control' /><CLASS:MYNT_PAGE/getFile("data/page/<REQUEST:type>/<REQUEST:file>.html")></textarea>
 							</div>
@@ -38,6 +38,7 @@
 							<div class="control-label"></div>
 							<div class="controls">
 								<input type='submit' value='Update' class='btn btn-default' />
+								<input type='button' value='Preview' class='btn btn-default' />
 							</div>
 						</div>
 
@@ -47,8 +48,15 @@
 			<div class='col-sm-4'>
 				<div class='base-default base-color-gray'>
 
+					<div class="control-group" id="fileNameArea">
+						<label class="control-label" for="title"><i class='glyphicon glyphicon-search'></i> Search</label>
+						<div class="controls">
+							<input type='text' id="group" name='group' value="<request:search>" class='form-control' />
+						</div>
+					</div>
+
 					<div class="control-group">
-						<label class="control-label" for="title">Select File</label>
+						<label class="control-label" for="title"><i class='glyphicon glyphicon-book'></i> File</label>
 						<div class="controls">
 							<select id="fileName" name="fileName" class='form-control'/>
 							<option value="" selected>+ new file</option>
@@ -65,36 +73,51 @@
 					</div> -->
 
 					<div class="control-group">
-						<label class="control-label" for="title">Page Type</label>
+						<label class="control-label" for="title"><i class='glyphicon glyphicon-text-size'></i> Type</label>
 						<div class="controls">
 							<select id="type" name="type" class='form-control'/>
-								<option value="blog">Blog</option>
-								<option value="system">System</option>
+								<class:MYNT_PAGE/getPageCategoryListsOptions("type")>
+							</select>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="title"><i class='glyphicon glyphicon-sort-by-attributes'></i> Status</label>
+						<div class="controls">
+							<select id="type" name="status" class='form-control'/>
+								<class:MYNT_PAGE/getPageCategoryListsOptions("status")>
 							</select>
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
-						<label class="control-label" for="title">Group</label>
+						<label class="control-label" for="title"><i class='glyphicon glyphicon-menu-hamburger'></i> Group</label>
 						<div class="controls">
 							<input type='text' id="group" name='group' value="<class:MYNT_PAGE/getPageInfoString("<request:file>","group")>" class='form-control' />
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
-						<label class="control-label" for="title">Tag</label>
+						<label class="control-label" for="title"><i class='glyphicon glyphicon-duplicate'></i> Category</label>
+						<div class="controls">
+							<input type='text' id="category" name='category' value="<class:MYNT_PAGE/getPageInfoString("<request:file>","category")>" class='form-control' />
+						</div>
+					</div>
+
+					<div class="control-group" id="fileNameArea">
+						<label class="control-label" for="title"><i class='glyphicon glyphicon-tags'></i> Tag</label>
 						<div class="controls">
 							<input type='text' id="tag" name='tag' value="<class:MYNT_PAGE/getPageInfoString("<request:file>","tag")>" class='form-control' />
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="source">Infomation</label>
-						<div class="controls">
-							file   : <request:file>.html<br>
+						<label class="control-label" for="source"><i class='glyphicon glyphicon-info-sign'></i> Infomation</label>
+						<div class="panel panel-default"><div class="panel-body">
+							file   : <if("<request:file>")> <request:file>.html<if-end><br>
 							Regist : <class:MYNT_PAGE/getPageInfoString("<request:file>","regist")><br>
 							Update : <class:MYNT_PAGE/getPageInfoString("<request:file>","update")><br>
-						</div>
+						</div></div>
 					</div>
 
 				</div>

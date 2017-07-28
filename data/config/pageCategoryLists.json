@@ -1,0 +1,12 @@
+{
+	"type":[
+		{"blog"   :"Blog"},
+		{"system" :"System"}
+	],
+	"status":[
+		{"draft"  :"Draft"},
+		{"wait"   :"Wait"},
+		{"trash"  :"Trash"},
+		{"release":"Release"}
+	]
+}
