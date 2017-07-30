@@ -12,7 +12,7 @@
 
 		$$.prototype.setIframeTag();
 		$$.prototype.setButtonUpload();
-
+		$$.prototype.setEvent(window , "click" , $$.prototype.imageClickProc);
 	};
 
 	$$.prototype.setIframeTag = function(){
@@ -269,7 +269,26 @@
 		return data;
 	};
 
+	$$.prototype.imageClickProc = function(event){
+		// console.log(event.target.tagName);
+		if(!event.target || event.target.tagName !== "IMG" || event.target.getAttribute("data-id") === null){return}
+		var id = event.target.getAttribute("data-id");
+		$$.prototype.viewImageDialog(id);
+	};
+	$$.prototype.viewImageDialog = function(id){
+		// console.log(id);
 
+		// BG-element
+		var bg = document.createElement("div");
+		bg.className = "ImageDialog-bg";
+		document.body.appendChild(bg);
+
+		// Dialog-base
+		var base = document.createElement("div");
+		base.className = "ImageDialog-base";
+		bg.appendChild(base);
+
+	};
 
 	new $$();
 
