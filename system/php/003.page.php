@@ -3,31 +3,48 @@
 class MYNT_PAGE{
 
 	public $default_dir  = "data/page/";
-	public $default_file = "top";
-	public $default_404  = "404";
+	public $system_dir   = "system/page/";
+	public $default_top  = "system/page/top";
+	public $notlogin     = "system/page/login";
+	public $default_404  = "system/page/404";
 
 	// クエリを判別してページを表示（ない場合はエラーページ）
-	function getSource($notLoginFile = "" , $loginedFile = ""){
+	function getSource($type = ""){
 
 		// ログイン後に読み込みページが変わる場合の設定
-		$file = ($loginedFile !== "" && isset($_SESSION["login_id"]) && $_SESSION["login_id"])?$loginedFile:$notLoginFile;
+		// $file = ($loginedFile !== "" && isset($_SESSION["login_id"]) && $_SESSION["login_id"])?$loginedFile:$notLoginFile;
+		//
+		// $path = "";
+
+		// 認証
+		if($type === "login" && !isset($_SESSION["login_id"])){
+			$path = $this->system_dir."login.html";
+		}
 
 		// クエリにページ指定があるか確認
-		if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
-			$file = $_REQUEST["p"];
-		}
-		// ページ指定が無ければデフォルトページを設定
-		else if($notLoginFile === ""){
-			$file = $this->default_file;
+		else if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
+			if(is_file($this->default_dir.$_REQUEST["p"].".html")){
+				$path = $this->default_dir.$_REQUEST["p"].".html";
+			}
+			else{
+				$path = $this->default_404.".html";
+			}
 		}
 
-		// 対象ファイルのセット
-		$path = $this->default_dir;
-		if(is_file($path.$file.".html")){
-			$path .= $file.".html";
+		// systemページ
+		else if(isset($_REQUEST["system"]) && $_REQUEST["system"]){
+			// $file = $_REQUEST["system"];
+			if(is_file($this->system_dir.$_REQUEST["system"].".html")){
+				$path = $this->system_dir.$_REQUEST["system"].".html";
+			}
+			else{
+				$path = $this->default_404.".html";
+			}
 		}
+
+		// ページ指定が無ければデフォルトページを設定
 		else{
-			$path .= $this->default_404.".html";
+			$path = $this->default_top.".html";
 		}
 
 		$source = file_get_contents($path);
@@ -49,20 +66,38 @@ class MYNT_PAGE{
 	}
 
 	function getPageInfo($file = ""){
-		if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
-			$file = $_REQUEST["p"];
-		}
-		else if($file === ""){
-			$file = $this->default_file;
-		}
 
-		$path = $this->default_dir;
-		if(is_file($path.$file.".info")){
-			$path .= $file.".info";
+		$path="";
+
+		if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
+			$path = $this->default_dir;
+			if(is_file($this->default_dir.$_REQUEST["p"].".info")){
+				$path = $this->default_dir.$_REQUEST["p"].".info";
+			}
+			else{
+				$path .= $this->default_404.".info";
+			}
+		}
+		if(isset($_REQUEST["system"]) && $_REQUEST["system"]){
+			$path = $this->default_dir;
+			if(is_file($this->default_dir.$_REQUEST["system"].".info")){
+				$path = $this->default_dir.$_REQUEST["system"].".info";
+			}
+			else{
+				$path .= $this->default_404.".info";
+			}
 		}
 		else{
-			$path .= $this->default_404.".info";
+			$path = $this->default_top.".info";
 		}
+
+		// $path = $this->default_dir;
+		// if(is_file($path.$file.".info")){
+		// 	$path .= $file.".info";
+		// }
+		// else{
+		// 	$path .= $this->default_404.".info";
+		// }
 
 		$source = file_get_contents($path);
 

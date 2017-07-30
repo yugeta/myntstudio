@@ -3,7 +3,7 @@
 		<div class='col-sm-12'>
 			<div class='base-default base-color-green'>
 				<h1>
-					<i class='glyphicon glyphicon-pencil'></i> System Page Edit
+					<i class='glyphicon glyphicon-pencil'></i> Page Edit
 				</h1>
 			</div>
 		</div>
@@ -113,11 +113,13 @@
 
 					<div class="control-group">
 						<label class="control-label" for="source"><i class='glyphicon glyphicon-info-sign'></i> Infomation</label>
-						<div class="panel panel-default"><div class="panel-body">
-							file   : <if("<request:file>")> <request:file>.html<if-end><br>
-							Regist : <class:MYNT_PAGE/getPageInfoString("<request:file>","regist")><br>
-							Update : <class:MYNT_PAGE/getPageInfoString("<request:file>","update")><br>
-						</div></div>
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<i class='glyphicon glyphicon-open-file'></i> file   : <if("<request:file>")> <request:file>.html<if-end><br>
+								<i class='glyphicon glyphicon-glass'></i> Regist : <class:MYNT_PAGE/getPageInfoString("<request:file>","regist")><br>
+								<i class='glyphicon glyphicon-time'></i> Update : <class:MYNT_PAGE/getPageInfoString("<request:file>","update")><br>
+							</div>
+						</div>
 					</div>
 
 				</div>
