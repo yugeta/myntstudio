@@ -20,8 +20,11 @@
 		// url-change
 		fileNameElm.onchange = $$.prototype.changeSelect;
 
-		// img-button
-		$$.prototype.setImageButton();
+		// // img-button
+		// $$.prototype.setImageButton();
+
+		// add-tag
+		$$.prototype.setEvent_addTag();
 	};
 
 	$$.prototype.changeSelect = function(event){console.log(+new Date())
@@ -98,21 +101,18 @@
 	};
 
 	$$.prototype.setImageButton = function(){
-		var getImgButton = document.getElementById("button_getImage");
-		if(getImgButton === null){return}
-		getImgButton.onclick = function(){
-			$$ajax.prototype.set({
-				url:$$.prototype.pathinfo(location.href).path,
-				query:{
-					method      : "MYNT_PAGE/getTemplateFile",
-					filePath    : "system/page/pageEdit_getImage.html"
-				},
-				method:"POST",
-				async:true,
-				onSuccess:$$.prototype.setImageDialog_temp
-			});
-		};
+		$$ajax.prototype.set({
+			url:$$.prototype.pathinfo(location.href).path,
+			query:{
+				method   : "MYNT_PAGE/getTemplateFile",
+				filePath : "system/page/pageEdit_getImage.html"
+			},
+			method:"POST",
+			async:true,
+			onSuccess:$$.prototype.setImageDialog_temp
+		});
 	};
+
 	$$.prototype.setImageDialog_temp = function(res){
 		var bg = document.createElement("div");
 		bg.className = "ImageDialog-bg";
@@ -169,7 +169,7 @@
 
 	$$.prototype.setEvent_selectImage = function(id,ext){
 
-		var word = "<img src='data/picture/"+id+"."+ext+"' />";
+		var word = "<img src='data/picture/"+id+"."+ext+"' data-id='"+id+"' alt='' />";
 
 		var textarea = document.getElementById('source');
 
@@ -319,7 +319,133 @@
 		};
 	};
 
+	$$.prototype.setEvent_addTag = function(){
+		var addTag = document.getElementsByClassName("addTag");
+		for(var i=0; i<addTag.length; i++){
+			addTag[i].onclick = $$.prototype.setEvent_addTag_click;
+		}
+	};
+	$$.prototype.setEvent_addTag_click = function(event){
+		var target = event.target;
+		if(!target){return}
+		// console.log(target.textContent);
+		var tag = $$.prototype.trim(target.textContent);
+		switch(tag){
+			case "img":
+				$$.prototype.setImageButton();
+				break;
+			case "a":
+				$$.prototype.setEvent_addTag_proc(tag+" href='' target='_blank'",tag,"");
+				break;
+			case "hr":
+				$$.prototype.setEvent_addTag_proc(tag,"","");
+				break;
+			case "form":
+				$$.prototype.setEvent_addTag_proc(tag+" method='post' action=''",tag,"\n");
+				break;
+			case "text":
+				$$.prototype.setEvent_addTag_proc("input type='text' name='' value=''","","");
+				break;
+			case "hidden":
+				$$.prototype.setEvent_addTag_proc("input type='hidden' name='' value=''","","");
+				break;
+			case "radio":
+				$$.prototype.setEvent_addTag_proc("input type='radio' name='' value=''","","");
+				break;
+			case "checkbox":
+				$$.prototype.setEvent_addTag_proc("input type='checkbox' name='' value=''","","");
+				break;
+			case "select":
+				$$.prototype.setEvent_addTag_proc(tag+" name=''",tag,"\n");
+				break;
+			case "option":
+				$$.prototype.setEvent_addTag_proc(tag+" value=''",tag,"");
+				break;
+			case "button":
+				$$.prototype.setEvent_addTag_proc("input type='button' name='' value=''","","");
+				break;
+			case "submit":
+				$$.prototype.setEvent_addTag_proc("input type='submit' name='' value=''","","");
+				break;
+			case "table+":
+				$$.prototype.setEvent_addTag_proc("table","table","\n<tr>\n<th></th>\n</tr>\n<tr>\n<td></td>\n</tr>\n\n");
+				break;
+			case "ul+":
+				$$.prototype.setEvent_addTag_proc("ul","ul","\n<li></li>\n\n");
+				break;
+			case "ol+":
+				$$.prototype.setEvent_addTag_proc("ol","ol","\n<li></li>\n\n");
+				break;
+			case "dl+":
+				$$.prototype.setEvent_addTag_proc("dl","dl","\n<dt></dt>\n<dd></dd>\n\n");
+				break;
+			// case "table":
+			// 	var str = "\n<tr>\n<td></td>\n</tr>\n";
+			// 	$$.prototype.setEvent_addTag_proc(target.textContent,target.textContent,str);
+			// 	break;
 
+			// case "ul":
+			// 	$$.prototype.setEvent_addTag_proc(target.textContent,target.textContent,"\n<li></li>\n");
+			// 	break;
+
+			default:
+				$$.prototype.setEvent_addTag_proc(tag,tag,"");
+				break;
+		}
+	};
+	$$.prototype.setEvent_addTag_proc = function(tag1,tag2,str1){
+		var textarea = document.getElementById('source');
+
+		// add-textarea
+		var sentence = textarea.value;//全部文字
+		var len      = sentence.length;//文字全体のサイズ
+		var pos      = textarea.selectionStart;//選択している最初の位置
+
+		var before   = sentence.substr(0, textarea.selectionStart);
+
+		var after    = sentence.substr(textarea.selectionEnd, len);
+		var str2      = sentence.substr(textarea.selectionStart , (textarea.selectionEnd - textarea.selectionStart));
+
+		var word = "";
+
+		var str = str1 + str2;
+
+		if(tag1 && tag2){
+			word = "<"+tag1+">"+str+"</"+tag2+">";
+		}
+		else if(tag1 && tag2 === ""){
+			word = "<"+tag1+">";
+		}
+
+		// var strLen = textarea.selectionEnd +
+
+		sentence = before + word + after;
+
+		// console.log(textarea.selectionStart +"/"+ textarea.selectionEnd);
+
+		textarea.value = sentence;
+	};
+
+	$$.prototype.trim = function(txt){
+		if(!txt){return txt}
+		if(typeof(txt)!=="string"){txt = txt.toString()}
+
+		//&nbsp;文字列対策
+		var nbsp = String.fromCharCode(160);//&nbsp;
+		if(txt!="" && txt.indexOf(nbsp)!=-1){txt = txt.split(nbsp).join(' ');}
+
+		//改行排除
+		txt = txt.replace(/\r/g,'');
+		txt = txt.replace(/\n/g,'');
+		txt = txt.replace(/^\t/g,'');
+		txt = txt.replace(/\t$/g,'');
+
+		//文頭、文末のTRIM
+		txt = txt.replace(/^ /g,'');
+		txt = txt.replace(/ $/g,'');
+
+		return txt;
+	};
 
 	new $$();
 

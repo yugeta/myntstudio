@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<CLASS:MYNT_URL/getSystemRoot()>css/pageEdit.css">
+<link rel="stylesheet" href="<CLASS:MYNT_URL/getSystemRoot()>css/pageEdit.css?<class:MYNT/currentTime()>">
 
 <div class='container'>
 	<div class='row'>
@@ -29,12 +29,78 @@
 							</div>
 						</div>
 
-						<div class="control-group">
+						<div class="control-group dropdown">
 							<div class="control-label"></div>
 							<div class="controls">
-								<button id="button_getImage" type="button" class="btn btn-default">
-									<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> get Image
-								</button>
+								<button type="button" class="btn btn-default addTag"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> img</button>
+								<button type="button" class="btn btn-default addTag"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>a</button>
+
+								<div class="btn-group">
+									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-header" aria-hidden="true"></span> h* <span class="caret"></span></button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<li class="addTag"><span class="btn-style">h2</span></li>
+										<li class="addTag"><span class="btn-style">h3</span></li>
+										<li class="addTag"><span class="btn-style">h4</span></li>
+										<li class="addTag"><span class="btn-style">h5</span></li>
+										<li class="addTag"><span class="btn-style">h6</span></li>
+									</ul>
+								</div>
+								<div class="btn-group">
+									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> paragraph <span class="caret"></span></button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<li class="addTag"><span class="btn-style">p</span></li>
+										<li class="addTag"><span class="btn-style">blockquote</span></li>
+										<li class="addTag"><span class="btn-style">strong</span></li>
+										<li class="addTag"><span class="btn-style">hr</span></li>
+									</ul>
+								</div>
+
+								<div class="btn-group">
+									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> table <span class="caret"></span></button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<li class="addTag"><span class="btn-style">table+</span></li>
+										<li role="separator" class="divider"></li>
+										<li class="addTag"><span class="btn-style">table</span></li>
+										<li class="addTag"><span class="btn-style">tr</span></li>
+										<li class="addTag"><span class="btn-style">td</span></li>
+										<li class="addTag"><span class="btn-style">th</span></li>
+									</ul>
+								</div>
+
+								<div class="btn-group">
+									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> list <span class="caret"></span></button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<li class="addTag"><span class="btn-style">ul+</span></li>
+										<li class="addTag"><span class="btn-style">ol+</span></li>
+										<li class="addTag"><span class="btn-style">dl+</span></li>
+										<li role="separator" class="divider"></li>
+										<li class="addTag"><span class="btn-style">ul</span></li>
+										<li class="addTag"><span class="btn-style">ol</span></li>
+										<li class="addTag"><span class="btn-style">li</span></li>
+										<li role="separator" class="divider"></li>
+										<li class="addTag"><span class="btn-style">dl</span></li>
+										<li class="addTag"><span class="btn-style">dt</span></li>
+										<li class="addTag"><span class="btn-style">dd</span></li>
+									</ul>
+								</div>
+
+								<div class="btn-group">
+									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> form <span class="caret"></span></button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<li class="addTag"><span class="btn-style">form</span></li>
+										<li role="separator" class="divider"></li>
+										<li class="addTag"><span class="btn-style">text</span></li>
+										<li class="addTag"><span class="btn-style">hidden</span></li>
+										<li class="addTag"><span class="btn-style">radio</span></li>
+										<li class="addTag"><span class="btn-style">checkbox</span></li>
+										<li role="separator" class="divider"></li>
+										<li class="addTag"><span class="btn-style">select</span></li>
+										<li class="addTag"><span class="btn-style">textarea</span></li>
+										<li role="separator" class="divider"></li>
+										<li class="addTag"><span class="btn-style">button</span></li>
+										<li class="addTag"><span class="btn-style">submit</span></li>
+									</ul>
+								</div>
 							</div>
 						</div>
 

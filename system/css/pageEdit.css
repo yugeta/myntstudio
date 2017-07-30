@@ -73,3 +73,15 @@
 .dialogHeader i:hover{
 	opacity:0.7;
 }
+
+.addTag .btn-style{
+	display:block;
+
+	padding: 3px 20px;
+	margin:0;
+	border:0;
+	cursor: pointer;
+}
+.addTag .btn-style:hover{
+	background-image: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);
+}
