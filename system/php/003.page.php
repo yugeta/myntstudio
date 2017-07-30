@@ -4,7 +4,7 @@ class MYNT_PAGE{
 
 	public $default_dir  = "data/page/";
 	public $system_dir   = "system/page/";
-	public $default_top  = "system/page/top";
+	public $default_top  = "system/page/";
 	public $notlogin     = "system/page/login";
 	public $default_404  = "system/page/404";
 
@@ -44,7 +44,8 @@ class MYNT_PAGE{
 
 		// ページ指定が無ければデフォルトページを設定
 		else{
-			$path = $this->default_top.".html";
+			$top = $top = (isset($GLOBALS["config"]["page"]["top"]))?$GLOBALS["config"]["page"]["top"]:"top";
+			$path = $this->default_top.$top.".html";
 		}
 
 		$source = file_get_contents($path);
@@ -88,7 +89,8 @@ class MYNT_PAGE{
 			}
 		}
 		else{
-			$path = $this->default_top.".info";
+			$top = $top = (isset($GLOBALS["config"]["page"]["top"]))?$GLOBALS["config"]["page"]["top"]:"top";
+			$path = $this->default_top.$top.".info";
 		}
 
 		// $path = $this->default_dir;
@@ -330,5 +332,21 @@ class MYNT_PAGE{
 			}
 		}
 		return join(PHP_EOL,$options);
+	}
+
+
+	function getFileSource(){
+		if(isset($_REQUEST["filePath"]) && is_file($_REQUEST["filePath"])){
+			echo file_get_contents($_REQUEST["filePath"]);
+		}
+		exit();
+	}
+
+	public function getTemplateFile(){
+		if(!isset($_REQUEST["filePath"]) || !is_file($_REQUEST["filePath"])){return;}
+		$temp = file_get_contents($_REQUEST["filePath"]);
+		$MYNT_SOURCE = new MYNT_SOURCE;
+		echo $MYNT_SOURCE->rep($temp);
+		exit();
 	}
 }

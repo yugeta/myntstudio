@@ -397,7 +397,8 @@ class MYNT_LOGIN extends MYNT{
 			$source = $page->getPageSource("data/page/source/".$_REQUEST["p"].".dat");
 		}
 		else{
-			$source = $page->getPageSource("data/page/source/top.dat");
+			$top = (isset($GLOBALS["config"]["page"]["top"]))?$GLOBALS["config"]["page"]["top"]:"top";
+			$source = $page->getPageSource("data/page/source/".$top.".dat");
 		}
 		return $page->changePageNewLine($source);
 	}

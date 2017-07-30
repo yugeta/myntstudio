@@ -10,9 +10,21 @@
 		img_upload_iframe.style.setProperty("display","none","");
 		img_upload_iframe.onload = $$.prototype.setIframeTag;
 
+		$$.prototype.setScrollArea();
 		$$.prototype.setIframeTag();
 		$$.prototype.setButtonUpload();
-		$$.prototype.setEvent(window , "click" , $$.prototype.imageClickProc);
+		$$.prototype.setEvent(window , "click" ,  $$.prototype.imageClickProc);
+		// $$.prototype.setEvent(document.body , "scroll" , $$.prototype.controlScroll);
+		document.body.onscroll = $$.prototype.controlScroll;
+		window.onresize = $$.prototype.setScrollArea;
+	};
+
+	$$.prototype.setScrollArea = function(){
+		var picturesArea = document.getElementById("pictures");
+		if(picturesArea === null){return}
+		var allHeight = window.innerHeight;
+		var posPistures = $$pos(picturesArea);
+		picturesArea.style.setProperty("height", (allHeight - posPistures.y - 10)+"px", "");
 	};
 
 	$$.prototype.setIframeTag = function(){
@@ -126,6 +138,14 @@
 		else{target.attachEvent('on' + mode, function(){func.call(target , window.event)})}
 	};
 
+	$$.prototype.controlScroll = function(event){
+		// BG-exist-check
+		// var bg = document.getElementsByClassName("ImageDialog-bg");
+		// if(bg.length > 0){
+		// 	event.preventDefault();
+		// }
+	};
+
 	$$.prototype.getLastImage = function(){
 		var pictures = document.getElementById("pictures");
 		if(pictures === null){return ""}
@@ -141,7 +161,7 @@
 		if(pictures === null){return}
 
 		// サーバーからデータリストの読み込み
-		$imageLists = $$ajax.prototype.set({
+		$$ajax.prototype.set({
 			url:$$.prototype.pathinfo(location.href).path,
 			query:{
 				method:"MYNT_UPLOAD/getImages",
@@ -270,24 +290,145 @@
 	};
 
 	$$.prototype.imageClickProc = function(event){
-		// console.log(event.target.tagName);
-		if(!event.target || event.target.tagName !== "IMG" || event.target.getAttribute("data-id") === null){return}
-		var id = event.target.getAttribute("data-id");
-		$$.prototype.viewImageDialog(id);
-	};
-	$$.prototype.viewImageDialog = function(id){
-		// console.log(id);
+		if(!event.target){return}
 
-		// BG-element
+		// Dialog
+		if(event.target.tagName === "IMG" && event.target.getAttribute("data-id") !== null){
+
+			$$.prototype.viewImageDialog(event.target);
+		}
+
+		// BG-area
+		else if(event.target.className === "ImageDialog-bg"){
+			event.target.parentNode.removeChild(event.target);
+		}
+
+	};
+
+	$$.prototype.viewImageDialog = function(elm){
+
+		var id = elm.getAttribute("data-id");
+
+		$$ajax.prototype.set({
+			url:$$.prototype.pathinfo(location.href).path,
+			query:{
+				method    : "MYNT_PAGE/getFileSource",
+				filePath  : "data/picture/"+id+".info",
+				src       : elm.getAttribute("src")
+			},
+			method:"POST",
+			async:true,
+			onSuccess:$$.prototype.viewImageDialog_tagLoad
+		});
+	};
+
+	$$.prototype.viewImageDialog_tagLoad = function(res){
+		if(!res){return}
+		var json = JSON.parse(res);
+
+		$$ajax.prototype.set({
+			url:$$.prototype.pathinfo(location.href).path,
+			query:{
+				method      : "MYNT_PAGE/getTemplateFile",
+				filePath    : "system/page/picture_dialog.html",
+
+				img_id      : json.currentName,
+				img_src     : this.query.src,
+
+				entry       : json.entry,
+				fileName    : json.fileName,
+				extension   : json.extension,
+				size        : json.size,
+				accessIP    : json.accessIP
+
+			},
+			method:"POST",
+			async:true,
+			onSuccess:$$.prototype.setImageDialog_temp
+		});
+	};
+
+	$$.prototype.setImageDialog_temp = function(res){
 		var bg = document.createElement("div");
 		bg.className = "ImageDialog-bg";
 		document.body.appendChild(bg);
+		bg.innerHTML = res;
 
-		// Dialog-base
-		var base = document.createElement("div");
-		base.className = "ImageDialog-base";
-		bg.appendChild(base);
+		// remove-event
+		var elm_remove = document.getElementById("ImageDialog_remove");
+		elm_remove.setAttribute("data-id" ,this.query.img_id);
+		elm_remove.setAttribute("data-ext",this.query.extension);
+		if(elm_remove !== null){
+			elm_remove.onclick = function(){
+				$$.prototype.removeImageFile(this.getAttribute("data-id") , this.getAttribute("data-ext"));
+			};
+		}
+	};
 
+	$$.prototype.removeImageFile = function(id,ext){
+		if(!confirm("Is this file to remove ?")){return}
+
+		$$ajax.prototype.set({
+			url:$$.prototype.pathinfo(location.href).path,
+			query:{
+				method : "MYNT_UPLOAD/removeImageFile",
+				id     : id,
+				ext    :ext
+			},
+			method:"POST",
+			async:true,
+			onSuccess:function(res){console.log(res);
+				if(res !== "removed"){return}
+
+				var id = this.query.id;
+				var pictures = document.getElementById("pictures");
+				if(pictures===null){return}
+				var imgs = pictures.getElementsByTagName("img");
+				for(var i=0; i<imgs.length; i++){
+
+					if(imgs[i].getAttribute("data-id") === id){
+						var picBlock = imgs[i].parentNode.parentNode;
+						picBlock.parentNode.removeChild(picBlock);
+						break;
+					}
+				}
+				var prop_bg = document.getElementsByClassName("ImageDialog-bg");
+				if(prop_bg.length > 0){
+					prop_bg[0].parentNode.removeChild(prop_bg[0]);
+				}
+			}
+		});
+	};
+
+
+	var $$pos = function(e,t){
+		//エレメント確認処理
+		if(!e){return;}
+
+		//途中指定のエレメントチェック（指定がない場合はbody）
+		if(typeof(t)=='undefined' || t==null){
+			t = document.body;
+		}
+
+		//デフォルト座標
+		var pos={x:0,y:0};
+		do{
+			//指定エレメントでストップする。
+			if(e == t){break}
+
+			//対象エレメントが存在しない場合はその辞典で終了
+			if(typeof(e)=='undefined' || e==null){return pos;}
+
+			//座標を足し込む
+			pos.x += e.offsetLeft;
+			pos.y += e.offsetTop;
+		}
+
+		//上位エレメントを参照する
+		while(e = e.offsetParent);
+
+		//最終座標を返す
+		return pos;
 	};
 
 	new $$();

@@ -99,6 +99,18 @@ class MYNT_UPLOAD{
 		// return "aaa";
 	}
 
+	public function removeImageFile(){
+		if(!isset($_REQUEST["id"]) || !isset($_REQUEST["ext"])){return;}
+		$file_img  = "data/picture/".$_REQUEST["id"].".".$_REQUEST["ext"];
+		$file_info = "data/picture/".$_REQUEST["id"].".info";
+		if(is_file($file_img) && is_file($file_info)){
+			unlink($file_img);
+			unlink($file_info);
+			echo "removed";
+		}
+		exit();
+	}
+
 }
 
 // new MYNT_UPLOAD();
