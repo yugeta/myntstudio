@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<CLASS:MYNT_URL/getSystemRoot()>css/pageEdit.css">
+
 <div class='container'>
 	<div class='row'>
 		<div class='col-sm-12'>
@@ -24,6 +26,15 @@
 							<label class="control-label" for="title"><i class='glyphicon glyphicon-text-width'></i> Title</label>
 							<div class="controls">
 								<input type='text' id="title" name='title' value='<class:MYNT_PAGE/getPageInfoString("<request:file>","title")>' class='form-control'/>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<div class="control-label"></div>
+							<div class="controls">
+								<button id="button_getImage" type="button" class="btn btn-default">
+									<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> get Image
+								</button>
 							</div>
 						</div>
 
@@ -129,4 +140,4 @@
 
 </form>
 
-<script src="system/js/systemPageEdit.js?<class:MYNT/currentTime()>"></script>
+<script src="system/js/pageEdit.js?<class:MYNT/currentTime()>"></script>

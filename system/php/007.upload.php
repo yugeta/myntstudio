@@ -68,7 +68,7 @@ class MYNT_UPLOAD{
 		file_put_contents($this->dir_picture .$currentName.".info" , $jsonStr);
 	}
 
-	public function getImages(){
+	public function viewImages(){
 		$URL = new MYNT_URL;
 		$currentUrl = $URL->getDir();
 		$flg=0;
@@ -98,6 +98,35 @@ class MYNT_UPLOAD{
 		exit();
 		// return "aaa";
 	}
+	public function getImages(){
+		$URL = new MYNT_URL;
+		$currentUrl = $URL->getDir();
+		$flg=0;
+		if(isset($_REQUEST["lastImage"]) && $_REQUEST["lastImage"]){
+			$flg=1;
+		}
+		$files = scandir($this->dir_picture);
+		$html = array();
+		for($i=0,$c=count($files); $i<$c; $i++){
+			if($files[$i] === "." || $files[$i] === ".."){continue;}
+			if(!preg_match('/^(.+?)(\.info)$/', $files[$i], $m)){continue;}
+			$info = json_decode(file_get_contents($this->dir_picture. $m[1].".info") , true);
+			// print_r($m);
+
+			//last-image-check
+			if($flg === 1 && $_REQUEST["lastImage"] === $m[1]){$flg = 0; continue;}
+			if($flg === 1){continue;}
+
+			$path = $this->dir_picture.$info["fileName"];
+			$html[] = "<div class='pictures'>";
+			$html[] = "<div class='pictures_td'>";
+			$html[] = "<img src='".$currentUrl.$this->dir_picture.$m[1].".".$info["extension"]."' alt='".$info["alt"]."' data-id='".$m[1]."' data-ext='".$info["extension"]."'>";
+			$html[] = "</div>";
+			$html[] = "</div>";
+		}
+		return join(PHP_EOL,$html);
+	}
+
 
 	public function removeImageFile(){
 		if(!isset($_REQUEST["id"]) || !isset($_REQUEST["ext"])){return;}

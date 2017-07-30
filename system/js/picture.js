@@ -164,7 +164,7 @@
 		$$ajax.prototype.set({
 			url:$$.prototype.pathinfo(location.href).path,
 			query:{
-				method:"MYNT_UPLOAD/getImages",
+				method:"MYNT_UPLOAD/viewImages",
 				lastImage:$$.prototype.getLastImage()
 			},
 			method:"POST",
