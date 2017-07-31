@@ -114,33 +114,122 @@
 	};
 
 	$$.prototype.setImageDialog_temp = function(res){
+
+		// dialog-view
 		var bg = document.createElement("div");
 		bg.className = "ImageDialog-bg";
 		document.body.appendChild(bg);
 		bg.innerHTML = res;
-		// bg.onclick = function(){
-		// 	var prop_bg = document.getElementsByClassName("ImageDialog-bg");
-		// 	if(prop_bg.length > 0){
-		// 		prop_bg[0].parentNode.removeChild(prop_bg[0]);
-		// 	}
-		// };
+
+		// iframe処理
+		var img_upload_iframe = document.getElementById("img_upload_iframe");
+		if(img_upload_iframe !== null){
+			// img_upload_iframe.style.setProperty("display","none","");
+			img_upload_iframe.onload = $$.prototype.setIframeTag;
+
+			// img_upload_iframe.onload = function(){console.log(+new Date)};
+			$$.prototype.setIframeTag();
+		}
+
+		// 画像一覧表示
+		$$.prototype.viewPictureImages();
+
+		// upload-button-event
+		var button_upload = document.getElementById("button_upload");
+		if(button_upload !== null && img_upload_iframe !== null){
+			button_upload.onclick = function(){
+				var input_file = img_upload_iframe.contentWindow.document.getElementById("input_file");
+				if(input_file !== null){
+					input_file.click();
+				}
+			};
+		}
 
 		// close-button
 		var closeDialog = document.getElementById("closeDialog");
 		closeDialog.onclick = $$.prototype.setEvent_removeImageDialog;
 
+		// $$.prototype.setEvent_imagesDialogSelect();
+
+		// dialog-size(height)
+		$$.prototype.setDialogWindowSize();
+
+		// document.body-scroll-hidden
+		document.body.style.setProperty("overflow","hidden","");
+	};
+	$$.prototype.setEvent_imagesDialogSelect = function(){
 		// images-click-proc
 		var pics = document.getElementsByClassName("pictures");
 
+		// imageサムネイルのクリック処理
 		for(var i=0; i<pics.length; i++){
 			pics[i].onclick = $$.prototype.setEvent_picsClick;
 		}
 	};
+
+	$$.prototype.setIframeTag = function(){
+		var form     = document.createElement("form");
+		form.name    = "form1";
+		form.method  = "post";
+		form.enctype = "multipart/form-data";
+		form.action  = $$.prototype.pathinfo(location.href).path;
+
+		var inp0     = document.createElement("input");
+		inp0.type    = "hidden";
+		inp0.name    = "mode";
+		inp0.value   = "picture";
+
+		var inp2     = document.createElement("input");
+		inp2.type    = "hidden";
+		inp2.name    = "method";
+		inp2.value   = "MYNT_UPLOAD/setPost";
+
+		var inp1     = document.createElement("input");
+		inp1.id      = "input_file";
+		inp1.type    = "file";
+		inp1.name    = "data[]";
+		inp1.multiple= "multiple";
+		inp1.onchange = function(){this.form.submit()};
+
+		form.appendChild(inp0);
+		form.appendChild(inp1);
+		form.appendChild(inp2);
+
+		var img_upload_iframe = document.getElementById("img_upload_iframe");
+		img_upload_iframe.contentWindow.document.body.appendChild(form);
+
+		$$.prototype.setPictureImages();
+	};
+	$$.prototype.setPictureImages = function(){
+		var pictures = document.getElementById("pictures");
+		if(pictures === null){return}
+		// console.log($$.prototype.getLastImage());
+
+		// サーバーからデータリストの読み込み
+		$$ajax.prototype.set({
+			url:$$.prototype.pathinfo(location.href).path,
+			query:{
+				method:"MYNT_UPLOAD/viewImages",
+				lastImage:$$.prototype.getLastImage()
+			},
+			method:"POST",
+			async:true,
+			onSuccess: $$.prototype.viewPictureImages
+		});
+	};
+	$$.prototype.getLastImage = function(){
+		var pictures = document.getElementById("pictures");
+		if(pictures === null){return ""}
+		var imgs = pictures.getElementsByTagName("img");
+		return (imgs.length === 0)?"":imgs[(imgs.length -1)].getAttribute("data-id");
+	};
+
 	$$.prototype.setEvent_removeImageDialog = function(){
 		var prop_bg = document.getElementsByClassName("ImageDialog-bg");
 		if(prop_bg.length > 0){
 			prop_bg[0].parentNode.removeChild(prop_bg[0]);
 		}
+		document.body.style.setProperty("overflow","auto","");
 	};
 	$$.prototype.setEvent_picsClick = function(event){
 		var target = event.target;
@@ -165,6 +254,15 @@
 		var id  = img.getAttribute("data-id");
 		var ext = img.getAttribute("data-ext");
 		$$.prototype.setEvent_selectImage(id,ext);
+	};
+
+	$$.prototype.viewPictureImages = function(res){
+		if(!res){return}
+		var pictures = document.getElementById("pictures");
+		if(pictures !== null){
+			pictures.innerHTML += res;
+		}
+		$$.prototype.setEvent_imagesDialogSelect();
 	};
 
 	$$.prototype.setEvent_selectImage = function(id,ext){
@@ -330,6 +428,7 @@
 		if(!target){return}
 		// console.log(target.textContent);
 		var tag = $$.prototype.trim(target.textContent);
+		// console.log(tag+" / "+target.textContent +" / "+target.tagName+" / "+target.className);
 		switch(tag){
 			case "img":
 				$$.prototype.setImageButton();
@@ -394,6 +493,11 @@
 		}
 	};
 	$$.prototype.setEvent_addTag_proc = function(tag1,tag2,str1){
+		if(!tag1){
+			alert("tag指定がありません");
+			return;
+		}
+
 		var textarea = document.getElementById('source');
 
 		// add-textarea
@@ -409,6 +513,10 @@
 		var word = "";
 
 		var str = str1 + str2;
+
+		console.log(tag1+" / "+tag2);
+		console.log(str1);
+		console.log(str2);
 
 		if(tag1 && tag2){
 			word = "<"+tag1+">"+str+"</"+tag2+">";
@@ -445,6 +553,47 @@
 		txt = txt.replace(/ $/g,'');
 
 		return txt;
+	};
+
+	var $$pos = function(e,t){
+		//エレメント確認処理
+		if(!e){return;}
+
+		//途中指定のエレメントチェック（指定がない場合はbody）
+		if(typeof(t)=='undefined' || t==null){
+			t = document.body;
+		}
+
+		//デフォルト座標
+		var pos={x:0,y:0};
+		do{
+			//指定エレメントでストップする。
+			if(e == t){break}
+
+			//対象エレメントが存在しない場合はその辞典で終了
+			if(typeof(e)=='undefined' || e==null){return pos;}
+
+			//座標を足し込む
+			pos.x += e.offsetLeft;
+			pos.y += e.offsetTop;
+		}
+
+		//上位エレメントを参照する
+		while(e = e.offsetParent);
+
+		//最終座標を返す
+		return pos;
+	};
+
+	$$.prototype.setDialogWindowSize = function(){
+		// var ImageDialog_bg = document.getElementsByClassName("ImageDialog-bg");
+		// if(!ImageDialog_bg.length){return}
+		// var elm = ImageDialog_bg[0];
+		var pictures = document.getElementById("pictures");
+		if(pictures===null){return;}
+		var window_size = window.innerHeight;
+		var pictures_pos = $$pos(pictures);
+		pictures.style.setProperty("height", (window_size - pictures_pos.y - 20)+"px", "");
 	};
 
 	new $$();

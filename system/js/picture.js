@@ -181,11 +181,11 @@
 
 		pictures.innerHTML += res;
 	};
-	$$.prototype.viewPictureImages_add = function(){
-		var pictures = document.getElementById("pictures");
-		if(pictures === null){return}
-
-	};
+	// $$.prototype.viewPictureImages_add = function(){
+	// 	var pictures = document.getElementById("pictures");
+	// 	if(pictures === null){return}
+	//
+	// };
 
 	/**
 	* Ajax
