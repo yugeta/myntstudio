@@ -321,17 +321,37 @@ class MYNT_PAGE{
 			$val = $this->getPageInfoString($_REQUEST["file"],$key);
 		}
 
-
 		// optionタグの作成
 		$options = array();
 		for($i=0,$c=count($lists); $i<$c; $i++){
-			foreach($lists[$i] as $k => $v){
-				$selected = "";
-				if($val !== "" && $val === $k){$selected = " selected";}
-				$options[] = "<option value='".$k."'".$selected.">".$v."</option>";
-			}
+			$selected = "";
+			if($val !== "" && $val === $lists[$i]["key"]){$selected = " selected";}
+			$options[] = "<option value='".$lists[$i]["key"]."'".$selected.">".$lists[$i]["value"]."</option>";
 		}
 		return join(PHP_EOL,$options);
+	}
+	public function getPageCategoryLists_li($key=""){
+		if($key===""){return "";}
+
+		// configデータの取得
+		$lists = $this->getPageCategoryLists($key);
+
+		// optionタグの作成
+		$html = "";
+		for($i=0,$c=count($lists); $i<$c; $i++){
+
+			$MYNT_URL = new MYNT_URL;
+			$link_url = $MYNT_URL->getUrl() ."?system=".$_REQUEST["system"] ."&status=".$lists[$i]["key"];
+
+			$active = "";
+			if($lists[$i]["key"] === $_REQUEST["status"]){$active = "active";}
+
+			$html .= "<li role='presentation' class='".$active."'>";
+			$html .= "<a class='dropdown-toggle' role='button' aria-haspopup='true' aria-expanded='false' href='".$link_url."'>".$lists[$i]["value"]." (".$this->getPageCount($lists[$i]["key"]).")</a>";
+			$html .= "</li>";
+			$html .= PHP_EOL;
+		}
+		return $html;
 	}
 
 
@@ -352,17 +372,21 @@ class MYNT_PAGE{
 
 
 
-	public function viewPageLists(){
-
-		$lists = $this->getPageLists("release");
-		$num=0;
-		$datas = array();
-
+	public function viewPageLists($status = ""){
+		$lists = $this->getPageLists($status);
+		$html = "";
 		for($i = 0,$c = count($lists); $i < $c; $i++){
-			$datas[] = $lists[$i];
+			$info = $this->getPageInfoFromPath($this->default_dir.$lists[$i]);
+			$html .= "<tr class='titleList' onclick='location.href=\"?system=pageEdit&file=".$this->getFileName2ID($lists[$i])."\"'>".PHP_EOL;
+			$html .= "<th style='width:50px;'>".($i+1)."</th>".PHP_EOL;
+			$html .= "<td>".$info["title"]."</td>".PHP_EOL;
+			$html .= "<td>".$this->getKey2Value($GLOBALS["config"]["pageCategoryLists"]["status"] , $info["status"])."</td>".PHP_EOL;
+			$html .= "<td>".$info["update"]."</td>".PHP_EOL;
+			$html .= "<td>".$info["release"]."</td>".PHP_EOL;
+			$html .= "</tr>".PHP_EOL;
 		}
 
-		return join("<br>".PHP_EOL , $datas);
+		return $html;
 	}
 
 	public function getPageLists($status = ""){
@@ -391,4 +415,44 @@ class MYNT_PAGE{
 		}
 		return $datas;
 	}
+
+	// public function viewStatusLists(){
+	// 	$html = "";
+	// 	for($i=0; $i<count($GLOBALS["config"]["pageCategpryLists"]["status"]); $i++){
+	// 		$html .= $GLOBALS["config"]["pageCategpryLists"]["status"][$i]."".PHP_EOL;
+	// 	}
+	// }
+
+	public function getPageCount($status = ""){
+		$lists = $this->getPageLists($status);
+		return count($lists);
+	}
+
+	public function getKey2Value($data , $key){
+		$res = "";
+		for($i=0; $i<count($data); $i++){
+			if($data[$i]["key"] === $key){
+				$res = $data[$i]["value"];
+				break;
+			}
+		}
+		return $res;
+	}
+	public function getValue2Key($data , $value){
+		$res = "";
+		for($i=0; $i<count($data); $i++){
+			if($data[$i]["value"] === $value){
+				$res = $data[$i]["key"];
+				break;
+			}
+		}
+		return $res;
+	}
+	public function getFileName2ID($path){
+		$sp0 = explode("/",$path);
+		$sp1 = explode(".",$sp0[count($sp0)-1]);
+		$sp2 = array_pop($sp1);
+		return join(".",$sp1);
+	}
+
 }

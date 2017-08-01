@@ -1,12 +1,12 @@
 {
 	"type":[
-		{"blog"   :"Blog"},
-		{"system" :"System"}
+		{"key":"blog"   , "value":"Blog"},
+		{"key":"system" , "value":"System"}
 	],
 	"status":[
-		{"draft"  :"Draft"},
-		{"wait"   :"Wait"},
-		{"trash"  :"Trash"},
-		{"release":"Release"}
+		{"key":"draft"  , "value":"作成中"},
+		{"key":"wait"   , "value" :"承認待ち"},
+		{"key":"trash"  , "value" :"削除"},
+		{"key":"release", "value":"公開"}
 	]
 }

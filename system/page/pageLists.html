@@ -14,25 +14,38 @@
 
 
 <ul class="nav nav-tabs">
-	<li role="presentation" class="active">
-		<a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">AAA</a>
+	<li role="presentation" class="<if('<request:status>'==='')>active<if-end>">
+		<a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" href="<class:MYNT_URL:getUrl()>?system=<request:system>">ALL (<class:MYNT_PAGE/getPageCount()>)</a>
 	</li>
-	<li role="presentation">
-		<a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">BBB</a>
-	</li>
-  <li role="presentation" class="dropdown">
+
+	<class:MYNT_PAGE/getPageCategoryLists_li("status")>
+
+  <!-- <li role="presentation" class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
       Dropdown <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-
+			<li></li>
     </ul>
-  </li>
+  </li> -->
 </ul>
 
-
+&nbsp;
 <div class='container'>
 	<div class='row'>
-		<class:MYNT_PAGE/viewPageLists()>
+		<table class="table table-responsive">
+			<thead class="thead-inverse">
+				<tr>
+					<th>#</th>
+					<th>Title</th>
+					<th>Status</th>
+					<th>LastUpdate</th>
+					<th>ReleaseDay</th>
+				</tr>
+			</thead>
+			<tbody>
+				<class:MYNT_PAGE/viewPageLists(<request:status>)>
+			</tbody>
+		</table>
 	</div>
 </div>
