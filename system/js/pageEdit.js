@@ -20,11 +20,11 @@
 		// url-change
 		fileNameElm.onchange = $$.prototype.changeSelect;
 
-		// // img-button
-		// $$.prototype.setImageButton();
-
 		// add-tag
 		$$.prototype.setEvent_addTag();
+
+		// add-eyecatch
+		$$.prototype.setEvent_eyecatch();
 	};
 
 	$$.prototype.changeSelect = function(event){console.log(+new Date())
@@ -100,12 +100,16 @@
 		else{target.attachEvent('on' + mode, function(){func.call(target , window.event)})}
 	};
 
-	$$.prototype.setImageButton = function(){
+	$$.prototype.setImageButton = function(mode,selectedImage){
+		if(!selectedImage){selectedImage = ""}
+
 		$$ajax.prototype.set({
 			url:$$.prototype.pathinfo(location.href).path,
 			query:{
 				method   : "MYNT_PAGE/getTemplateFile",
-				filePath : "system/page/pageEdit_getImage.html"
+				filePath : "system/page/pageEdit_getImage.html",
+				mode     : mode,
+				selectImage: selectedImage
 			},
 			method:"POST",
 			async:true,
@@ -119,6 +123,7 @@
 		var bg = document.createElement("div");
 		bg.className = "ImageDialog-bg";
 		document.body.appendChild(bg);
+		bg.style.setProperty("top",window.pageYOffset + "px","");
 		bg.innerHTML = res;
 
 		// iframe処理
@@ -157,6 +162,7 @@
 		// document.body-scroll-hidden
 		document.body.style.setProperty("overflow","hidden","");
 	};
+
 	$$.prototype.setEvent_imagesDialogSelect = function(){
 		// images-click-proc
 		var pics = document.getElementsByClassName("pictures");
@@ -248,12 +254,24 @@
 			return;
 		}
 
+		var id  = img.getAttribute("data-id");
+		var ext = img.getAttribute("data-ext");
+
+		var mode_elm = document.getElementById("eyecatch_mode");
+		if(mode_elm === null){return}
+		var mode = mode_elm.value;
+		// eyecatch
+		if(mode === "eyecatch"){
+			$$.prototype.setEvent_selectEyecatch(id,ext);
+		}
+		// img-tag
+		else if(mode === "imgTag"){
+			$$.prototype.setEvent_selectImage(id,ext);
+		}
+
 		// hidden dialog
 		$$.prototype.setEvent_removeImageDialog();
 
-		var id  = img.getAttribute("data-id");
-		var ext = img.getAttribute("data-ext");
-		$$.prototype.setEvent_selectImage(id,ext);
 	};
 
 	$$.prototype.viewPictureImages = function(res){
@@ -263,6 +281,28 @@
 			pictures.innerHTML += res;
 		}
 		$$.prototype.setEvent_imagesDialogSelect();
+
+		// 選択済み画像処理
+		if(document.getElementById("eyecatch_file")!== null && document.getElementById("eyecatch_file").value !== ""){
+			var fileId   = document.getElementById("eyecatch_file").value;
+			var pictures = document.getElementById("pictures");
+			var pics = pictures.getElementsByTagName("img");
+			for(var i=0; i<pics.length; i++){
+				if(pics[i].getAttribute("data-id") === fileId){
+					pics[i].parentNode.parentNode.setAttribute("data-active","active");
+					break;
+				}
+			}
+		}
+	};
+
+	$$.prototype.setEvent_selectEyecatch = function(id,ext){
+		document.forms["form1"]["eyecatch"].value = id;
+		var eyecatch_image_area = document.getElementById("eyecatch");
+		var eyecatch_image      = eyecatch_image_area.getElementsByTagName("img");
+		if(eyecatch_image.length > 0){
+			eyecatch_image[0].src = "data/picture/"+id+"."+ext;
+		}
 	};
 
 	$$.prototype.setEvent_selectImage = function(id,ext){
@@ -417,6 +457,24 @@
 		};
 	};
 
+	$$.prototype.setEvent_eyecatch = function(){
+		var eyecatch_add = document.getElementById("eyecatch_add");
+		if(eyecatch_add !== null){
+			eyecatch_add.onclick = $$.prototype.setEvent_eyecatch_add;
+		}
+		var eyecatch_del = document.getElementById("eyecatch_del");
+		if(eyecatch_del !== null){
+			eyecatch_del.onclick = $$.prototype.setEvent_eyecatch_del;
+		}
+	};
+	$$.prototype.setEvent_eyecatch_add = function(event){
+		var eyecatch = document.forms["form1"]["eyecatch"];
+		$$.prototype.setImageButton("eyecatch",eyecatch.value);
+	};
+	$$.prototype.setEvent_eyecatch_del = function(event){
+
+	};
+
 	$$.prototype.setEvent_addTag = function(){
 		var addTag = document.getElementsByClassName("addTag");
 		for(var i=0; i<addTag.length; i++){
@@ -431,7 +489,7 @@
 		// console.log(tag+" / "+target.textContent +" / "+target.tagName+" / "+target.className);
 		switch(tag){
 			case "img":
-				$$.prototype.setImageButton();
+				$$.prototype.setImageButton("imgTag","");
 				break;
 			case "a":
 				$$.prototype.setEvent_addTag_proc(tag+" href='' target='_blank'",tag,"");
@@ -514,9 +572,9 @@
 
 		var str = str1 + str2;
 
-		console.log(tag1+" / "+tag2);
-		console.log(str1);
-		console.log(str2);
+		// console.log(tag1+" / "+tag2);
+		// console.log(str1);
+		// console.log(str2);
 
 		if(tag1 && tag2){
 			word = "<"+tag1+">"+str+"</"+tag2+">";

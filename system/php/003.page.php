@@ -100,10 +100,13 @@ class MYNT_PAGE{
 		// else{
 		// 	$path .= $this->default_404.".info";
 		// }
+		$json = array();
+		if(is_file($path)){
+			$source = file_get_contents($path);
+			$json   = json_decode($source , true);
+		}
 
-		$source = file_get_contents($path);
-
-		return json_decode($source , true);
+		return $json;
 	}
 	//
 	// function getPageDat($root = "html-info/top"){
@@ -271,8 +274,10 @@ class MYNT_PAGE{
 		// info-save
 		$info = array(
 			"title"     => $_REQUEST["title"],
+			"eyecatch"  => $_REQUEST["eyecatch"],
 			"type"      => $_REQUEST["type"],
 			"status"    => $_REQUEST["status"],
+			"schedule"  => $_REQUEST["schedule"],
 			"tag"       => $_REQUEST["tag"],
 			"group"     => $_REQUEST["group"],
 			"category"  => $_REQUEST["category"],
@@ -365,6 +370,12 @@ class MYNT_PAGE{
 	public function getTemplateFile(){
 		if(!isset($_REQUEST["filePath"]) || !is_file($_REQUEST["filePath"])){return;}
 		$temp = file_get_contents($_REQUEST["filePath"]);
+
+		// $mode = "";
+		// if(isset($_REQUEST["mode"]) && $_REQUEST["mode"]){
+		// 	$mode = $_REQUEST["mode"];
+		// }
+
 		$MYNT_SOURCE = new MYNT_SOURCE;
 		echo $MYNT_SOURCE->rep($temp);
 		exit();
@@ -454,5 +465,7 @@ class MYNT_PAGE{
 		$sp2 = array_pop($sp1);
 		return join(".",$sp1);
 	}
+
+
 
 }

@@ -3,10 +3,20 @@
 	text-align:left;
 }
 
+.ImageDialog-bg{
+	position:absolute;
+}
+
 .pictures:hover{
 	border:2px solid #33F;
 	background-color:#33F;
 }
+.pictures[data-active="active"]{
+	/*border:8px solid red;*/
+	border:2px solid red;
+	background-color:red;
+}
+
 .pictures{
 	display:inline-block;
 
@@ -63,8 +73,10 @@
 }
 
 .dialogHeader{
-	text-align:right;
+	position:relative;
+	/*text-align:right;*/
 	font-size:24px;
+	height:40px;
 }
 .dialogHeader i{
 	cursor:pointer;
@@ -72,6 +84,16 @@
 }
 .dialogHeader i:hover{
 	opacity:0.7;
+}
+.dialogHeader .image-pickup-dialog-title{
+	position:absolute;
+	display:inline-block;
+	left:20px;
+}
+.dialogHeader .image-pickup-dialog-close{
+	position:absolute;
+	display:inline-block;
+	right:0;
 }
 
 .addTag .btn-style{
@@ -97,3 +119,11 @@ button span{
 .addTag{
 	line-height:24px;
 }*/
+
+
+.eyecatch-pickup-cutton{
+	margin:8px auto;
+}
+#eyecatch img{
+	max-width:100%;
+}

@@ -91,7 +91,7 @@ class MYNT_UPLOAD{
 			// echo "<div>".$i.":".$path."</div>".PHP_EOL;
 			echo "<div class='pictures'>".PHP_EOL;
 			echo "<div class='pictures_td'>".PHP_EOL;
-			echo "<img src='".$currentUrl.$this->dir_picture.$m[1].".".$info["extension"]."' alt='".$info["alt"]."' data-id='".$m[1]."'>".PHP_EOL;
+			echo "<img src='".$currentUrl.$this->dir_picture.$m[1].".".$info["extension"]."' alt='".$info["alt"]."' data-id='".$m[1]."' data-ext='".$info["extension"]."'>".PHP_EOL;
 			echo "</div>".PHP_EOL;
 			echo "</div>".PHP_EOL;
 		}

@@ -3,7 +3,12 @@
 
 <div class="ImageDialog-area">
 
-	<div class="dialogHeader"><i class="glyphicon glyphicon-remove-circle" id="closeDialog"></i></div>
+	<div class="dialogHeader">
+		<input type="hidden" id="eyecatch_mode" value="<request:mode>" />
+		<input type="hidden" id="eyecatch_file" value="<request:selectImage>" />
+		<div class="image-pickup-dialog-title"><if("<request:mode>"==="eyecatch")>Eye-Catch<else>Image-Tag<if-end></div>
+		<div class="image-pickup-dialog-close"><i class="glyphicon glyphicon-remove-circle" id="closeDialog"></i></div>
+	</div>
 
 	<nav class="navbar navbar-default">
 
