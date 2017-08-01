@@ -12,8 +12,9 @@
 	</div>
 </div>
 
-<form name='form1' method='post' class="form-horizontal" action="<class:MYNT_URL/getUrl()>?p=<request:p>">
+<form name='form1' method='post' class="form-horizontal" action="<class:MYNT_URL/getUrl()>">
 	<input type='hidden' name='method' value='MYNT_PAGE/setSystemPage' />
+	<input type="hidden" name="system" value="<REQUEST:system>">
 	<input type="hidden" name="file" value="<REQUEST:file>">
 
 	<div class='container'>
@@ -36,7 +37,7 @@
 								<button type="button" class="btn btn-default btn-sm addTag"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>a</button>
 
 								&nbsp;
-								
+
 								<div class="btn-group">
 									<button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> paragraph <span class="caret"></span></button>
 									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">

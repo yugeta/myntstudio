@@ -17,6 +17,7 @@
 		<li class="dropdown" style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Page <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
+				<li><a href="<CLASS:URL/getLocalFilename()>?system=pageLists"><i class='glyphicon glyphicon-th-list'></i> PageLists</a></li>
 				<li><a href="<CLASS:URL/getLocalFilename()>?system=pageEdit"><i class='glyphicon glyphicon-edit'></i> PageEdit</a></li>
 				<li><a href="<CLASS:URL/getLocalFilename()>?system=picture"><i class='glyphicon glyphicon-picture'></i> Picture</a></li>
 				<li><a href="<CLASS:URL/getLocalFilename()>?system=group"><i class='glyphicon glyphicon-menu-hamburger'></i> Group</a></li>

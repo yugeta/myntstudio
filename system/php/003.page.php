@@ -286,7 +286,7 @@ class MYNT_PAGE{
 
 		//redirect
 		$url = new MYNT_URL;
-		header("Location: ". $url->getUrl()."?p=".$_REQUEST["p"]."&file=".$_REQUEST["file"]);
+		header("Location: ". $url->getUrl()."?system=".$_REQUEST["system"]."&file=".$_REQUEST["file"]);
 
 	}
 
@@ -348,5 +348,47 @@ class MYNT_PAGE{
 		$MYNT_SOURCE = new MYNT_SOURCE;
 		echo $MYNT_SOURCE->rep($temp);
 		exit();
+	}
+
+
+
+	public function viewPageLists(){
+
+		$lists = $this->getPageLists("release");
+		$num=0;
+		$datas = array();
+
+		for($i = 0,$c = count($lists); $i < $c; $i++){
+			$datas[] = $lists[$i];
+		}
+
+		return join("<br>".PHP_EOL , $datas);
+	}
+
+	public function getPageLists($status = ""){
+		if(!is_dir($this->default_dir)){return array();}
+
+		$lists = scandir($this->default_dir);
+
+		$datas = array();
+
+		for($i=0,$c=count($lists); $i<$c; $i++){
+			if($lists[$i]==="." || $lists[$i]===".."){continue;}
+			if(preg_match("/^(.+?)\.info$/",$lists[$i],$m)){
+				$json = $this->getPageInfoFromPath($this->default_dir.$lists[$i]);
+				if($status !== "" && !isset($json["status"])){continue;}
+				if($status !== "" && $status !== $json["status"]){continue;}
+				$datas[] = $lists[$i];
+			}
+		}
+		return $datas;
+	}
+
+	public function getPageInfoFromPath($path){
+		$datas = array();
+		if(is_file($path)){
+			$datas = json_decode(file_get_contents($path),true);
+		}
+		return $datas;
 	}
 }
