@@ -273,7 +273,9 @@ class MYNT_PAGE{
 
 		// info-save
 		$info = array(
+			"id"        => $_REQUEST["file"],
 			"title"     => $_REQUEST["title"],
+			"discription"=> $_REQUEST["source"],
 			"eyecatch"  => $_REQUEST["eyecatch"],
 			"type"      => $_REQUEST["type"],
 			"status"    => $_REQUEST["status"],

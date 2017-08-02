@@ -29,3 +29,51 @@
 	margin:0;
 	padding:4px;
 }
+
+
+/*blog*/
+
+li.post{
+	position:relative;
+	width:200px;
+	height:250px;
+	overflow:hidden;
+	border:1px solid #CCC;
+	margin:4px;
+	padding:0;
+	border-radius:4px;
+	float:left;
+}
+li.post:hover{
+	background-color:#CCC;
+}
+li.post h2{
+	margin:2px 4px;
+}
+li.post a{
+	text-decoration:none;
+}
+
+/*li.post .post-title{
+	position:absolute;
+	top:10px;
+	left:0;
+	width:95%;
+	background-color:red;
+	opacity:0.7;
+}*/
+li.post .post-title{
+	padding:8px;
+}
+li.post .post-title *{
+	font-size:16px;
+	/*color:white;
+	font-weight:bold;*/
+}
+li.post .post-eyecatch img{
+	max-width:100%;
+}
+li.post .post-update{
+	padding:8px;
+	text-align:right;
+}
