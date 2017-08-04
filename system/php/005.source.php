@@ -8,6 +8,14 @@
 
 class MYNT_SOURCE{
 
+	public function viewFile($path){
+		$html = "";
+		if(is_file($path)){
+			$html = $this->rep(file_get_contents($path));
+		}
+		return $html;
+	}
+
 	public function rep($source=""){
     if($source===""){return;}
     return $this->pattern($source);

@@ -6,7 +6,10 @@ class MYNT_PAGE{
 	public $system_dir   = "system/page/";
 	public $default_top  = "system/page/";
 	public $notlogin     = "system/page/login";
-	public $default_404  = "system/page/404";
+	// public $default_404  = "design/".$GLOBALS["config"]["design"]["target"]."/html/404";
+	public function default_404(){
+		return "design/".$GLOBALS["config"]["design"]["target"]."/html/404";
+	}
 
 	// クエリを判別してページを表示（ない場合はエラーページ）
 	function getSource($type = ""){
@@ -14,7 +17,7 @@ class MYNT_PAGE{
 		// ログイン後に読み込みページが変わる場合の設定
 		// $file = ($loginedFile !== "" && isset($_SESSION["login_id"]) && $_SESSION["login_id"])?$loginedFile:$notLoginFile;
 		//
-		// $path = "";
+		$path = "";
 
 		// 認証
 		if($type === "login" && !isset($_SESSION["login_id"])){
@@ -24,10 +27,8 @@ class MYNT_PAGE{
 		// クエリにページ指定があるか確認
 		else if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
 			if(is_file($this->default_dir.$_REQUEST["p"].".html")){
-				$path = $this->default_dir.$_REQUEST["p"].".html";
-			}
-			else{
-				$path = $this->default_404.".html";
+				// $path = $this->default_dir.$_REQUEST["p"].".html";
+				$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/blog.html";
 			}
 		}
 
@@ -37,15 +38,16 @@ class MYNT_PAGE{
 			if(is_file($this->system_dir.$_REQUEST["system"].".html")){
 				$path = $this->system_dir.$_REQUEST["system"].".html";
 			}
-			else{
-				$path = $this->default_404.".html";
-			}
 		}
 
 		// ページ指定が無ければデフォルトページを設定
 		else{
-			$top = $top = (isset($GLOBALS["config"]["page"]["top"]))?$GLOBALS["config"]["page"]["top"]:"top";
-			$path = $this->default_top.$top.".html";
+			$top = (isset($GLOBALS["config"]["page"]["top"]))?$GLOBALS["config"]["page"]["top"]:"top";
+			$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$top.".html";
+		}
+
+		if($path === "" || !is_file($path)){
+			$path = $this->default_404().".html";
 		}
 
 		$source = file_get_contents($path);
@@ -76,7 +78,7 @@ class MYNT_PAGE{
 				$path = $this->default_dir.$_REQUEST["p"].".info";
 			}
 			else{
-				$path .= $this->default_404.".info";
+				$path .= $this->default_404().".info";
 			}
 		}
 		if(isset($_REQUEST["system"]) && $_REQUEST["system"]){
@@ -85,7 +87,7 @@ class MYNT_PAGE{
 				$path = $this->default_dir.$_REQUEST["system"].".info";
 			}
 			else{
-				$path .= $this->default_404.".info";
+				$path .= $this->default_404().".info";
 			}
 		}
 		else{
@@ -98,7 +100,7 @@ class MYNT_PAGE{
 		// 	$path .= $file.".info";
 		// }
 		// else{
-		// 	$path .= $this->default_404.".info";
+		// 	$path .= $this->default_404().".info";
 		// }
 		$json = array();
 		if(is_file($path)){
