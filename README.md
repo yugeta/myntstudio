@@ -273,7 +273,8 @@ index.php
 					┗ data/page/default/top.html
 
 - blog
-http://hoge.com/?bog=123456
+x http://hoge.com/?bog=123456
+- http://hoge.com/?b=blog&p=123456 -(省略)-> http://hoge.com/?p=123456
 index.php
 	┗ system/php/**
 			┗ design/%sample%/index.html
@@ -281,14 +282,16 @@ index.php
 						┗ data/page/blog/***.json
 
 - system (must logined)
-http://hoge.com/?system=login
+x http://hoge.com/?system=login
+- http://hoge.com/?b=system&p=login
 index.php
 	┗ system/php/**
 			┗ design/%sample%/index.html
 					┗ system/page/***.html
 
 - Other...
-http://hoge.com/?etc=***
+x http://hoge.com/?etc=***
+- http://hoge.com/?b=etc&p=***
 index.php
 	┗ system/php/**
 			┗ design/%sample%/index.html
@@ -317,6 +320,19 @@ index.html
 
 # 考え方
 
+- [クエリ]
+- b(base)は省略すると"blog"がデフォルト値
+- p(page)は省略すると "top"がデフォルト値
+- b=blog -> data/page/blog/**	(ブログ記事)
+- b=system -> system/page/**  (変更不可)
+- b=etc -> data/page/etc/**		(任意フォルダにページ格納可能)
+
 - 基本的にページデータは、固定ページも含めてdataフォルダに保存されているべき
 -
 - 記事、更新情報などがある場合は、dataフォルダにページデータ（コンテンツ部分）を設置して、システムページは変更不可のsystem、固定ページ
+
+
+## Plugin仕様
+
+- 自動実行に関するclass名をplugin名と同じにする。
+-

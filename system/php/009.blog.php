@@ -2,7 +2,7 @@
 
 class MYNT_BLOG{
 
-	public $default_article_dir = "data/page/";
+	public $default_article_dir = "data/page/blog/";
 	public $blogSource = "";
 
 	// all article page lists for top-page
@@ -11,14 +11,15 @@ class MYNT_BLOG{
 		$tmpSource = $this->getBlogSource();
 
 		$lists = $this->getArticleLists();
+
 		$html = "";
 		for($i=0,$c=count($lists); $i<$c; $i++){
 			$json = $this->getPageInfoFromPath($this->default_article_dir.$lists[$i]);
 			$html .= $this->setBlogSourceReplace($tmpSource, $json);
 		}
-		$rep = new MYNT_SOURCE;
+		$MYNT_VIEW = new MYNT_VIEW;
 
-		return $rep->rep($html);
+		return $MYNT_VIEW->conv($html);
 	}
 
 	public function getBlogSource(){
@@ -26,7 +27,7 @@ class MYNT_BLOG{
 		$tmpSource = "";
 
 		if($this->blogSource === ""){
-			$tmpPath = "system/page/top_article.html";
+			$tmpPath = "system/html/top_article.html";
 			$tmpSource = file_get_contents($tmpPath);
 		}
 		else{

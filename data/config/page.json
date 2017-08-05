@@ -1,5 +1,7 @@
 {
 	"top"  :"pageList",
 	"title":"MyntStudio",
-	"version":"0.0.1"
+	"version":"0.0.1",
+	"base":"index",
+	"contents_default":"data/page/default/pageList.html"
 }

@@ -30,7 +30,7 @@
 	$$.prototype.changeSelect = function(event){console.log(+new Date())
 		var target = event.target;
 		var urlData = $$.prototype.urlinfo();
-		var url = urlData.url+"?system="+urlData.query.system+"&file="+target.value;
+		var url = urlData.url+"?b="+urlData.query.b+"&p="+urlData.query.p+"&file="+target.value;
 		// console.log(url);
 		// alert(url);
 		location.href = url;

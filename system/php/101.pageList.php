@@ -1,17 +1,19 @@
 <?php
 
-class MYNT_PAGE{
+class MYNT_PAGE_LIST{
 
 	public $default_dir  = "data/page/";
 	public $system_dir   = "system/page/";
 	public $default_top  = "system/page/";
 	public $notlogin     = "system/page/login";
-	// public $default_404  = "design/".$GLOBALS["config"]["design"]["target"]."/html/404";
-	public function default_404(){
-		// return "design/".$GLOBALS["config"]["design"]["target"]."/html/404";
-		return "data/page/default/404";
-	}
 
+	public function getPageDir(){
+		$pageDir = "blog";
+		if(isset($_REQUEST["pageDir"]) && $_REQUEST["pageDir"] !== ""){
+			$pageDir = $_REQUEST["pageDir"];
+		}
+		return $pageDir;
+	}
 	// クエリを判別してページを表示（ない場合はエラーページ）
 	function getSource($type = ""){
 
@@ -98,19 +100,21 @@ class MYNT_PAGE{
 
 		$path="";
 
+		$pageDir = $this->getPageDir();
+
 		if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
-			$path = $this->default_dir;
-			if(is_file($this->default_dir.$_REQUEST["p"].".info")){
-				$path = $this->default_dir.$_REQUEST["p"].".info";
+			$path = $this->default_dir.$pageDir."/";
+			if(is_file($this->default_dir.$pageDir."/".$_REQUEST["p"].".info")){
+				$path = $this->default_dir.$pageDir."/".$_REQUEST["p"].".info";
 			}
 			else{
 				$path .= $this->default_404().".info";
 			}
 		}
 		if(isset($_REQUEST["system"]) && $_REQUEST["system"]){
-			$path = $this->default_dir;
-			if(is_file($this->default_dir.$_REQUEST["system"].".info")){
-				$path = $this->default_dir.$_REQUEST["system"].".info";
+			$path = $this->default_dir.$pageDir."/";
+			if(is_file($this->default_dir.$pageDir."/".$_REQUEST["system"].".info")){
+				$path = $this->default_dir.$pageDir."/".$_REQUEST["system"].".info";
 			}
 			else{
 				$path .= $this->default_404().".info";
@@ -121,13 +125,6 @@ class MYNT_PAGE{
 			$path = $this->default_top.$top.".info";
 		}
 
-		// $path = $this->default_dir;
-		// if(is_file($path.$file.".info")){
-		// 	$path .= $file.".info";
-		// }
-		// else{
-		// 	$path .= $this->default_404().".info";
-		// }
 		$json = array();
 		if(is_file($path)){
 			$source = file_get_contents($path);
@@ -136,87 +133,6 @@ class MYNT_PAGE{
 
 		return $json;
 	}
-	//
-	// function getPageDat($root = "html-info/top"){
-	// 	$source = "";
-	//
-	// 	$err404 = "data/page/html-info/404.dat";
-	//
-	// 	if(isset($_REQUEST["s"]) && $_REQUEST["s"] !== ""){
-	// 		$path = "data/page/s/".$_REQUEST["s"].".html";
-	// 		if(is_file($path)){
-	// 			$source = file_get_contents($path);
-	// 		}
-	// 		else{
-	// 			$source = file_get_contents($err404);
-	// 		}
-	// 	}
-	// 	else if(isset($_REQUEST["html"]) && $_REQUEST["html"] !== ""){
-	// 		$path = "data/page/html/".$_REQUEST["html"].".html";
-	// 		if(is_file($path)){
-	// 			// $source = $this->getJsonData("",file_get_contents("data/page/html/".$_REQUEST["html"].".html"));
-	// 			$source = file_get_contents($path);
-	// 		}
-	// 		else{
-	// 			$source = file_get_contents($err404);
-	// 		}
-	// 	}
-	// 	else{
-	// 		$path = "data/page/".$root.".html";
-	// 		if(is_file($path)){
-	// 			$source = file_get_contents($path);
-	// 		}
-	// 		else{
-	// 			$source = file_get_contents($err404);
-	// 		}
-	// 	}
-	//
-	// 	return $source;
-	// }
-
-	// function getJsonData($title,$source){
-	// 	$jsonArr = array("title"=>$title , "source"=>$source);
-	// 	$jsonStr = json_encode($jsonArr);
-	// 	$jsonStr = preg_replace_callback('/\\\\u([0-9a-zA-Z]{4})/', function ($matches) {return mb_convert_encoding(pack('H*',$matches[1]),'UTF-8','UTF-16');},$jsonStr);
-	// 	return $jsonStr;
-	// }
-
-
-
-	// function getPageTitle($pageID){
-	// 	if(is_file("data/page/title/".$pageID.".dat")){
-	// 		return file_get_contents("data/page/title/".$pageID.".dat");
-	// 	}
-	// 	else{
-	//
-	// 	}
-	// }
-
-	//
-	// function changePageSource($source){
-	// 	$sources = explode("\n",$source);
-	// 	$new_source = "";
-	// 	for($i=0; $i<count($sources); $i++){
-	// 		$new_source .= $sources[$i];
-	// 	}
-	// 	return $new_source;
-	// }
-	// function changePageNewline($source){
-	// 	$sources = explode("\n",$source);
-	// 	$new_source = "";
-	// 	for($i=0; $i<count($sources); $i++){
-	// 		$new_source .= $sources[$i].PHP_EOL;
-	// 	}
-	// 	return $new_source;
-	// }
-	// function changePageLine($source){
-	// 	$sources = explode("\n",$source);
-	// 	$new_source = "";
-	// 	for($i=0; $i<count($sources); $i++){
-	// 		$new_source .= "<p>".$sources[$i]."</p>".PHP_EOL;
-	// 	}
-	// 	return $new_source;
-	// }
 
 	//
 	public function getFile($filePath){
@@ -327,7 +243,10 @@ class MYNT_PAGE{
 
 	public function getPageInfoString($fileName = "" , $key = ""){
 		if($key === "" || $fileName === ""){return;}
-		if(!is_file($this->default_dir.$fileName.".info")){return;}
+
+		$pageDir = $this->getPageDir();
+
+		if(!is_file($this->default_dir.$pageDir."/".$fileName.".info")){return;}
 
 		$json = json_decode(file_get_contents($this->default_dir.$fileName.".info"),true);
 
@@ -337,12 +256,18 @@ class MYNT_PAGE{
 	}
 
 	public function getPageCategoryLists($key=""){
-		if($key===""){return array();}
-		$path = "data/config/pageCategoryLists.json";
-		if(!is_file($path)){return array();}
-		$json = json_decode(file_get_contents($path),true);
-		if(!isset($json[$key])){return array();}
-		return $json[$key];
+		// if($key===""){return array();}
+		// $path = "data/config/pageCategoryLists.json";
+		// if(!is_file($path)){return array();}
+		// $json = json_decode(file_get_contents($path),true);
+		// if(!isset($json[$key])){return array();}
+		// return $json[$key];
+		if(isset($GLOBALS["config"]["pageCategoryLists"][$key])){
+			return $GLOBALS["config"]["pageCategoryLists"][$key];
+		}
+		else{
+			return array();
+		}
 	}
 	public function getPageCategoryListsOptions($key=""){
 		if($key===""){return "";}
@@ -365,8 +290,18 @@ class MYNT_PAGE{
 		}
 		return join(PHP_EOL,$options);
 	}
+
+
 	public function getPageCategoryLists_li($key=""){
+
+		// $pageDir = "blog";
+		// if(isset($_REQUEST["pageDir"]) && $_REQUEST["pageDir"]!==""){
+		// 	$pageDir = $_REQUEST["pageDir"];
+		// }
+
 		if($key===""){return "";}
+
+		$pageDir = $this->getPageDir();
 
 		// configデータの取得
 		$lists = $this->getPageCategoryLists($key);
@@ -376,7 +311,7 @@ class MYNT_PAGE{
 		for($i=0,$c=count($lists); $i<$c; $i++){
 
 			$MYNT_URL = new MYNT_URL;
-			$link_url = $MYNT_URL->getUrl() ."?system=".$_REQUEST["system"] ."&status=".$lists[$i]["key"];
+			$link_url = $MYNT_URL->getUrl() ."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&pageDir=".$pageDir ."&status=".$lists[$i]["key"];
 
 			$active = "";
 			if($lists[$i]["key"] === $_REQUEST["status"]){$active = "active";}
@@ -414,11 +349,14 @@ class MYNT_PAGE{
 
 
 	public function viewPageLists($status = ""){
+
+		$pageDir = $this->getPageDir();
+
 		$lists = $this->getPageLists($status);
 		$html = "";
 		for($i = 0,$c = count($lists); $i < $c; $i++){
-			$info = $this->getPageInfoFromPath($this->default_dir.$lists[$i]);
-			$html .= "<tr class='titleList' onclick='location.href=\"?system=pageEdit&file=".$this->getFileName2ID($lists[$i])."\"'>".PHP_EOL;
+			$info = $this->getPageInfoFromPath($this->default_dir.$pageDir."/".$lists[$i]);
+			$html .= "<tr class='titleList' onclick='location.href=\"?b=system&p=p_pageEdit&file=".$this->getFileName2ID($lists[$i])."&pageDir=".$pageDir."\"'>".PHP_EOL;
 			$html .= "<th style='width:50px;'>".($i+1)."</th>".PHP_EOL;
 			$html .= "<td>".$info["title"]."</td>".PHP_EOL;
 			$html .= "<td>".$this->getKey2Value($GLOBALS["config"]["pageCategoryLists"]["status"] , $info["status"])."</td>".PHP_EOL;
@@ -431,16 +369,19 @@ class MYNT_PAGE{
 	}
 
 	public function getPageLists($status = ""){
-		if(!is_dir($this->default_dir)){return array();}
 
-		$lists = scandir($this->default_dir);
+		$pageDir = $this->getPageDir();
+
+		if(!is_dir($this->default_dir.$pageDir)){return array();}
+
+		$lists = scandir($this->default_dir.$pageDir);
 
 		$datas = array();
 
 		for($i=0,$c=count($lists); $i<$c; $i++){
 			if($lists[$i]==="." || $lists[$i]===".."){continue;}
 			if(preg_match("/^(.+?)\.info$/",$lists[$i],$m)){
-				$json = $this->getPageInfoFromPath($this->default_dir.$lists[$i]);
+				$json = $this->getPageInfoFromPath($this->default_dir.$pageDir."/".$lists[$i]);
 				if($status !== "" && !isset($json["status"])){continue;}
 				if($status !== "" && $status !== $json["status"]){continue;}
 				$datas[] = $lists[$i];

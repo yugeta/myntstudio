@@ -1,10 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <FILE:"<CLASS:MYNT/getDesignTarget()>html/head_tag.html">
+		<script src="<CLASS:MYNT_URL/getSystemRoot()>js/axcel.js"></script>
+  </head>
 
-<div class='row'>
-	<div class='base-default base-color-green'>
-		<h1><class:MYNT_URL/getPageInfoString("<request:p>","title")></h1>
-	</div>
-</div>
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <FILE:"<CLASS:MYNT/getDesignTarget()>html/header_menu.html">
+      </div>
+    </div>
 
-<div class='row'>
-	<class:MYNT_SOURCE/viewFile("data/page/<request:p>.html")>
-</div>
+    <div class="container">
+			<article class="contents" id="contents">
+				<h1><CLASS:MYNT_PAGE/getTitle()></h1>
+				<div class="eyecatch"></div>
+				<CLASS:MYNT_PAGE/getSource()>
+			</atricle>
+    </div>
+
+	</body>
+</html>

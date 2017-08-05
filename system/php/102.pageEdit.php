@@ -1,6 +1,6 @@
 <?php
 
-class MYNT_PAGE{
+class MYNT_PAGE_EDIT{
 
 	public $default_dir  = "data/page/";
 	public $system_dir   = "system/page/";
@@ -10,6 +10,14 @@ class MYNT_PAGE{
 	public function default_404(){
 		// return "design/".$GLOBALS["config"]["design"]["target"]."/html/404";
 		return "data/page/default/404";
+	}
+
+	public function getPageDir(){
+		$pageDir = "blog";
+		if(isset($_REQUEST["pageDir"]) && $_REQUEST["pageDir"] !== ""){
+			$pageDir = $_REQUEST["pageDir"];
+		}
+		return $pageDir;
 	}
 
 	// クエリを判別してページを表示（ない場合はエラーページ）
@@ -263,11 +271,9 @@ class MYNT_PAGE{
 
 	// page-data-save
 	public function setSystemPage(){
-		// die("saveing");
-		// die($_REQUEST["source"]);
-		// die($_REQUEST["file"]." | ".$_REQUEST["type"]);
 
 		$current_time = time();
+		$pageDir = $this->getPageDir();
 
 		// file-name
 		if(!isset($_REQUEST["file"]) || !$_REQUEST["file"]){
@@ -279,9 +285,13 @@ class MYNT_PAGE{
 		}
 
 		// file-path
-		$path_html = "data/page/".$_REQUEST["file"].".html";
-		$path_info = "data/page/".$_REQUEST["file"].".info";
-		$backupDir = "data/backup/page/".$_REQUEST["type"]."/";
+		$previous_path = $this->getDefaultPath($pageDir, $_REQUEST["file"]);
+		$path_html1 = $previous_path.".html";
+		$path_info1 = $previous_path.".info";
+		$default_path = $this->getDefaultPath($_REQUEST["type"], $_REQUEST["file"]);
+		$path_html2 = $default_path.".html";
+		$path_info2 = $default_path.".info";
+		$backupDir = "data/backup/page/".$pageDir."/";
 
 		// backup-folder
 		if(!is_dir($backupDir)){
@@ -289,15 +299,15 @@ class MYNT_PAGE{
 		}
 
 		// backup
-		if(is_file($path_html)){
-			rename($path_html , $backupDir.$_REQUEST["file"].".html.".date(Ymdhis));
+		if(is_file($path_html1)){
+			rename($path_html1 , $backupDir.$_REQUEST["file"].".html.".date(Ymdhis));
 		}
-		if(is_file($path_info)){
-			rename($path_info , $backupDir.$_REQUEST["file"].".info.".date(Ymdhis));
+		if(is_file($path_info1)){
+			rename($path_info1 , $backupDir.$_REQUEST["file"].".info.".date(Ymdhis));
 		}
 
 		// source-save
-		file_put_contents($path_html , $_REQUEST["source"]);
+		file_put_contents($path_html2 , $_REQUEST["source"]);
 
 		// info-save
 		$info = array(
@@ -316,20 +326,35 @@ class MYNT_PAGE{
 		);
 		$json = json_encode($info);
 		$json = preg_replace_callback('/\\\\u([0-9a-zA-Z]{4})/', function ($matches) {return mb_convert_encoding(pack('H*',$matches[1]),'UTF-8','UTF-16');},$json);
-		file_put_contents($path_info , $json);
+		file_put_contents($path_info2 , $json);
 
 
 		//redirect
 		$url = new MYNT_URL;
-		header("Location: ". $url->getUrl()."?system=".$_REQUEST["system"]."&file=".$_REQUEST["file"]);
+		header("Location: ". $url->getUrl()."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&file=".$_REQUEST["file"]."&pageDir=".$_REQUEST["type"]);
 
+	}
+	public function getDefaultPath($pageDir , $fileName){
+		$path = "";
+		if($pageDir === "system"){
+			$path = "system/html/".$fileName;
+		}
+		else{
+			$path = "data/page/".$pageDir."/".$fileName;
+		}
+		return $path;
 	}
 
 	public function getPageInfoString($fileName = "" , $key = ""){
 		if($key === "" || $fileName === ""){return;}
-		if(!is_file($this->default_dir.$fileName.".info")){return;}
 
-		$json = json_decode(file_get_contents($this->default_dir.$fileName.".info"),true);
+		$pageDir = $this->getPageDir();
+
+		if(!is_file($this->default_dir.$pageDir."/".$fileName.".info")){return;}
+
+
+
+		$json = json_decode(file_get_contents($this->default_dir.$pageDir."/".$fileName.".info"),true);
 
 		if(!isset($json[$key])){return;}
 
@@ -337,12 +362,18 @@ class MYNT_PAGE{
 	}
 
 	public function getPageCategoryLists($key=""){
-		if($key===""){return array();}
-		$path = "data/config/pageCategoryLists.json";
-		if(!is_file($path)){return array();}
-		$json = json_decode(file_get_contents($path),true);
-		if(!isset($json[$key])){return array();}
-		return $json[$key];
+		// if($key===""){return array();}
+		// $path = "data/config/pageCategoryLists.json";
+		// if(!is_file($path)){return array();}
+		// $json = json_decode(file_get_contents($path),true);
+		// if(!isset($json[$key])){return array();}
+		// return $json[$key];
+		if(isset($GLOBALS["config"]["pageCategoryLists"][$key])){
+			return $GLOBALS["config"]["pageCategoryLists"][$key];
+		}
+		else{
+			return array();
+		}
 	}
 	public function getPageCategoryListsOptions($key=""){
 		if($key===""){return "";}

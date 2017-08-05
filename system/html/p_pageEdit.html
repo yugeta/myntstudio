@@ -4,7 +4,7 @@
 
 	<div class='row'>
 		<div class='col-sm-12'>
-			<p style="font-size:20px;margin:0;"><a href='<class:MYNT_URL/getUrl()>?system=pageLists'><i class='glyphicon glyphicon-arrow-left'></i> Page Lists</a></p>
+			<p style="font-size:20px;margin:0;"><a href='<class:MYNT_URL/getUrl()>?b=<request:b>&p=p_pageLists&pageDir=<request:pageDir>'><i class='glyphicon glyphicon-arrow-left'></i> Page Lists</a></p>
 		</div>
 	</div>
 
@@ -18,8 +18,10 @@
 </div>
 
 <form name='form1' method='post' class="form-horizontal" action="<class:MYNT_URL/getUrl()>">
-	<input type='hidden' name='method' value='MYNT_PAGE/setSystemPage' />
-	<input type="hidden" name="system" value="<REQUEST:system>">
+	<input type='hidden' name='method' value='MYNT_PAGE_EDIT/setSystemPage' />
+	<input type="hidden" name="b" value="<REQUEST:b>">
+	<input type="hidden" name="p" value="<REQUEST:p>">
+	<input type="hidden" name="pageDir" value="<REQUEST:pageDir>">
 	<input type="hidden" name="file" value="<REQUEST:file>">
 
 	<div class='container'>
@@ -31,7 +33,7 @@
 					<div class="control-group">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-text-width'></i> Title</label>
 						<div class="controls">
-							<input type='text' id="title" name='title' value='<class:MYNT_PAGE/getPageInfoString("<request:file>","title")>' class='form-control'/>
+							<input type='text' id="title" name='title' value='<class:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","title")>' class='form-control'/>
 						</div>
 					</div>
 
@@ -41,7 +43,7 @@
 							<button type="button" class="btn btn-default eyecatch-pickup-cutton" id="eyecatch_add">Pickup Eye-catch</button>
 							<button type="button" class="btn btn-default eyecatch-pickup-cutton" id="eyecatch_del">Remove Eye-catch</button>
 							<div id="eyecatch"><class:MYNT_PICTURE/getEyecatchFilePath(<request:file>)></div>
-							<input type="hidden" name="eyecatch" value="<class:MYNT_PAGE/getPageInfoString("<request:file>","eyecatch")>">
+							<input type="hidden" name="eyecatch" value="<class:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","eyecatch")>">
 						</div>
 					</div>
 
@@ -121,7 +123,7 @@
 					<div class="control-group">
 						<label class="control-label" for="source"><i class='glyphicon glyphicon-edit'></i> Source</label>
 						<div class="controls">
-							<textarea style="min-height:300px;" id="source" name='source' class='form-control' /><CLASS:MYNT_PAGE/getFile("data/page/<REQUEST:type>/<REQUEST:file>.html")></textarea>
+							<textarea style="min-height:300px;" id="source" name='source' class='form-control' /><CLASS:MYNT_PAGE_EDIT/getFile("data/page/<REQUEST:pageDir>/<REQUEST:file>.html")></textarea>
 						</div>
 					</div>
 
@@ -151,7 +153,7 @@
 						<div class="controls">
 							<select id="fileName" name="fileName" class='form-control'/>
 							<option value="" selected>+ new file</option>
-							<class:MYNT_PAGE/getFileListsOptions()>
+							<class:MYNT_PAGE_EDIT/getFileListsOptions()>
 							</select>
 						</div>
 					</div>
@@ -160,7 +162,7 @@
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-text-size'></i> Type</label>
 						<div class="controls">
 							<select id="type" name="type" class='form-control'/>
-								<class:MYNT_PAGE/getPageCategoryListsOptions("type")>
+								<class:MYNT_PAGE_EDIT/getPageCategoryListsOptions("type")>
 							</select>
 						</div>
 					</div>
@@ -169,7 +171,7 @@
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-sort-by-attributes'></i> Status</label>
 						<div class="controls">
 							<select id="status" name="status" class='form-control'/>
-								<class:MYNT_PAGE/getPageCategoryListsOptions("status")>
+								<class:MYNT_PAGE_EDIT/getPageCategoryListsOptions("status")>
 							</select>
 						</div>
 					</div>
@@ -177,28 +179,28 @@
 					<div class="control-group">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-time'></i> Schedule</label>
 						<div class="controls">
-							<input class='form-control' type='datetime-local' id='schedule' name='schedule' value="<class:MYNT_PAGE/getPageInfoString("<request:file>","schedule")>" />
+							<input class='form-control' type='datetime-local' id='schedule' name='schedule' value="<class:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","schedule")>" />
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-menu-hamburger'></i> Group</label>
 						<div class="controls">
-							<input type='text' id="group" name='group' value="<class:MYNT_PAGE/getPageInfoString("<request:file>","group")>" class='form-control' />
+							<input type='text' id="group" name='group' value="<class:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","group")>" class='form-control' />
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-duplicate'></i> Category</label>
 						<div class="controls">
-							<input type='text' id="category" name='category' value="<class:MYNT_PAGE/getPageInfoString("<request:file>","category")>" class='form-control' />
+							<input type='text' id="category" name='category' value="<class:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","category")>" class='form-control' />
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-tags'></i> Tag</label>
 						<div class="controls">
-							<input type='text' id="tag" name='tag' value="<class:MYNT_PAGE/getPageInfoString("<request:file>","tag")>" class='form-control' />
+							<input type='text' id="tag" name='tag' value="<class:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","tag")>" class='form-control' />
 						</div>
 					</div>
 
@@ -207,8 +209,8 @@
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<i class='glyphicon glyphicon-open-file'></i> file   : <if("<request:file>")> <request:file>.html<if-end><br>
-								<i class='glyphicon glyphicon-glass'></i> Regist : <class:MYNT_PAGE/getPageInfoString("<request:file>","regist")><br>
-								<i class='glyphicon glyphicon-time'></i> Update : <class:MYNT_PAGE/getPageInfoString("<request:file>","update")><br>
+								<i class='glyphicon glyphicon-glass'></i> Regist : <class:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","regist")><br>
+								<i class='glyphicon glyphicon-time'></i> Update : <class:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","update")><br>
 							</div>
 						</div>
 					</div>
@@ -220,4 +222,4 @@
 
 </form>
 
-<script src="system/js/pageEdit.js?<class:MYNT/currentTime()>"></script>
+<script src="system/js/pageEdit.js?<class:MYNT/currentTime()"></script>

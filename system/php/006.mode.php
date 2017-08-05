@@ -26,9 +26,10 @@ class MYNT_MODE{
 	public function checkMode($mode){
 		switch($mode){
 			case "logout":
-				// call_user_func_array(array("MYNT_LOGIN" , "checkLogout"),array());
-				$MYNT_LOGIN = new MYNT_LOGIN;
-				$MYNT_LOGIN->checkLogout();
+				if(class_exists(MYNT_PLUGIN_LOGIN)){
+					$MYNT_LOGIN = new MYNT_PLUGIN_LOGIN;
+					$MYNT_LOGIN->checkLogout();
+				}
 				break;
 		}
 	}
