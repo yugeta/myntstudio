@@ -243,3 +243,80 @@ ver0.3 @ 2015.06.26
 - 呼び出し時に指定できる
 - 後から変更できる
 - 元画像のサイズ情報をinfoに加える
+
+* 権限
+- ページグループ毎に、ログインアカウントで権限を分けたい
+- AページはAさん、BページはBさんの権限で編集とか・・・
+
+
+
+## Authority Lists
+
+- [normal] 一般ユーザー
+- [member] 一般ユーザー（ログイン）記事投稿者（ログイン必須）
+- [master] ページ管理者（ログイン必須）
+- [authority] 投稿承認者
+- [administrator] システム管理者
+
+
+
+## Access URL
+
+# Hierarchy
+
+
+- root
+URL : http://hoge.com/
+index.php
+	┗ system/php/**
+			┗ design/%sample%/index.html
+					┗ data/page/default/top.html
+
+- blog
+http://hoge.com/?bog=123456
+index.php
+	┗ system/php/**
+			┗ design/%sample%/index.html
+				┗ design/%sample%/page/blog.html
+						┗ data/page/blog/***.json
+
+- system (must logined)
+http://hoge.com/?system=login
+index.php
+	┗ system/php/**
+			┗ design/%sample%/index.html
+					┗ system/page/***.html
+
+- Other...
+http://hoge.com/?etc=***
+index.php
+	┗ system/php/**
+			┗ design/%sample%/index.html
+				┗ design/%sample%/page/etc.html
+					┗ data/page/etc/***.json
+
+# Design-Pattern
+
+index.html
+
+<html>
+	<head>
+		<*header.html*>
+	</head>
+	<body>
+		<base.html(navigation-menu)>
+
+		<*contents*>
+
+		<*right|left-menu*>
+
+		<*footer*>
+
+	</body>
+</html>
+
+# 考え方
+
+- 基本的にページデータは、固定ページも含めてdataフォルダに保存されているべき
+-
+- 記事、更新情報などがある場合は、dataフォルダにページデータ（コンテンツ部分）を設置して、システムページは変更不可のsystem、固定ページ

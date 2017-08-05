@@ -1,7 +1,9 @@
 {
 	"type":[
-		{"key":"blog"   , "value":"Blog"},
-		{"key":"system" , "value":"System"}
+		{"key":"blog"			, "value":"Blog"},
+		{"key":"default"	, "value":"default"},
+		{"key":"etc"			, "value":"etc"},
+		{"key":"system"		, "value":"*System"}
 	],
 	"status":[
 		{"key":"draft"  , "value":"作成中"},

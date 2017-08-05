@@ -8,7 +8,8 @@ class MYNT_PAGE{
 	public $notlogin     = "system/page/login";
 	// public $default_404  = "design/".$GLOBALS["config"]["design"]["target"]."/html/404";
 	public function default_404(){
-		return "design/".$GLOBALS["config"]["design"]["target"]."/html/404";
+		// return "design/".$GLOBALS["config"]["design"]["target"]."/html/404";
+		return "data/page/default/404";
 	}
 
 	// クエリを判別してページを表示（ない場合はエラーページ）
@@ -31,6 +32,13 @@ class MYNT_PAGE{
 				$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/blog.html";
 			}
 		}
+		else if(isset($_REQUEST["blog"]) && $_REQUEST["blog"]){
+			if(is_file("data/page/blog/".$_REQUEST["blog"].".html")){
+				// $path = $this->default_dir.$_REQUEST["p"].".html";
+				$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/blog.html";
+			}
+		}
+
 
 		// systemページ
 		else if(isset($_REQUEST["system"]) && $_REQUEST["system"]){
@@ -43,7 +51,8 @@ class MYNT_PAGE{
 		// ページ指定が無ければデフォルトページを設定
 		else{
 			$top = (isset($GLOBALS["config"]["page"]["top"]))?$GLOBALS["config"]["page"]["top"]:"top";
-			$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$top.".html";
+			// $path = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$top.".html";
+			$path = "data/page/default/".$top.".html";
 		}
 
 		if($path === "" || !is_file($path)){
