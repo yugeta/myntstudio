@@ -35,9 +35,7 @@ if(class_exists("MYNT_PLUGIN_LOGIN")){
   $MYNT_PLUGIN_LOGIN->checkSystemBase();
 }
 
-
-$base = (isset($_REQUEST["b"]) && $_REQUEST["b"]!=="")?$_REQUEST["b"]:$GLOBALS["config"]["page"]["base"];
-
 // Default-source-load
 $MYNT_VIEW = new MYNT_VIEW;
-$MYNT_VIEW->viewDesign($base);
+// $base = (isset($_REQUEST["b"]) && $_REQUEST["b"]!=="")?$_REQUEST["b"]:$GLOBALS["config"]["page"]["base"];
+$MYNT_VIEW->viewDesign();

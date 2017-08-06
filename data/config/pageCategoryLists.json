@@ -2,10 +2,10 @@
 	"cache":"system",
 
 	"type":[
-		{"key":"blog"			, "value":"Blog" 			, "dir":"data/page/blog/"},
-		{"key":"default"	, "value":"Default"		, "dir":"data/page/default/"},
-		{"key":"etc"			, "value":"Etc"				, "dir":"data/page/etc/"},
-		{"key":"system"		, "value":"*System"		, "dir":"system/html/"}
+		{"key":"blog"			, "value":"Blog" 			, "dir":"data/page/blog/"			,"baseFile":"index.html"},
+		{"key":"default"	, "value":"Default"		, "dir":"data/page/default/"	,"baseFile":"index.html"},
+		{"key":"etc"			, "value":"Etc"				, "dir":"data/page/etc/"			,"baseFile":"index.html"},
+		{"key":"system"		, "value":"*System"		, "dir":"system/html/"				,"baseFile":"system.html"}
 	],
 	"status":[
 		{"key":"release", "value":"公開"},

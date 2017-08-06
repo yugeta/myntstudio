@@ -1,9 +1,13 @@
 {
 	"cache":"",
-	
+
 	"target":[
 		"sample",
 		"login",
-		"pageAxcel"
+		"pageAxcel",
+		"tagCloud",
+		"groupList",
+		"pageRank",
+		"analytics"
 	]
 }
