@@ -1,9 +1,11 @@
 {
-	"data"		: "data",
-	"design"	: "design",
-	"plugin"	: "plugin",
-	"library"	: "library",
-	"system"	: "system",
+	"cache":"",
+
+	"data"					: "data",
+	"design"				: "design",
+	"plugin"				: "plugin",
+	"library"				: "library",
+	"system"				: "system",
 	"database_type"	: "",
 	"session_name"	: "MyntStudio"
 }

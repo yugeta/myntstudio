@@ -30,7 +30,7 @@
 	$$.prototype.changeSelect = function(event){console.log(+new Date())
 		var target = event.target;
 		var urlData = $$.prototype.urlinfo();
-		var url = urlData.url+"?system="+urlData.query.system+"&file="+target.value;
+		var url = urlData.url+"?b="+urlData.query.b+"&p="+urlData.query.p+"&file="+target.value;
 		// console.log(url);
 		// alert(url);
 		location.href = url;
@@ -106,8 +106,8 @@
 		$$ajax.prototype.set({
 			url:$$.prototype.pathinfo(location.href).path,
 			query:{
-				method   : "MYNT_PAGE/getTemplateFile",
-				filePath : "system/page/pageEdit_getImage.html",
+				method   : "MYNT_PAGE_EDIT/getTemplateFile",
+				filePath : "system/html/pageEdit_getImage.html",
 				mode     : mode,
 				selectImage: selectedImage
 			},
@@ -152,7 +152,10 @@
 
 		// close-button
 		var closeDialog = document.getElementById("closeDialog");
-		closeDialog.onclick = $$.prototype.setEvent_removeImageDialog;
+		if(closeDialog !== null){
+			closeDialog.onclick = $$.prototype.setEvent_removeImageDialog;
+		}
+
 
 		// $$.prototype.setEvent_imagesDialogSelect();
 
@@ -299,7 +302,7 @@
 	$$.prototype.setEvent_selectEyecatch = function(id,ext){
 		document.forms["form1"]["eyecatch"].value = id;
 		var eyecatch_image_area = document.getElementById("eyecatch");
-		var eyecatch_image      = eyecatch_image_area.getElementsByTagName("img");
+		var eyecatch_image      = eyecatch_image_area.getElementsByTagName("img");//alert(eyecatch_image.length+"/"+id+"/"+ext);
 		if(eyecatch_image.length > 0){
 			eyecatch_image[0].src = "data/picture/"+id+"."+ext;
 		}
@@ -472,6 +475,18 @@
 		$$.prototype.setImageButton("eyecatch",eyecatch.value);
 	};
 	$$.prototype.setEvent_eyecatch_del = function(event){
+
+		// imgTag
+		var eycatch_img = document.getElementsByClassName("eycatch_img");
+		if(eycatch_img.length >= 1){
+			eycatch_img[0].src = "";
+		}
+
+		// input-hidden
+		var input = document.forms["form1"]["eyecatch"];
+		if(input){
+			input.value = "";
+		}
 
 	};
 

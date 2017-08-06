@@ -1,12 +1,18 @@
 {
+	"cache":"system",
+
 	"type":[
-		{"key":"blog"   , "value":"Blog"},
-		{"key":"system" , "value":"System"}
+		{"key":"blog"			, "value":"Blog" 			, "dir":"data/page/blog/"},
+		{"key":"default"	, "value":"Default"		, "dir":"data/page/default/"},
+		{"key":"etc"			, "value":"Etc"				, "dir":"data/page/etc/"},
+		{"key":"system"		, "value":"*System"		, "dir":"system/html/"}
 	],
 	"status":[
-		{"key":"draft"  , "value":"作成中"},
+		{"key":"release", "value":"公開"},
 		{"key":"wait"   , "value" :"承認待ち"},
-		{"key":"trash"  , "value" :"削除"},
-		{"key":"release", "value":"公開"}
+		{"key":"draft"  , "value":"作成中"},
+		{"key":"denial" , "value" :"否認"},
+		{"key":"trash"  , "value" :"削除"}
+
 	]
 }

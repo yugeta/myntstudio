@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<FILE:"data/page/default/head_tag.html">
+		<link rel="stylesheet" href="design/<GLOBALS:config/design/target>/css/top.css?<GLOBALS:config/page/version>">
+  </head>
+
+	<body>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<FILE:"data/page/default/header_menu.html">
+			</div>
+		</div>
+
+		<div class="container">
+
+			<div class='row'>
+				<div class="col-sm-8 mynt-page-contents">
+					<article class="contents" id="contents">
+						<CLASS:MYNT_VIEW/getSource(<REQUEST:b>,<REQUEST:p>)>
+					</atricle>
+				</div>
+
+				<div class="col-sm-4 mynt-page-menu-right">
+					<file:"data/page/default/menuRight.html">
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class="mynt-page-footer">
+					<FILE:"data/page/default/viewFooter.html">
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+</html>

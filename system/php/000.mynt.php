@@ -7,6 +7,19 @@ date_default_timezone_set('Asia/Tokyo');
 
 class MYNT{
 
+	function getScriptFileName(){
+		// $baseName = $_SERVER['SCRIPT_FILENAME'];
+		// $sp1 = explode("/" , $baseName);
+		// $sp2 = explode(".php" , $sp1[(count($sp1)-1)]);
+		// return $sp2[0];
+
+		// base
+		$mode = (isset($_REQUEST["b"]) && $_REQUEST["b"]!=="")?$_REQUEST["b"] : "index";
+		// $mode = (is_file("design/".$GLOBALS["config"]["design"]["target"]."/html/".$mode.".html"))?$mode : "404";
+
+		return $mode;
+	}
+
 	function setDefine(){
 		define(DIR_DESIGN		,"design"	);
 		define(DIR_PLUGIN		,"plugin"	);
@@ -17,7 +30,14 @@ class MYNT{
 
 	// Config
 	function loadConfig(){
-		$GLOBALS["config"] = $this->getConfig();
+		$config = $this->getConfig();
+
+		$MYNT_LOGIN = new MYNT_LOGIN;
+		if(isset($config["cache"]) && $config["cache"] === "system" && $MYNT_LOGIN->checkAuth()){
+			return;
+		}
+		
+		$GLOBALS["config"] = $config;
 	}
 	function getConfig(){
 		$dir = "data/config/";
@@ -46,8 +66,11 @@ class MYNT{
 		}
 	}
 
-	function loadPlugins($dir = ""){
-		$dir = $GLOBALS["config"]["define"]["plugin"];
+	function loadPlugins($dir = "plugin"){
+
+		if(!isset($GLOBALS["config"]["plugins"]) || !count($GLOBALS["config"]["plugins"])){
+			return;
+		}
 
 		if(!$dir || !is_dir($dir)){
 			$this->viewError("Not found directory [loadPlugins] [ ".$dir." ]");
@@ -57,34 +80,40 @@ class MYNT{
 			$dir .= "/";
 		}
 
-		if(!isset($GLOBALS["config"]["plugins"]) || !count($GLOBALS["config"]["plugins"])){
-			return;
-		}
-
 		for($i=0; $i<count($GLOBALS["config"]["plugins"]); $i++){
-			$path = $dir . $GLOBALS["config"]["plugins"][$i] ."/php/lib/";
+			$path = $dir . $GLOBALS["config"]["plugins"][$i] ."/php";
 			// echo $path."<br>".PHP_EOL;
 			if(!is_dir($path)){continue;}
 			$this->loadModulePHPs($path);
 		}
 	}
 
-	function viewDesign($htmlFile="index.html"){
-		if(!isset($GLOBALS["config"]["design"]["target"])){
-			$this->viewError("Not setting Design.");
-		}
+	function viewDesign($htmlFile = "index"){
+		// if(!isset($GLOBALS["config"]["design"]["target"])){
+		// 	$this->viewError("Not setting Design.");
+		// }
 
-		$design = $GLOBALS["config"]["design"]["target"];
+		// $design = $GLOBALS["config"]["design"]["target"];
 
-		if(!$design || !is_dir("design/".$design)){
-			$this->viewError("Not found Design [ ".$design." ]");
-		}
+		// if(!$design || !is_dir("design/".$design)){
+		// 	$this->viewError("Not found Design [ ".$design." ]");
+		// }
 
-		// Load - HTML
-		if(isset($_REQUEST["h"]) && is_file("design/".$design."/".$_REQUEST["h"].".html")){
-			$htmlFile = $_REQUEST["h"].".html";
+		$path = "";
+
+		// check
+		if(is_file("design/".$GLOBALS["config"]["design"]["target"]."/html/".$htmlFile.".html")){
+			$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$htmlFile.".html";
 		}
-    $source = file_get_contents("design/".$design."/".$htmlFile);
+		else{
+			$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/"."/404.html";
+		}
+		// die("design/".$GLOBALS["config"]["design"]["target"]."/html/".$htmlFile.".html");
+		// // Load - HTML
+		// if(isset($_REQUEST["h"]) && is_file("design/".$design."/".$_REQUEST["h"].".html")){
+		// 	$htmlFile = $_REQUEST["h"].".html";
+		// }
+		$source = file_get_contents($path);
 
 		if($source){
 			// $RepTag = new RepTag;
@@ -112,12 +141,7 @@ class MYNT{
 		}
 	}
 
-	function getScriptFileName(){
-		$baseName = $_SERVER['SCRIPT_FILENAME'];
-		$sp1 = explode("/" , $baseName);
-		$sp2 = explode(".php" , $sp1[(count($sp1)-1)]);
-		return $sp2[0];
-	}
+
 
 	function viewError($msg){
 		echo "<h1>".$msg."</h1>";
@@ -132,5 +156,6 @@ class MYNT{
 	function currentTime(){
 		return date("YmdHis");
 	}
+
 
 }

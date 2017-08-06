@@ -1,5 +1,9 @@
 {
-	"top"  :"top",
-	"title":"MyntStudio"
+	"cache":"",
 
+	"top"  :"pageList",
+	"title":"MyntStudio",
+	"version":"0.0.1",
+	"base":"index",
+	"contents_default":"data/page/default/pageList.html"
 }

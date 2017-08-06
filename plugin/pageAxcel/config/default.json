@@ -1,0 +1,6 @@
+{
+	"version":"0.0.2",
+	"id":"pageAxcel",
+	"name":"page axcelerator",
+	"comment":"ajax to id=contents replace innerHTML (same domain)"
+}

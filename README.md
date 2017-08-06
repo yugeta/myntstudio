@@ -216,3 +216,123 @@ ver0.1 @ 2015.04.11
 ver0.2 @ 2015.05.20
 framework/ver2 @ 2015. 5.31
 ver0.3 @ 2015.06.26
+
+##########
+## 要望
+
+
+* 一般ユーザー登録
+- ログインID、PWを登録してその後にMLなどを受け取れるしくみ
+
+* design入れ替えで、表示、機能などが入れ替えられる仕組み
+- systemモジュールをdesignに以降
+- designの必要最低限モジュール構成の確率
+
+* pluginの追加、削除で、機能の出し入れができる仕組み
+- 見た目機能
+- 裏の機能
+
+* 編集権限
+- design,pluginの編集権限（ファイルを直接修正しないと出来ない）
+- ブログ、ページの記事、内容作成・修正（admin管理画面から行える）
+- pluginやdesignパターンの変更や個別の修正（admin管理画面からログインして権限社であれば行える）
+
+* 画像アップロードの際に複数サイズの自動作成
+- w:300px,600px,1200px,
+- 元が500pxの場合は300pxしか作られない
+- 呼び出し時に指定できる
+- 後から変更できる
+- 元画像のサイズ情報をinfoに加える
+
+* 権限
+- ページグループ毎に、ログインアカウントで権限を分けたい
+- AページはAさん、BページはBさんの権限で編集とか・・・
+
+
+
+## Authority Lists
+
+- [normal] 一般ユーザー
+- [member] 一般ユーザー（ログイン）記事投稿者（ログイン必須）
+- [master] ページ管理者（ログイン必須）
+- [authority] 投稿承認者
+- [administrator] システム管理者
+
+
+
+## Access URL
+
+# Hierarchy
+
+
+- root
+URL : http://hoge.com/
+index.php
+	┗ system/php/**
+			┗ design/%sample%/index.html
+					┗ data/page/default/top.html
+
+- blog
+x http://hoge.com/?bog=123456
+- http://hoge.com/?b=blog&p=123456 -(省略)-> http://hoge.com/?p=123456
+index.php
+	┗ system/php/**
+			┗ design/%sample%/index.html
+				┗ design/%sample%/page/blog.html
+						┗ data/page/blog/***.json
+
+- system (must logined)
+x http://hoge.com/?system=login
+- http://hoge.com/?b=system&p=login
+index.php
+	┗ system/php/**
+			┗ design/%sample%/index.html
+					┗ system/page/***.html
+
+- Other...
+x http://hoge.com/?etc=***
+- http://hoge.com/?b=etc&p=***
+index.php
+	┗ system/php/**
+			┗ design/%sample%/index.html
+				┗ design/%sample%/page/etc.html
+					┗ data/page/etc/***.json
+
+# Design-Pattern
+
+index.html
+
+<html>
+	<head>
+		<*header.html*>
+	</head>
+	<body>
+		<base.html(navigation-menu)>
+
+		<*contents*>
+
+		<*right|left-menu*>
+
+		<*footer*>
+
+	</body>
+</html>
+
+# 考え方
+
+- [クエリ]
+- b(base)は省略すると"blog"がデフォルト値
+- p(page)は省略すると "top"がデフォルト値
+- b=blog -> data/page/blog/**	(ブログ記事)
+- b=system -> system/page/**  (変更不可)
+- b=etc -> data/page/etc/**		(任意フォルダにページ格納可能)
+
+- 基本的にページデータは、固定ページも含めてdataフォルダに保存されているべき
+-
+- 記事、更新情報などがある場合は、dataフォルダにページデータ（コンテンツ部分）を設置して、システムページは変更不可のsystem、固定ページ
+
+
+## Plugin仕様
+
+- 自動実行に関するclass名をplugin名と同じにする。
+-
