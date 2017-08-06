@@ -1,8 +1,8 @@
 {
 	"type":[
 		{"key":"blog"			, "value":"Blog" 			, "dir":"data/page/blog/"},
-		{"key":"default"	, "value":"default"		, "dir":"data/page/default/"},
-		{"key":"etc"			, "value":"etc"				, "dir":"data/page/etc/"},
+		{"key":"default"	, "value":"Default"		, "dir":"data/page/default/"},
+		{"key":"etc"			, "value":"Etc"				, "dir":"data/page/etc/"},
 		{"key":"system"		, "value":"*System"		, "dir":"system/html/"}
 	],
 	"status":[

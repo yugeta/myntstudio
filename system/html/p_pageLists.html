@@ -14,6 +14,16 @@
 
 
 <ul class="nav nav-tabs">
+
+	<li role="presentation">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Type: <class:MYNT_PAGE_LIST/getPageDirName(<request:pageDir>)> <span class="caret"></span> </a>
+		<ul class="dropdown-menu">
+			<class:MYNT_PAGE_LIST/getPageTypeLists_li()>
+			<!-- <li role="presentation"><a href="#">test1</a></li>
+			<li role="presentation"><a href="#">test2</a></li> -->
+		</ul>
+	</li>
+
 	<li role="presentation" class="<if('<request:status>'==='')>active<if-end>">
 		<a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" href="<class:MYNT_URL:getUrl()>?b=<request:b>&p=<request:p>&pageDir=<REQUEST:pageDir>">ALL (<class:MYNT_PAGE_LIST/getPageCount()>)</a>
 	</li>

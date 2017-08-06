@@ -14,6 +14,40 @@ class MYNT_PAGE_LIST{
 		}
 		return $pageDir;
 	}
+	public function getPagePath($pageDir = ""){
+
+		if($pageDir === ""){
+			$pageDir = $this->getPageDir();
+		}
+
+		$path = "";
+		if($pageDir === "system"){
+			$path = "system/html/";
+		}
+		else if(is_dir("data/page/".$pageDir)){
+			$path = "data/page/".$pageDir."/";
+		}
+		return $path;
+	}
+	public function getPageDirName($pageDir = ""){
+
+		if($pageDir === ""){
+			$pageDir = $this->getPageDir();
+		}
+
+		$types = $this->getPageCategoryLists("type");
+
+		$res = "Blog";
+		for($i=0, $c=count($types); $i<$c; $i++){
+			if($types[$i]["key"] === $pageDir){
+				$res = $types[$i]["value"];
+				break;
+			}
+		}
+
+		return $res;
+	}
+
 	// クエリを判別してページを表示（ない場合はエラーページ）
 	function getSource($type = ""){
 
@@ -311,13 +345,36 @@ class MYNT_PAGE_LIST{
 		for($i=0,$c=count($lists); $i<$c; $i++){
 
 			$MYNT_URL = new MYNT_URL;
-			$link_url = $MYNT_URL->getUrl() ."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&pageDir=".$pageDir ."&status=".$lists[$i]["key"];
+			$link_url = $MYNT_URL->getUrl() ."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&pageDir=".$pageDir;
+
+			$active = "";
+			if($lists[$i]["key"] === $_REQUEST["pageDir"]){$active = "active";}
+
+			$html .= "<li role='presentation' class='".$active."'>";
+			$html .= "<a class='dropdown-toggle' role='button' aria-haspopup='true' aria-expanded='false' href='".$link_url."'>".$lists[$i]["value"]." (".$this->getPageCount($lists[$i]["key"]).")</a>";
+			$html .= "</li>";
+			$html .= PHP_EOL;
+		}
+		return $html;
+	}
+	public function getPageTypeLists_li(){
+		$pageDir = $this->getPageDir();
+
+		// configデータの取得
+		$lists = $this->getPageCategoryLists("type");
+
+		// optionタグの作成
+		$html = "";
+		for($i=0,$c=count($lists); $i<$c; $i++){
+
+			$MYNT_URL = new MYNT_URL;
+			$link_url = $MYNT_URL->getUrl() ."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&pageDir=".$lists[$i]["key"];
 
 			$active = "";
 			if($lists[$i]["key"] === $_REQUEST["status"]){$active = "active";}
 
 			$html .= "<li role='presentation' class='".$active."'>";
-			$html .= "<a class='dropdown-toggle' role='button' aria-haspopup='true' aria-expanded='false' href='".$link_url."'>".$lists[$i]["value"]." (".$this->getPageCount($lists[$i]["key"]).")</a>";
+			$html .= "<a href='".$link_url."'>".$lists[$i]["value"]."</a>";
 			$html .= "</li>";
 			$html .= PHP_EOL;
 		}
@@ -351,16 +408,20 @@ class MYNT_PAGE_LIST{
 	public function viewPageLists($status = ""){
 
 		$pageDir = $this->getPageDir();
+		$pagePath = $this->getPagePath($pageDir);
 
 		$lists = $this->getPageLists($status);
 		$html = "";
 		for($i = 0,$c = count($lists); $i < $c; $i++){
-			$info = $this->getPageInfoFromPath($this->default_dir.$pageDir."/".$lists[$i]);
+			$info   = $this->getPageInfoFromPath($pagePath.$lists[$i]);
+			$title  = ($info["title"])?$info["title"]:$lists[$i];
+			$update = ($info["update"])?$info["update"]:filemtime($pagePath.$lists[$i]);
+
 			$html .= "<tr class='titleList' onclick='location.href=\"?b=system&p=p_pageEdit&file=".$this->getFileName2ID($lists[$i])."&pageDir=".$pageDir."\"'>".PHP_EOL;
 			$html .= "<th style='width:50px;'>".($i+1)."</th>".PHP_EOL;
-			$html .= "<td>".$info["title"]."</td>".PHP_EOL;
+			$html .= "<td>".$title."</td>".PHP_EOL;
 			$html .= "<td>".$this->getKey2Value($GLOBALS["config"]["pageCategoryLists"]["status"] , $info["status"])."</td>".PHP_EOL;
-			$html .= "<td>".$info["update"]."</td>".PHP_EOL;
+			$html .= "<td>".$update."</td>".PHP_EOL;
 			$html .= "<td>".$info["release"]."</td>".PHP_EOL;
 			$html .= "</tr>".PHP_EOL;
 		}
@@ -371,17 +432,18 @@ class MYNT_PAGE_LIST{
 	public function getPageLists($status = ""){
 
 		$pageDir = $this->getPageDir();
-
-		if(!is_dir($this->default_dir.$pageDir)){return array();}
-
-		$lists = scandir($this->default_dir.$pageDir);
+		$pagePath = $this->getPagePath($pageDir);
 
 		$datas = array();
 
+		if(!is_dir($pagePath)){return $datas;}
+
+		$lists = scandir($pagePath);
+
 		for($i=0,$c=count($lists); $i<$c; $i++){
 			if($lists[$i]==="." || $lists[$i]===".."){continue;}
-			if(preg_match("/^(.+?)\.info$/",$lists[$i],$m)){
-				$json = $this->getPageInfoFromPath($this->default_dir.$pageDir."/".$lists[$i]);
+			if(preg_match("/^(.+?)\.html$/",$lists[$i],$m)){
+				$json = $this->getPageInfoFromPath($pagePath.$lists[$i]);
 				if($status !== "" && !isset($json["status"])){continue;}
 				if($status !== "" && $status !== $json["status"]){continue;}
 				$datas[] = $lists[$i];

@@ -19,6 +19,21 @@ class MYNT_PAGE_EDIT{
 		}
 		return $pageDir;
 	}
+	public function getPagePath($pageDir = ""){
+
+		if($pageDir === ""){
+			$pageDir = $this->getPageDir();
+		}
+
+		$path = "";
+		if($pageDir === "system"){
+			$path = "system/html/";
+		}
+		else{
+			$path = "data/page/".$pageDir."/";
+		}
+		return $path;
+	}
 
 	// クエリを判別してページを表示（ない場合はエラーページ）
 	function getSource($type = ""){
@@ -274,6 +289,8 @@ class MYNT_PAGE_EDIT{
 
 		$current_time = time();
 		$pageDir = $this->getPageDir();
+		$pagePath = $this->getPagePath($_REQUEST["type"]);
+
 
 		// file-name
 		if(!isset($_REQUEST["file"]) || !$_REQUEST["file"]){
@@ -307,6 +324,9 @@ class MYNT_PAGE_EDIT{
 		}
 
 		// source-save
+		if(!is_dir($pagePath)){
+			mkdir($pagePath , 0777 , true);
+		}
 		file_put_contents($path_html2 , $_REQUEST["source"]);
 
 		// info-save
