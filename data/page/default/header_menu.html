@@ -6,14 +6,24 @@
 		<span class="icon-bar"></span>
 	</button>
 </div>
+
 <div class="navbar-collapse collapse" id="navbar-main">
 
 	<ul class="nav navbar-nav navbar-right">
 
+		<li>
+			<div class="input-group header-search">
+				<input type='text' id="search" name='search' value="" class='form-control' />
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"><i class='glyphicon glyphicon-search'></i></button>
+				</span>
+			</div>
+		</li>
+
 		<li class="dropdown" style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Account <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
-				<li><a href="<CLASS:URL/getLocalFilename()>?b=system&p=accountEdit">Setting</a></li>
+				<li><a href="<CLASS:URL/getLocalFilename()>?b=system&p=p_accountEdit">Setting</a></li>
 				<li class="divider"></li>
 				<li><a href="javascript:void(0)" onclick="location.href='<CLASS:URL/getLocalFilename()>?mode=logout'">Logout</a></li>
 			</ul>
