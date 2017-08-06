@@ -1,10 +1,11 @@
 {
 	"cache":"",
 
-	"version":"0.0.4",
+	"version":"0.0.6",
 
 	"top"  :"pageList",
 	"title":"MyntStudio",
 	"base":"index",
+	"ArticleListCountMax":"20",
 	"contents_default":"data/page/default/pageList.html"
 }
