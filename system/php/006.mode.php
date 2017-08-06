@@ -27,8 +27,8 @@ class MYNT_MODE{
 		switch($mode){
 			case "logout":
 				if(class_exists(MYNT_PLUGIN_LOGIN)){
-					$MYNT_LOGIN = new MYNT_PLUGIN_LOGIN;
-					$MYNT_LOGIN->checkLogout();
+					$MYNT_PLUGIN_LOGIN = new MYNT_PLUGIN_LOGIN;
+					$MYNT_PLUGIN_LOGIN->checkLogout();
 				}
 				break;
 		}

@@ -36,7 +36,7 @@
 li.post{
 	position:relative;
 	width:200px;
-	height:250px;
+	height:220px;
 	overflow:hidden;
 	border:1px solid #CCC;
 	margin:4px;
@@ -74,6 +74,10 @@ li.post .post-eyecatch img{
 	max-width:100%;
 }
 li.post .post-update{
+	position:absolute;
 	padding:8px;
 	text-align:right;
+	bottom:0;
+	right:0;
+	font-size:10px;
 }

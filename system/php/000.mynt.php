@@ -32,11 +32,12 @@ class MYNT{
 	function loadConfig(){
 		$config = $this->getConfig();
 
-		$MYNT_LOGIN = new MYNT_LOGIN;
-		if(isset($config["cache"]) && $config["cache"] === "system" && $MYNT_LOGIN->checkAuth()){
-			return;
-		}
-		
+		// if(isset($config["cache"])
+		// && $config["cache"] === "system"
+		// && (!isset($_SESSION["login_id"]) || $_SESSION["login_id"]==="")){
+		// 	return;
+		// }
+
 		$GLOBALS["config"] = $config;
 	}
 	function getConfig(){
@@ -68,9 +69,11 @@ class MYNT{
 
 	function loadPlugins($dir = "plugin"){
 
-		if(!isset($GLOBALS["config"]["plugins"]) || !count($GLOBALS["config"]["plugins"])){
+		if(!isset($GLOBALS["config"]["plugin"]) || !isset($GLOBALS["config"]["plugin"]["target"]) || !count($GLOBALS["config"]["plugin"]["target"])){
 			return;
 		}
+
+		$plugins = $GLOBALS["config"]["plugin"]["target"];
 
 		if(!$dir || !is_dir($dir)){
 			$this->viewError("Not found directory [loadPlugins] [ ".$dir." ]");
@@ -80,8 +83,8 @@ class MYNT{
 			$dir .= "/";
 		}
 
-		for($i=0; $i<count($GLOBALS["config"]["plugins"]); $i++){
-			$path = $dir . $GLOBALS["config"]["plugins"][$i] ."/php";
+		for($i=0; $i<count($plugins); $i++){
+			$path = $dir . $plugins[$i] ."/php";
 			// echo $path."<br>".PHP_EOL;
 			if(!is_dir($path)){continue;}
 			$this->loadModulePHPs($path);

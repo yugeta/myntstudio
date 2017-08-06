@@ -23,6 +23,12 @@ $MYNT->loadModulePHPs("design/".$GLOBALS["config"]["design"]["target"]."/php");
 $MYNT_MODE = new MYNT_MODE;
 $MYNT_MODE->checkQuery();
 
+// Auth-check
+if(class_exists(MYNT_PLUGIN_LOGIN)){
+  $MYNT_PLUGIN_LOGIN = new MYNT_PLUGIN_LOGIN;
+  $MYNT_PLUGIN_LOGIN->checkSystemBase();
+}
+
 
 $base = (isset($_REQUEST["b"]) && $_REQUEST["b"]!=="")?$_REQUEST["b"]:$GLOBALS["config"]["page"]["base"];
 

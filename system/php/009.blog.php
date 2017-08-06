@@ -27,7 +27,8 @@ class MYNT_BLOG{
 		$tmpSource = "";
 
 		if($this->blogSource === ""){
-			$tmpPath = "system/html/top_article.html";
+			// $tmpPath = "system/html/top_article.html";
+			$tmpPath = "data/page/default/top_article.html";
 			$tmpSource = file_get_contents($tmpPath);
 		}
 		else{
