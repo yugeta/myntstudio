@@ -36,18 +36,16 @@
     //
     // // それ以外の場合（直接遷移）
     // else{
-    var urlInfo = $$.prototype.urlinfo(location.href);
-    // var base = (typeof(urlInfo.query.b)!=="undefined")?"?b="+urlInfo.query.b:"";
-    // var page = (typeof(urlInfo.query.p)!=="undefined")?"&p="+urlInfo.query.p:"";
-    var base = "b=default";
-    var page = "p=search";
-    var search = "search="+search_input.value;
-    var query = [];
-    if(base!==""){query.push(base)}
-    if(page!==""){query.push(page)}
-    if(search!==""){query.push(search)}
-    var q = (query.length===0)? "" : "?"+query.join("&");
-    location.href = urlInfo.url+q;
+      var urlInfo = $$.prototype.urlinfo(location.href);
+      var base = "b=default";
+      var page = "p=search";
+      var search = "search="+search_input.value;
+      var query = [];
+      if(base!==""){query.push(base)}
+      if(page!==""){query.push(page)}
+      if(search!==""){query.push(search)}
+      var q = (query.length===0)? "" : "?"+query.join("&");
+      location.href = urlInfo.url+q;
     // }
 
   };
