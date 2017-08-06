@@ -30,7 +30,14 @@ class MYNT{
 
 	// Config
 	function loadConfig(){
-		$GLOBALS["config"] = $this->getConfig();
+		$config = $this->getConfig();
+
+		$MYNT_LOGIN = new MYNT_LOGIN;
+		if(isset($config["cache"]) && $config["cache"] === "system" && $MYNT_LOGIN->checkAuth()){
+			return;
+		}
+		
+		$GLOBALS["config"] = $config;
 	}
 	function getConfig(){
 		$dir = "data/config/";

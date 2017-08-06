@@ -1,4 +1,6 @@
 {
+	"cache":"system",
+
 	"type":[
 		{"key":"blog"			, "value":"Blog" 			, "dir":"data/page/blog/"},
 		{"key":"default"	, "value":"Default"		, "dir":"data/page/default/"},
