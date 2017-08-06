@@ -181,7 +181,7 @@
 
 	/**
 	* Ajax
-	* $$.prototype.ajax.set({
+	* $$ajax.prototype.set({
 	* url:"",					// "http://***"
 	* method:"POST",	// POST or GET
 	* async:true,			// true or false

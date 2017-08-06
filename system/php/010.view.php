@@ -36,7 +36,7 @@ class MYNT_VIEW{
 				$path = "system/html/".$page.".html";
 			}
 			else{
-				$path = "data/".$base."/".$page.".html";
+				$path = "data/page/".$base."/".$page.".html";
 			}
 		}
 

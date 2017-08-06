@@ -1,6 +1,6 @@
 <?php
 
-class MYNT_PLUGIN_LOGIN{
+class MYNT_LOGIN{
 	// Authorize
 	function checkAuth(){
 		if(isset($_SESSION["login_id"]) && $_SESSION["login_id"]!==""){

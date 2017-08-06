@@ -55,6 +55,8 @@ class MYNT{
 	}
 
 	function loadModulePHPs($dir){
+		if(!is_dir($dir)){return;}
+
 		if(!preg_match("/\/$/",$dir)){
 			$dir .= "/";
 		}
@@ -85,7 +87,6 @@ class MYNT{
 
 		for($i=0; $i<count($plugins); $i++){
 			$path = $dir . $plugins[$i] ."/php";
-			// echo $path."<br>".PHP_EOL;
 			if(!is_dir($path)){continue;}
 			$this->loadModulePHPs($path);
 		}
