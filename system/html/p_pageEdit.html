@@ -186,7 +186,12 @@
 					<div class="control-group" id="fileNameArea">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-menu-hamburger'></i> Group</label>
 						<div class="controls">
-							<input type='text' id="group" name='group' value="<class:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","group")>" class='form-control' />
+							<!-- <input type='text' id="group" name='group' value="<class:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","group")>" class='form-control' /> -->
+							<select name="group" class="form-control">
+								<option value=""></option>
+								<!-- <!CLASS:MYNT_GROUP/getNamesHtml_option("<GLOBALS:cache/group>")> -->
+								<class:MYNT_PAGE_EDIT/getPageCategoryListsOptions("group")>
+							</select>
 						</div>
 					</div>
 

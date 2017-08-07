@@ -372,8 +372,6 @@ class MYNT_PAGE_EDIT{
 
 		if(!is_file($this->default_dir.$pageDir."/".$fileName.".info")){return;}
 
-
-
 		$json = json_decode(file_get_contents($this->default_dir.$pageDir."/".$fileName.".info"),true);
 
 		if(!isset($json[$key])){return;}
@@ -391,12 +389,21 @@ class MYNT_PAGE_EDIT{
 		if(isset($GLOBALS["config"]["pageCategoryLists"][$key])){
 			return $GLOBALS["config"]["pageCategoryLists"][$key];
 		}
+		else if($key === "group"){
+
+		}
 		else{
 			return array();
 		}
 	}
 	public function getPageCategoryListsOptions($key=""){
 		if($key===""){return "";}
+
+		if($key === "group"){
+			$MYNT_GROUP = new MYNT_GROUP;
+			$val = $this->getPageInfoString($_REQUEST["file"],$key);
+			return $MYNT_GROUP->getNamesHtml_option($val);
+		}
 
 		// configデータの取得
 		$lists = $this->getPageCategoryLists($key);
@@ -547,6 +554,13 @@ class MYNT_PAGE_EDIT{
 		return join(".",$sp1);
 	}
 
-
+	// public function setCacheEntryData($fileName){
+	//
+	// 	$pageDir = $this->getPageDir();
+	//
+	// 	if(!is_file($this->default_dir.$pageDir."/".$fileName.".info")){return;}
+	//
+	// 	$GLOBALS["cache"] = json_decode(file_get_contents($this->default_dir.$pageDir."/".$fileName.".info"),true);
+	// }
 
 }

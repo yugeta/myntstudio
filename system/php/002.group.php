@@ -37,12 +37,13 @@ class MYNT_GROUP{
 		return $data;
 	}
 
-	public function getNamesHtml_option($arrtibute="",$class="",$style=""){
+	public function getNamesHtml_option($value="",$arrtibute="",$class="",$style=""){
 		$group = $this->getLists();
 		if(!count($group)){return;}
 		$html = "";
 		for($i=0,$c=count($group); $i<$c; $i++){
-			$html .= "<option value='".$group[$i]["key"]."' ".$arrtibute." class='".$class."' style='".$style."'>";
+			$selected = ($value == $group[$i]["id"])?"selected":"";
+			$html .= "<option value='".$group[$i]["id"]."' ".$arrtibute." class='".$class."' style='".$style."' ".$selected.">";
 			$html .= $group[$i]["name"];
 			$html .= "</option>";
 			$html .= PHP_EOL;
