@@ -24,7 +24,8 @@ class MYNT_SOURCE{
 	public static function pattern($source){
 
 		$source = self::pattern1($source);
-		$source = self::pattern2($source);
+		$source = self::pattern2($source); //function , class , proc
+		$source = self::pattern_method($source);
 		$source = self::pattern3($source);
 		// $source = self::pattern_variable($source);
 		// $source = self::pattern_echo($source);
@@ -36,7 +37,7 @@ class MYNT_SOURCE{
 	public static function pattern1($source){
 
 		$keys    = array("post","get","request","globals","define","session","server");
-		$ptn = '<('.join('|',$keys).')\:(.+?)>';
+		$ptn = '<<('.join('|',$keys).')\:(.+?)>>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
 		if(!count($match[1])){
@@ -54,7 +55,7 @@ class MYNT_SOURCE{
 	public static function pattern2($source){
 
 		$keys = array("class","function","proc");
-		$ptn = '<('.join('|',$keys).')\:(.+?)\((.*?)\)>';
+		$ptn = '<<('.join('|',$keys).')\:(.+?)\((.*?)\)>>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
 		if(count($match[1])){
@@ -64,23 +65,25 @@ class MYNT_SOURCE{
 				$source = str_replace($match[0][$i],$res,$source);
 			}
 		}
-		// else{
-		// 	$ptn = '<class\:(.+)\/(.+)>';
-		// 	preg_match_all("/".$ptn."/is" , $source  , $match2);
-		// 	if(count($match2[1])){echo $match2[1][0];
-		// 		for($i=0, $c=count($match2[1]); $i<$c; $i++){echo $match2[2][$i];
-		// 			$cls = new $match2[1][$i];
-		// 			$source = call_user_func_array(array($cls , $match2[2][$i]));
-		// 		}
-		// 	}
-		// }
+		return $source;
+	}
+	public static function pattern_method($source){
+		$ptn = '<<METHOD\:(.+?)\:\:(.+?)\((.*?)\)>>';
+		preg_match_all("/".$ptn."/is" , $source  , $match);
 
+		if(count($match[1])){
+			for($i=0, $c=count($match[1]); $i<$c; $i++){
+				if($match[0][$i]===""){continue;}
+				$res = self::getMethod($match[1][$i],$match[2][$i],$match[3][$i]);
+				$source = str_replace($match[0][$i],$res,$source);
+			}
+		}
 		return $source;
 	}
 	public static function pattern3($source){
 
 		$keys = array("eval","file");
-		$ptn = '<('.join('|',$keys).')\:\"(.+?)\">';
+		$ptn = '<<('.join('|',$keys).')\:\"(.+?)\">>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
 		if(!count($match[1])){
@@ -99,7 +102,7 @@ class MYNT_SOURCE{
 
 	public static function pattern_if($source){
 
-		$ptn = '<if\((.+?)\)>(.+?)<if\-end>';
+		$ptn = '<<if\((.+?)\)>>(.+?)<<\/if>>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
 		if(!count($match[1])){
@@ -113,7 +116,7 @@ class MYNT_SOURCE{
 			$val_else = "";
 			$val_then = $match[2][$i];
 
-			$ptn_else = '(.*)<else>(.*)';
+			$ptn_else = '(.*)<<else>>(.*)';
 			preg_match_all("/".$ptn_else."/is" , $val_then , $match_else);
 
 			if(count($match_else[0])){
@@ -122,7 +125,7 @@ class MYNT_SOURCE{
 			}
 
 			// if-else
-			if(!preg_match("/<elif\(.+?\)>/",$val_then)){
+			if(!preg_match("/<<elif\(.+?\)>>/",$val_then)){
 				$evalStr = "if(".$match[1][$i]."){return '".$val_then."';}";
 				if($val_else !== ""){
 					$evalStr .= "else{return '".$val_else."';}";
@@ -132,7 +135,7 @@ class MYNT_SOURCE{
 
 			// if-elseif-else
 			else{
-				$ptn2 = '<elif\((.+?)\)>';
+				$ptn2 = '<<elif\((.+?)\)>>';
 				$str = $val_then;
 				$str = str_replace("\n","",$str);
 				$str = str_replace("\r","",$str);
@@ -140,9 +143,9 @@ class MYNT_SOURCE{
 
 				$elif = "";
 				for($j=0; $j<count($elifs[0]); $j++){
-					$elif .= "<elif\(.+?\)>(.+?)";
+					$elif .= "<<elif\(.+?\)>>(.+?)";
 				}
-				$ptn3 = '<if\(.+?\)>(.+?)'.$elif.'<else>.+?<if\-end>';
+				$ptn3 = '<<if\(.+?\)>>(.+?)'.$elif.'<<else>>.+?<<\/if>>';
 				preg_match_all("/".$ptn3."/is" , $match[0][$i]  , $elifs2);
 
 				$evalStr = "if(".$match[1][$i]."){return '".$elifs2[1][0]."';}";
@@ -163,7 +166,7 @@ class MYNT_SOURCE{
 
 		//
 		// $ptn = '<if\((.+?)\)>(.+?)<else>(.+?)<if\-end>';
-		$ptn = '<if\((.+?)\)>(.+?)<if\-end>';
+		$ptn = '<<if\((.+?)\)>>(.+?)<<\/if>>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
 		if(!count($match[1])){
@@ -177,7 +180,7 @@ class MYNT_SOURCE{
 			$val_else = "";
 			$val_then = $match[2][$i];
 
-			$ptn_else = '(.*)<else>(.*)';
+			$ptn_else = '(.*)<<else>>(.*)';
 			preg_match_all("/".$ptn_else."/is" , $val_then , $match_else);
 
 			if(count($match_else[0])){
@@ -186,7 +189,7 @@ class MYNT_SOURCE{
 			}
 
 			// if-else
-			if(!preg_match("/<elif\(.+?\)>/",$val_then)){
+			if(!preg_match("/<<elif\(.+?\)>>/",$val_then)){
 				$evalStr = "if(".$match[1][$i]."){return '".$val_then."';}";
 				if($val_else !== ""){
 					$evalStr .= "else{return '".$val_else."';}";
@@ -196,7 +199,7 @@ class MYNT_SOURCE{
 
 			// if-elseif-else
 			else{
-				$ptn2 = '<elif\((.+?)\)>';
+				$ptn2 = '<<elif\((.+?)\)>>';
 				$str = $val_then;
 				$str = str_replace("\n","",$str);
 				$str = str_replace("\r","",$str);
@@ -204,9 +207,9 @@ class MYNT_SOURCE{
 
 				$elif = "";
 				for($j=0; $j<count($elifs[0]); $j++){
-					$elif .= "<elif\(.+?\)>(.+?)";
+					$elif .= "<<elif\(.+?\)>>(.+?)";
 				}
-				$ptn3 = '<if\(.+?\)>(.+?)'.$elif.'<else>.+?<if\-end>';
+				$ptn3 = '<<if\(.+?\)>>(.+?)'.$elif.'<<else>>.+?<<\/if>>';
 				preg_match_all("/".$ptn3."/is" , $match[0][$i]  , $elifs2);
 
 				$evalStr = "if(".$match[1][$i]."){return '".$elifs2[1][0]."';}";
@@ -224,7 +227,7 @@ class MYNT_SOURCE{
 	}
 
 	public static function pattern_for($source){
-		$ptn = '<for\((.*?)\.\.(.*?)\)>(.+?)<for\-end>';
+		$ptn = '<<for\((.*?)\.\.(.*?)\)>>(.+?)<<\/for>>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
 		if(!count($match[1])){
@@ -360,8 +363,21 @@ class MYNT_SOURCE{
 
     if(!method_exists($data[0],$data[1])){return;}
 
-		return call_user_func_array($data[0]."::".$data[1] , array("test"));
+		return call_user_func_array($data[0]."::".$data[1] , $query);
   }
+
+	public static function getMethod($cls,$func,$vals=""){
+		$res = "";
+		if(class_exists($cls) && method_exists($cls, $func)){
+			$querys = ($vals==="")? array() : explode(",",$vals);
+			for($i=0,$c=count($querys); $i<$c; $i++){
+				$querys[$i] = str_replace('"','',$querys[$i]);
+				$querys[$i] = str_replace("'","",$querys[$i]);
+			}
+			$res = call_user_func_array($cls."::".$func , $querys);
+		}
+		return $res;
+	}
 
 	public static function getProcs_function($func,$val){
     if(!function_exists($func)){return "";}

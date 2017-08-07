@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="system/css/pageLists.css?<PROC:MYNT/currentTime()>">
+<link rel="stylesheet" href="system/css/pageLists.css?<<METHOD:MYNT::currentTime()>>">
 
 <div class='container'>
 	<div class='row'>
@@ -16,17 +16,17 @@
 <ul class="nav nav-tabs">
 
 	<li role="presentation">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Type: <PROC:MYNT_PAGE_LIST/getPageDirName(<request:pageDir>)> <span class="caret"></span> </a>
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Type: <<METHOD:MYNT_PAGE_LIST::getPageDirName(<<request:pageDir>>)>> <span class="caret"></span> </a>
 		<ul class="dropdown-menu pageListTypeList">
-			<PROC:MYNT_PAGE_LIST/getPageTypeLists_li()>
+			<<METHOD:MYNT_PAGE_LIST::getPageTypeLists_li()>>
 		</ul>
 	</li>
 
-	<li role="presentation" class="<if('<request:status>'==='')>active<if-end>">
-		<a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" href="<PROC:MYNT_URL:getUrl()>?b=<request:b>&p=<request:p>&pageDir=<REQUEST:pageDir>">ALL (<PROC:MYNT_PAGE_LIST/getPageCount()>)</a>
+	<li role="presentation" class="<<if('<request:status>'==='')>>active<</if>>">
+		<a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" href="<<MYNT_URL::getUrl()>>?b=<<request:b>>&p=<<request:p>>&pageDir=<<REQUEST:pageDir>>">ALL (<<METHOD:MYNT_PAGE_LIST::getPageCount()>>)</a>
 	</li>
 
-	<PROC:MYNT_PAGE_LIST/getPageCategoryLists_li("status")>
+	<<METHOD:MYNT_PAGE_LIST::getPageCategoryLists_li("status")>>
 
 </ul>
 
@@ -44,7 +44,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<PROC:MYNT_PAGE_LIST/viewPageLists(<request:status>)>
+				<<METHOD:MYNT_PAGE_LIST::viewPageLists(<<request:status>>)>>
 			</tbody>
 		</table>
 	</div>

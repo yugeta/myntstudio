@@ -1,5 +1,5 @@
 <div class="navbar-header">
-	<a href="<PROC:MYNT_URL/getDir()>" class="navbar-brand"><GLOBALS:config/page/title></a>
+	<a href="<<METHOD:MYNT_URL::getDir()>>" class="navbar-brand"><<GLOBALS:config/page/title>></a>
 	<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
@@ -15,7 +15,7 @@
 			<!-- <form method="post"> -->
 				<div class="input-group header-search">
 					<!-- <input type="hidden" name="method" value="MYNT_SEARCH/article_search_li"> -->
-					<input type='text' id="search_input" name='search' value="<REQUEST:search>" class='form-control' />
+					<input type='text' id="search_input" name='search' value="<<REQUEST:search>>" class='form-control' />
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="button" id="search_button"><i class='glyphicon glyphicon-search'></i></button>
 					</span>
@@ -23,7 +23,7 @@
 			<!-- </form> -->
 		</li>
 
-		<li class="dropdown" style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
+		<li class="dropdown" style="display:<<if("<<SESSION:login_id>>")>>inline<<else>>none<</if>>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Account <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
 				<li><a href="<PROC:URL/getLocalFilename()>?system=p_accountEdit">Setting</a></li>
@@ -32,8 +32,8 @@
 			</ul>
 		</li>
 
-		<li style="display:<if("<SESSION:login_id>")>none<else>inline<if-end>;">
-			<a href="<PROC:MYNT_VIEW/root()>?system=login">Login</a>
+		<li style="display:<<if("<<SESSION:login_id>>")>>none<<else>>inline<</if>>;">
+			<a href="<<METHOD:MYNT_VIEW::root()>>?system=login">Login</a>
 		</li>
 
 	</ul>

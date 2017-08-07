@@ -1,12 +1,12 @@
-<link rel="stylesheet" href="<PROC:MYNT_URL/getSystemRoot()>css/picture.css">
+<link rel="stylesheet" href="<<METHOD:MYNT_URL::getSystemRoot()>>css/picture.css">
 <iframe id='img_upload_iframe' style="display:none;"></iframe>
 
 <div class="ImageDialog-area">
 
 	<div class="dialogHeader">
-		<input type="hidden" id="eyecatch_mode" value="<request:mode>" />
-		<input type="hidden" id="eyecatch_file" value="<request:selectImage>" />
-		<div class="image-pickup-dialog-title"><if("<request:mode>"==="eyecatch")>Eye-Catch<else>Image-Tag<if-end></div>
+		<input type="hidden" id="eyecatch_mode" value="<<request:mode>>" />
+		<input type="hidden" id="eyecatch_file" value="<<request:selectImage>>" />
+		<div class="image-pickup-dialog-title"><<if("<<request:mode>>"==="eyecatch")>>Eye-Catch<<else>>Image-Tag<</if>></div>
 		<div class="image-pickup-dialog-close"><i class="glyphicon glyphicon-remove-circle" id="closeDialog"></i></div>
 	</div>
 
@@ -53,4 +53,4 @@
 
 </div>
 
-<!-- <script src="system/js/picture.js?<PROC:MYNT/currentTime()>"></script> -->
+<!-- <script src="system/js/picture.js?<<MYNT::currentTime()>>"></script> -->

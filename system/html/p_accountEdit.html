@@ -1,4 +1,4 @@
-<if(!"<PROC:MYNT_PLUGIN_LOGIN/checkAuth()>")><!class:MYNT_URL/setURL("?html=login")><if-end>
+<if(!"<<MYNT_PLUGIN_LOGIN::checkAuth()>>")><!class:MYNT_URL/setURL("?html=login")><if-end>
 
 
 <div class='container'>
@@ -21,7 +21,7 @@
 				<div class='account_image' id='account_image'>
 					<div class='account_image_default'><i class='glyphicon glyphicon-user'></i></div>
 				</div>
-				<iframe class='account_upload' id='account_upload' src='<PROC:URL/getURL>?p=account_image_upload'></iframe>
+				<iframe class='account_upload' id='account_upload' src='<<MYNT_URL::getURL>>?p=account_image_upload'></iframe>
 			</div>
 		</div>
 

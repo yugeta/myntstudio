@@ -16,8 +16,7 @@ MYNT::loadPHPs("system/php");
 MYNT::loadConfig();
 
 // Session-Start
-session_name($GLOBALS["config"]["define"]["session_name"]);
-session_start();
+MYNT::startSession();
 
 // Load-PHP-Plugins-module
 MYNT::loadPlugins();
@@ -26,13 +25,10 @@ MYNT::loadPlugins();
 MYNT::loadPHPs("design/".$GLOBALS["config"]["design"]["target"]."/php");
 
 // Check-Query (system-process)
-MYNT::checkQuery();
+MYNT::checkMethod();
 
 // Check-Auth
-if(class_exists("MYNT_PLUGIN_LOGIN")){
-  $MYNT_PLUGIN_LOGIN = new MYNT_PLUGIN_LOGIN;
-  $MYNT_PLUGIN_LOGIN->checkSystemBase();
-}
+MYNT_PLUGIN_LOGIN::checkSystemBase();
 
 // Load-HTML-Default-source
 MYNT::viewDesign();
@@ -43,9 +39,7 @@ MYNT::viewDesign();
 
 
 class MYNT{
-public static function test($a="test"){
-  return $a."/-----";
-}
+
 	// Load-PHP-Module
 	public static function loadPHPs($dir=""){
 
@@ -73,6 +67,12 @@ public static function test($a="test"){
 		// plugin-config
 		$GLOBALS["plugin"] = self::getPluginConfig("plugin/");
 	}
+
+  // Start-Session
+  public static function startSession(){
+    session_name($GLOBALS["config"]["define"]["session_name"]);
+    session_start();
+  }
 
   // Load-System-Configs [data/config]
   public static function getSystemConfig($dir){
@@ -109,7 +109,7 @@ public static function test($a="test"){
 
     // Check-Directory-exists
 		if(!$dir || !is_dir($dir)){
-			$this->viewError("Not found directory [loadPlugins] [ ".$dir." ]");
+			self::viewError("Not found directory [loadPlugins] [ ".$dir." ]");
 		}
 
     // Check-Directory-last-string
@@ -134,10 +134,10 @@ public static function test($a="test"){
 		exit();
 	}
 
-  // View-Base
+  // View-Base (query-check -> get-base)
 	public static function viewDesign($base=""){
 		if($base === ""){
-			$base = self::getBaseFile();
+			$base = self::getBase();
 		}
 
 		$default_design = $GLOBALS["config"]["design"]["target"];
@@ -153,7 +153,7 @@ public static function test($a="test"){
 	}
 
   // get-base-file-name
-  public static function getBaseFile(){
+  public static function getBase(){
 
 		$base = $GLOBALS["config"]["page"]["base"];
 		$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
@@ -183,13 +183,12 @@ public static function test($a="test"){
 	* 1. ? blog=** / default=** / system=** / etc=**
 	* 2. ?b=**&p=** (data/page/base/page.html)
 	*/
-	public function getContents(){
+	public function viewContents(){
 		$path = $GLOBALS["config"]["page"]["contents_default"];
 		//
 		for($i=0,$c=count($GLOBALS["config"]["pageCategoryLists"]["type"]); $i<$c; $i++){
 			$key = $GLOBALS["config"]["pageCategoryLists"]["type"][$i]["key"];
 			$dir = $GLOBALS["config"]["pageCategoryLists"]["type"][$i]["dir"];
-			// $baseFile = $GLOBALS["config"]["pageCategoryLists"]["type"][$i]["baseFile"];
 			if(isset($_REQUEST[$key]) && $key
 			&& is_file($dir.$_REQUEST[$key].".html")){
 				// return $dir.$_REQUEST[$key].".html";
@@ -199,6 +198,11 @@ public static function test($a="test"){
 		}
 		return self::getSource();
 	}
+
+  // query -> getContents-path
+  public function getContents(){
+
+  }
 
   public function getSource($base="" , $page=""){
 
@@ -251,8 +255,18 @@ public static function test($a="test"){
 
   // Check-Mode ------
 
-  // Check Query
-	public function checkQuery(){
+  // // Check Query -> set config data($GLOBALS["set"])
+  // public static function checkQuery(){
+  //   $GLOBALS["set"] = array();
+  //
+  //   // getTemplate
+  //   $GLOBALS["set"]["base"] = self::getBase();
+  //
+  //   //
+  // }
+
+  // Check Method
+	public function checkMethod(){
 
 		// method [ class / function ] *POST only
 		if(isset($_POST["method"]) && count(explode("/",$_POST["method"])) === 2){
@@ -265,7 +279,7 @@ public static function test($a="test"){
 
 		// mode
 		else if(isset($_REQUEST["mode"]) && $_REQUEST["mode"]){
-			$this->checkMode($_REQUEST["mode"]);
+			self::checkMode($_REQUEST["mode"]);
 		}
 	}
 
@@ -274,8 +288,8 @@ public static function test($a="test"){
 		switch($mode){
 			case "logout":
 				if(class_exists(MYNT_PLUGIN_LOGIN)){
-					$MYNT_PLUGIN_LOGIN = new MYNT_PLUGIN_LOGIN;
-					$MYNT_PLUGIN_LOGIN->checkLogout();
+					// $MYNT_PLUGIN_LOGIN = new MYNT_PLUGIN_LOGIN;
+					MYNT_PLUGIN_LOGIN::checkLogout();
 				}
 				break;
 		}
@@ -335,9 +349,11 @@ public static function test($a="test"){
 	// 	return "design/".$GLOBALS["config"]["design"]["target"]."/";
 	// }
   //
-	// function currentTime(){
-	// 	return date("YmdHis");
-	// }
+
+  // browser-cache-guard
+	function currentTime(){
+		return date("YmdHis");
+	}
 
 
 }

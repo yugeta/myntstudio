@@ -1,10 +1,10 @@
-<link rel="stylesheet" href="<PROC:MYNT_URL/getSystemRoot()>css/pageEdit.css?<PROC:MYNT/currentTime()>">
+<link rel="stylesheet" href="<<METHOD:MYNT_URL::getSystemRoot()>>css/pageEdit.css?<<METHOD:MYNT::currentTime()>>">
 
 <div class='container'>
 
 	<div class='row'>
 		<div class='col-sm-12'>
-			<p style="font-size:20px;margin:0;"><a href='<PROC:MYNT_URL/getUrl()>?b=<request:b>&p=p_pageLists&pageDir=<request:pageDir>'><i class='glyphicon glyphicon-arrow-left'></i> Page Lists</a></p>
+			<p style="font-size:20px;margin:0;"><a href='<<METHOD:MYNT_URL::getUrl()>>?b=<<request:b>>&p=p_pageLists&pageDir=<<request:pageDir>>'><i class='glyphicon glyphicon-arrow-left'></i> Page Lists</a></p>
 		</div>
 	</div>
 
@@ -17,12 +17,12 @@
 	</div>
 </div>
 
-<form name='form1' method='post' class="form-horizontal" action="<PROC:MYNT_URL/getUrl()>">
+<form name='form1' method='post' class="form-horizontal" action="<<METHOD:MYNT_URL::getUrl()>>">
 	<input type='hidden' name='method' value='MYNT_PAGE_EDIT/setSystemPage' />
-	<input type="hidden" name="b" value="<REQUEST:b>">
-	<input type="hidden" name="p" value="<REQUEST:p>">
-	<input type="hidden" name="pageDir" value="<REQUEST:pageDir>">
-	<input type="hidden" name="file" value="<REQUEST:file>">
+	<input type="hidden" name="b" value="<<REQUEST:b>>">
+	<input type="hidden" name="p" value="<<REQUEST:p>>">
+	<input type="hidden" name="pageDir" value="<<REQUEST:pageDir>>">
+	<input type="hidden" name="file" value="<<REQUEST:file>>">
 
 	<div class='container'>
 		<div class='row'>
@@ -33,7 +33,7 @@
 					<div class="control-group">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-text-width'></i> Title</label>
 						<div class="controls">
-							<input type='text' id="title" name='title' value='<PROC:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","title")>' class='form-control'/>
+							<input type='text' id="title" name='title' value='<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","title")>>' class='form-control'/>
 						</div>
 					</div>
 
@@ -42,8 +42,8 @@
 						<div class="controls">
 							<button type="button" class="btn btn-default eyecatch-pickup-cutton" id="eyecatch_add">Pickup Eye-catch</button>
 							<button type="button" class="btn btn-default eyecatch-pickup-cutton" id="eyecatch_del">Remove Eye-catch</button>
-							<div id="eyecatch"><img class='eycatch_img' src='<PROC:MYNT_PICTURE/getEyecatchFilePath(<request:file>)>'></div>
-							<input type="hidden" name="eyecatch" value="<PROC:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","eyecatch")>">
+							<div id="eyecatch"><img class='eycatch_img' src='<<METHOD:MYNT_PICTURE::getEyecatchFilePath(<<request:file>>)>>'></div>
+							<input type="hidden" name="eyecatch" value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","eyecatch")>>">
 						</div>
 					</div>
 
@@ -123,7 +123,7 @@
 					<div class="control-group">
 						<label class="control-label" for="source"><i class='glyphicon glyphicon-edit'></i> Source</label>
 						<div class="controls">
-							<textarea style="min-height:300px;" id="source" name='source' class='form-control' /><PROC:MYNT_PAGE_EDIT/getFile("data/page/<REQUEST:pageDir>/<REQUEST:file>.html")></textarea>
+							<textarea style="min-height:300px;" id="source" name='source' class='form-control' /><<METHOD:MYNT_PAGE_EDIT::getFile("data/page/<<REQUEST:pageDir>>/<<REQUEST:file>>.html")>></textarea>
 						</div>
 					</div>
 
@@ -144,7 +144,7 @@
 					<div class="control-group" id="fileNameArea">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-search'></i> Search</label>
 						<div class="controls">
-							<input type='text' id="group" name='group' value="<request:search>" class='form-control' />
+							<input type='text' id="group" name='group' value="<<request:search>>" class='form-control' />
 						</div>
 					</div>
 
@@ -153,7 +153,7 @@
 						<div class="controls">
 							<select id="fileName" name="fileName" class='form-control'/>
 							<option value="" selected>+ new file</option>
-							<PROC:MYNT_PAGE_EDIT/getFileListsOptions()>
+							<<METHOD:MYNT_PAGE_EDIT::getFileListsOptions()>>
 							</select>
 						</div>
 					</div>
@@ -162,7 +162,7 @@
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-text-size'></i> Type</label>
 						<div class="controls">
 							<select id="type" name="type" class='form-control'/>
-								<PROC:MYNT_PAGE_EDIT/getPageCategoryListsOptions("type")>
+								<<METHOD:MYNT_PAGE_EDIT::getPageCategoryListsOptions("type")>>
 							</select>
 						</div>
 					</div>
@@ -171,7 +171,7 @@
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-sort-by-attributes'></i> Status</label>
 						<div class="controls">
 							<select id="status" name="status" class='form-control'/>
-								<PROC:MYNT_PAGE_EDIT/getPageCategoryListsOptions("status")>
+								<<METHOD:MYNT_PAGE_EDIT::getPageCategoryListsOptions("status")>>
 							</select>
 						</div>
 					</div>
@@ -179,18 +179,18 @@
 					<div class="control-group">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-time'></i> Schedule</label>
 						<div class="controls">
-							<input class='form-control' type='datetime-local' id='schedule' name='schedule' value="<PROC:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","schedule")>" />
+							<input class='form-control' type='datetime-local' id='schedule' name='schedule' value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","schedule")>>" />
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-menu-hamburger'></i> Group</label>
 						<div class="controls">
-							<!-- <input type='text' id="group" name='group' value="<PROC:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","group")>" class='form-control' /> -->
+							<!-- <input type='text' id="group" name='group' value="<<MYNT_PAGE_EDIT/getPageInfoString("<request:file>","group")>>" class='form-control' /> -->
 							<select name="group" class="form-control">
 								<option value=""></option>
 								<!-- <!CLASS:MYNT_GROUP/getNamesHtml_option("<GLOBALS:cache/group>")> -->
-								<PROC:MYNT_PAGE_EDIT/getPageCategoryListsOptions("group")>
+								<<METHOD:MYNT_PAGE_EDIT::getPageCategoryListsOptions("group")>>
 							</select>
 						</div>
 					</div>
@@ -198,14 +198,14 @@
 					<div class="control-group" id="fileNameArea">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-duplicate'></i> Category</label>
 						<div class="controls">
-							<input type='text' id="category" name='category' value="<PROC:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","category")>" class='form-control' />
+							<input type='text' id="category" name='category' value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","category")>>" class='form-control' />
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-tags'></i> Tag</label>
 						<div class="controls">
-							<input type='text' id="tag" name='tag' value="<PROC:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","tag")>" class='form-control' />
+							<input type='text' id="tag" name='tag' value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","tag")>>" class='form-control' />
 						</div>
 					</div>
 
@@ -213,9 +213,9 @@
 						<label class="control-label" for="source"><i class='glyphicon glyphicon-info-sign'></i> Infomation</label>
 						<div class="panel panel-default">
 							<div class="panel-body">
-								<i class='glyphicon glyphicon-open-file'></i> file   : <if("<request:file>")> <request:file>.html<if-end><br>
-								<i class='glyphicon glyphicon-glass'></i> Regist : <PROC:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","regist")><br>
-								<i class='glyphicon glyphicon-time'></i> Update : <PROC:MYNT_PAGE_EDIT/getPageInfoString("<request:file>","update")><br>
+								<i class='glyphicon glyphicon-open-file'></i> file   : <<if("<request:file>")>> <<request:file>>.html<</if>><br>
+								<i class='glyphicon glyphicon-glass'></i> Regist : <<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","regist")>><br>
+								<i class='glyphicon glyphicon-time'></i> Update : <<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","update")>><br>
 							</div>
 						</div>
 					</div>
@@ -227,4 +227,4 @@
 
 </form>
 
-<script src="system/js/pageEdit.js?<PROC:MYNT/currentTime()>"></script>
+<script src="system/js/pageEdit.js?<<METHOD:MYNT::currentTime()>>"></script>
