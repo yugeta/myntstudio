@@ -13,7 +13,7 @@ class MYNT_PLUGIN_MENU{
 		$html = "";
 		for($i=0,$c=count($lists); $i<$c; $i++){
 			if(!is_file($lists[$i]["file"])){continue;}
-			$html.= $MYNT_VIEW->conv(file_get_contents($lists[$i]["file"]));
+			$html.= "<div class='mynt-menu'>".$MYNT_VIEW->conv(file_get_contents($lists[$i]["file"]))."</div>".PHP_EOL;
 		}
 		return $html;
 	}
