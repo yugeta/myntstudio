@@ -413,8 +413,9 @@ class MYNT_PAGE_LIST{
 		$lists = $this->getPageLists($status);
 		$html = "";
 		for($i = 0,$c = count($lists); $i < $c; $i++){
-			$info   = $this->getPageInfoFromPath($pagePath.$lists[$i]);
-			$title  = ($info["title"])?$info["title"]:$lists[$i];
+			$infoFile = str_replace(".html",".info",$pagePath.$lists[$i]);
+			$info   = $this->getPageInfoFromPath($infoFile);
+			$title  = (isset($info["title"]))?$info["title"] : "<b class='string-blue'>File:</b> ".$lists[$i];
 			$update = ($info["update"])?$info["update"]:filemtime($pagePath.$lists[$i]);
 
 			$html .= "<tr class='titleList' onclick='location.href=\"?b=system&p=p_pageEdit&file=".$this->getFileName2ID($lists[$i])."&pageDir=".$pageDir."\"'>".PHP_EOL;
