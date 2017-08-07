@@ -2,7 +2,7 @@
 
 class MYNT_BLOG{
 
-	public static $default_article_dir = "data/page/blog/";
+	public static $default_blog_dir = "data/page/blog/";
 	public static $blogSource = "";
 
 	// all article page lists for top-page
@@ -14,7 +14,7 @@ class MYNT_BLOG{
 
 		$html = "";
 		for($i=0,$c=count($lists); $i<$c; $i++){
-			$json = self::getPageInfoFromPath(self::$default_article_dir.$lists[$i]);
+			$json = self::getPageInfoFromPath(self::$default_blog_dir.$lists[$i]);
 			$html .= self::setBlogSourceReplace($tmpSource, $json);
 		}
 		// $MYNT_VIEW = new MYNT_VIEW;
@@ -69,9 +69,31 @@ class MYNT_BLOG{
 	public static function getPageEyecatch_img($page_id){
 
 	}
-	public static function getPageTitle($page_id){
 
+	public static function getPageInfo($page_id){
+		$path = "data/page/blog/".$page_id;
+		if(!is_file($path.".info")){return;}
+
+		return json_decode(file_get_contents($path.".info"),true);
 	}
+
+	public static function getPageTitle($page_id){
+		$info = self::getPageInfo($page_id);
+
+		if(!isset($info["title"])){return "";}
+
+		// $MYNT_SOURCE = new MYNT_SOURCE;
+		return MYNT::conv($info["title"]);
+	}
+	public static function getPageSource($page_id){
+		$path = "data/page/blog/".$page_id.".html";
+		if(!is_file($path)){return;}
+
+		// $MYNT_SOURCE = new MYNT_SOURCE;
+		return MYNT::conv(file_get_contents($path));
+	}
+
+
 	public static function getPageDiscription($page_id){
 
 	}
@@ -88,9 +110,9 @@ class MYNT_BLOG{
 
 	//
 	public static function getArticleLists($status = "release"){
-		if(!is_dir(self::$default_article_dir)){return array();}
+		if(!is_dir(self::$default_blog_dir)){return array();}
 
-		$lists = scandir(self::$default_article_dir);
+		$lists = scandir(self::$default_blog_dir);
 
 		$datas = array();
 
@@ -100,7 +122,7 @@ class MYNT_BLOG{
 
 			if(preg_match("/^(.+?)\.info$/",$lists[$i],$m)){
 
-				$json = self::getPageInfoFromPath(self::$default_article_dir.$lists[$i]);
+				$json = self::getPageInfoFromPath(self::$default_blog_dir.$lists[$i]);
 
 				if($status !== "" && !isset($json["status"])){continue;}
 				if($status !== "" && $status !== $json["status"]){continue;}

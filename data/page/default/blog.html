@@ -1,10 +1,5 @@
-
-<div class='row'>
-	<div class='base-default base-color-green'>
-		<h1><<METHOD:MYNT_URL::getPageInfoString("<<request:p>>","title")>></h1>
-	</div>
-</div>
-
-<div class='row'>
-	<<METHOD:MYNT_SOURCE::viewFile("data/page/<<request:p>>.html")>>
+<h1><<METHOD:MYNT_BLOG::getPageTitle(<<REQUEST:blog>>)>></h1>
+<div class="eyecatch"></div>
+<div class="blog-source">
+<<METHOD:MYNT_BLOG::getPageSource(<<REQUEST:blog>>)>>
 </div>

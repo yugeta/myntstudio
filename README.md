@@ -344,3 +344,22 @@ index.html
 ・記事の特定の箇所にガジェット表示（ヘッダ、コンテンツ上部、コンテンツ下部、左右メニュー任意箇所、フッタ上部）
 ・PHPの関数ライブラリ
 ・管理画面の機能追加
+
+
+## URL-pattern
+
+- top -> blog-list (default/html/index.html -> data/page/default/pageList.html | index.html)
+http://myntstudio.mynt.site/
+
+- blog -> article (default/html/blog.html -> data/page/blog/001.html)
+http://myntstudio.mynt.site/?blog=001
+
+- privacy (default/html/index.html -> data/page/default/privacy.html)
+http://myntstudio.mynt.site/?default=privacy
+
+- system
+http://myntstudio.mynt.site/?system=001
+http://myntstudio.mynt.site/system.php?p=001
+
+- Other
+http://myntstudio.mynt.site/?p=001

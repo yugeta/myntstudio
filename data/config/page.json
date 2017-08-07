@@ -1,9 +1,9 @@
 {
 	"cache"   : "",
 
-	"version" : "0.0.6",
+	"version" : "0.0.7",
 
-	"top"     :  "pageList",
+	"top"     : "pageList",
 	"title"   : "MyntStudio",
 	"base"    : "index.html",
 	"ArticleListCountMax" : "20",

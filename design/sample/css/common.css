@@ -25,3 +25,11 @@ body {
 	margin:4px 8px;
 	padding:0;
 }
+
+/*blog*/
+.blog-source{
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	white-space: pre-wrap;
+}
