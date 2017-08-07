@@ -192,6 +192,7 @@ class MYNT{
 
 			$key  = $GLOBALS["config"]["pageCategoryLists"]["type"][$i]["key"];
 			if(!isset($_REQUEST[$key])){continue;}
+			if($key === "default" && $_REQUEST[$key] === "default"){continue;}
 
 			$path = "data/page/default/".$key.".html";
 			if(!is_file($path)){continue;}
