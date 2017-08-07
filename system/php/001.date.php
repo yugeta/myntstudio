@@ -1,7 +1,7 @@
 <?php
 
 class MYNT_DATE{
-  function conv($unix){
+  public static function conv($unix){
     $y = date("Y" , $unix);	//年
   	$m = date("m" , $unix);//月
   	$d = date("d" , $unix);	//日
@@ -18,14 +18,14 @@ class MYNT_DATE{
       "second"=>date("s" , $unix)
     );
   }
-  function format_ymd($unix){
+  public static function format_ymd($unix){
     if(!$unix){return "";}
-    $data = $this->conv($unix);
+    $data = self::conv($unix);
     return $data["year"]."/".$data["month"]."/".$data["date"];
   }
-  function format_ymdhis($unix){
+  public static function format_ymdhis($unix){
     if(!$unix){return "";}
-    $data = $this->conv($unix);
+    $data = self::conv($unix);
     return $data["year"]."/".$data["month"]."/".$data["date"]." ".$data["hour"].":".$data["minute"].":".$data["second"];
   }
 }

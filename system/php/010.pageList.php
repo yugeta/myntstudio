@@ -2,22 +2,22 @@
 
 class MYNT_PAGE_LIST{
 
-	public $default_dir  = "data/page/";
-	public $system_dir   = "system/page/";
-	public $default_top  = "system/page/";
-	public $notlogin     = "system/page/login";
+	public static $default_dir  = "data/page/";
+	public static $system_dir   = "system/page/";
+	public static $default_top  = "system/page/";
+	public static $notlogin     = "system/page/login";
 
-	public function getPageDir(){
+	public static function getPageDir(){
 		$pageDir = "blog";
 		if(isset($_REQUEST["pageDir"]) && $_REQUEST["pageDir"] !== ""){
 			$pageDir = $_REQUEST["pageDir"];
 		}
 		return $pageDir;
 	}
-	public function getPagePath($pageDir = ""){
+	public static function getPagePath($pageDir = ""){
 
 		if($pageDir === ""){
-			$pageDir = $this->getPageDir();
+			$pageDir = self::getPageDir();
 		}
 
 		$path = "";
@@ -29,13 +29,13 @@ class MYNT_PAGE_LIST{
 		}
 		return $path;
 	}
-	public function getPageDirName($pageDir = ""){
+	public static function getPageDirName($pageDir = ""){
 
 		if($pageDir === ""){
-			$pageDir = $this->getPageDir();
+			$pageDir = self::getPageDir();
 		}
 
-		$types = $this->getPageCategoryLists("type");
+		$types = self::getPageCategoryLists("type");
 
 		$res = "Blog";
 		for($i=0, $c=count($types); $i<$c; $i++){
@@ -49,7 +49,7 @@ class MYNT_PAGE_LIST{
 	}
 
 	// クエリを判別してページを表示（ない場合はエラーページ）
-	function getSource($type = ""){
+	public static function getSource($type = ""){
 
 		// ログイン後に読み込みページが変わる場合の設定
 		// $file = ($loginedFile !== "" && isset($_SESSION["login_id"]) && $_SESSION["login_id"])?$loginedFile:$notLoginFile;
@@ -96,8 +96,8 @@ class MYNT_PAGE_LIST{
 		// systemページ
 		else if(isset($_REQUEST["system"]) && $_REQUEST["system"]){
 			// $file = $_REQUEST["system"];
-			if(is_file($this->system_dir.$_REQUEST["system"].".html")){
-				$path = $this->system_dir.$_REQUEST["system"].".html";
+			if(is_file(self::$system_dir.$_REQUEST["system"].".html")){
+				$path = self::$system_dir.$_REQUEST["system"].".html";
 			}
 		}
 
@@ -109,54 +109,54 @@ class MYNT_PAGE_LIST{
 		}
 
 		if($path === "" || !is_file($path)){
-			$path = $this->default_404().".html";
+			$path = self::default_404().".html";
 		}
 
 		$source = file_get_contents($path);
 
-		$MYNT_SOURCE = new MYNT_SOURCE;
-		return $MYNT_SOURCE->rep($source);
+		// $MYNT_SOURCE = new MYNT_SOURCE;
+		return MYNT::conv($source);
 	}
 
 	// infoデータからタイトルを取得
-	function getTitle($file = ""){
-		$info = $this->getPageInfo($file);
+	public static function getTitle($file = ""){
+		$info = self::getPageInfo($file);
 
 		if(!isset($info["title"])){
 			return "";
 		}
 
-		$MYNT_SOURCE = new MYNT_SOURCE;
-		return $MYNT_SOURCE->rep($info["title"]);
+		// $MYNT_SOURCE = new MYNT_SOURCE;
+		return MYNT::conv($info["title"]);
 	}
 
-	function getPageInfo($file = ""){
+	public static function getPageInfo($file = ""){
 
 		$path="";
 
-		$pageDir = $this->getPageDir();
+		$pageDir = self::getPageDir();
 
 		if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
-			$path = $this->default_dir.$pageDir."/";
-			if(is_file($this->default_dir.$pageDir."/".$_REQUEST["p"].".info")){
-				$path = $this->default_dir.$pageDir."/".$_REQUEST["p"].".info";
+			$path = self::$default_dir.$pageDir."/";
+			if(is_file(self::$default_dir.$pageDir."/".$_REQUEST["p"].".info")){
+				$path = self::$default_dir.$pageDir."/".$_REQUEST["p"].".info";
 			}
 			else{
-				$path .= $this->default_404().".info";
+				$path .= self::default_404().".info";
 			}
 		}
 		if(isset($_REQUEST["system"]) && $_REQUEST["system"]){
-			$path = $this->default_dir.$pageDir."/";
-			if(is_file($this->default_dir.$pageDir."/".$_REQUEST["system"].".info")){
-				$path = $this->default_dir.$pageDir."/".$_REQUEST["system"].".info";
+			$path = self::$default_dir.$pageDir."/";
+			if(is_file(self::$default_dir.$pageDir."/".$_REQUEST["system"].".info")){
+				$path = self::$default_dir.$pageDir."/".$_REQUEST["system"].".info";
 			}
 			else{
-				$path .= $this->default_404().".info";
+				$path .= self::default_404().".info";
 			}
 		}
 		else{
 			$top = $top = (isset($GLOBALS["config"]["page"]["top"]))?$GLOBALS["config"]["page"]["top"]:"top";
-			$path = $this->default_top.$top.".info";
+			$path = self::$default_top.$top.".info";
 		}
 
 		$json = array();
@@ -169,7 +169,7 @@ class MYNT_PAGE_LIST{
 	}
 
 	//
-	public function getFile($filePath){
+	public static function getFile($filePath){
 		if(!is_file($filePath)){return;}
 		$data = file_get_contents($filePath);
 		$data = str_replace("<","&lt;",$data);
@@ -177,7 +177,7 @@ class MYNT_PAGE_LIST{
 		return $data;
 	}
 
-	public function getFileLists($ext="html"){
+	public static function getFileLists($ext="html"){
 		// if(!$type){return;}
 
 		$path = "data/page/";
@@ -194,16 +194,16 @@ class MYNT_PAGE_LIST{
 		// print_r($lists);
 		return $lists;
 	}
-	public function getFileListsOptions($ext="html"){
+	public static function getFileListsOptions($ext="html"){
 		// if(!$type){return;}
 
-		$fileNames = $this->getFileLists($ext);
+		$fileNames = self::getFileLists($ext);
 
 		$options = array();
 		for($i=0,$c=count($fileNames); $i<$c; $i++){
 			// preg_match("/(.+?)\.(.+?)/",$files[$i] , $match);
 			$selected = (isset($_REQUEST["file"]) && $_REQUEST["file"] === $fileNames[$i])?"selected":"";
-			$viewTitle = $this->getPageInfoString($fileNames[$i],"title");
+			$viewTitle = self::getPageInfoString($fileNames[$i],"title");
 			if(!$viewTitle){$viewTitle = "* ".$fileNames[$i];}
 			$options[] = "<option value='".$fileNames[$i]."' ".$selected.">".$viewTitle."</option>".PHP_EOL;
 		}
@@ -212,7 +212,7 @@ class MYNT_PAGE_LIST{
 	}
 
 	// page-data-save
-	public function setSystemPage(){
+	public static function setSystemPage(){
 		// die("saveing");
 		// die($_REQUEST["source"]);
 		// die($_REQUEST["file"]." | ".$_REQUEST["type"]);
@@ -270,26 +270,26 @@ class MYNT_PAGE_LIST{
 
 
 		//redirect
-		$url = new MYNT_URL;
-		header("Location: ". $url->getUrl()."?system=".$_REQUEST["system"]."&file=".$_REQUEST["file"]);
+		// $url = new MYNT_URL;
+		header("Location: ". MYNT_URL::getUrl()."?system=".$_REQUEST["system"]."&file=".$_REQUEST["file"]);
 
 	}
 
-	public function getPageInfoString($fileName = "" , $key = ""){
+	public static function getPageInfoString($fileName = "" , $key = ""){
 		if($key === "" || $fileName === ""){return;}
 
-		$pageDir = $this->getPageDir();
+		$pageDir = self::getPageDir();
 
-		if(!is_file($this->default_dir.$pageDir."/".$fileName.".info")){return;}
+		if(!is_file(self::$default_dir.$pageDir."/".$fileName.".info")){return;}
 
-		$json = json_decode(file_get_contents($this->default_dir.$fileName.".info"),true);
+		$json = json_decode(file_get_contents(self::$default_dir.$fileName.".info"),true);
 
 		if(!isset($json[$key])){return;}
 
 		return $json[$key];
 	}
 
-	public function getPageCategoryLists($key=""){
+	public static function getPageCategoryLists($key=""){
 		// if($key===""){return array();}
 		// $path = "data/config/pageCategoryLists.json";
 		// if(!is_file($path)){return array();}
@@ -303,16 +303,16 @@ class MYNT_PAGE_LIST{
 			return array();
 		}
 	}
-	public function getPageCategoryListsOptions($key=""){
+	public static function getPageCategoryListsOptions($key=""){
 		if($key===""){return "";}
 
 		// configデータの取得
-		$lists = $this->getPageCategoryLists($key);
+		$lists = self::getPageCategoryLists($key);
 
 		// 登録データの取得
 		$val = "";
 		if(isset($_REQUEST["file"])){
-			$val = $this->getPageInfoString($_REQUEST["file"],$key);
+			$val = self::getPageInfoString($_REQUEST["file"],$key);
 		}
 
 		// optionタグの作成
@@ -326,7 +326,7 @@ class MYNT_PAGE_LIST{
 	}
 
 
-	public function getPageCategoryLists_li($key=""){
+	public static function getPageCategoryLists_li($key=""){
 
 		// $pageDir = "blog";
 		// if(isset($_REQUEST["pageDir"]) && $_REQUEST["pageDir"]!==""){
@@ -335,40 +335,40 @@ class MYNT_PAGE_LIST{
 
 		if($key===""){return "";}
 
-		$pageDir = $this->getPageDir();
+		$pageDir = self::getPageDir();
 
 		// configデータの取得
-		$lists = $this->getPageCategoryLists($key);
+		$lists = self::getPageCategoryLists($key);
 
 		// optionタグの作成
 		$html = "";
 		for($i=0,$c=count($lists); $i<$c; $i++){
 
-			$MYNT_URL = new MYNT_URL;
-			$link_url = $MYNT_URL->getUrl() ."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&pageDir=".$pageDir;
+			// $MYNT_URL = new MYNT_URL;
+			$link_url = MYNT_URL::getUrl() ."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&pageDir=".$pageDir;
 
 			$active = "";
 			if($lists[$i]["key"] === $_REQUEST["pageDir"]){$active = "active";}
 
 			$html .= "<li role='presentation' class='".$active."'>";
-			$html .= "<a class='dropdown-toggle' role='button' aria-haspopup='true' aria-expanded='false' href='".$link_url."'>".$lists[$i]["value"]." (".$this->getPageCount($lists[$i]["key"]).")</a>";
+			$html .= "<a class='dropdown-toggle' role='button' aria-haspopup='true' aria-expanded='false' href='".$link_url."'>".$lists[$i]["value"]." (".self::getPageCount($lists[$i]["key"]).")</a>";
 			$html .= "</li>";
 			$html .= PHP_EOL;
 		}
 		return $html;
 	}
-	public function getPageTypeLists_li(){
-		$pageDir = $this->getPageDir();
+	public static function getPageTypeLists_li(){
+		$pageDir = self::getPageDir();
 
 		// configデータの取得
-		$lists = $this->getPageCategoryLists("type");
+		$lists = self::getPageCategoryLists("type");
 
 		// optionタグの作成
 		$html = "";
 		for($i=0,$c=count($lists); $i<$c; $i++){
 
-			$MYNT_URL = new MYNT_URL;
-			$link_url = $MYNT_URL->getUrl() ."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&pageDir=".$lists[$i]["key"];
+			// $MYNT_URL = new MYNT_URL;
+			$link_url = MYNT_URL::getUrl() ."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&pageDir=".$lists[$i]["key"];
 
 			$active = "";
 			if($lists[$i]["key"] === $_REQUEST["status"]){$active = "active";}
@@ -382,14 +382,14 @@ class MYNT_PAGE_LIST{
 	}
 
 
-	function getFileSource(){
+	public static function getFileSource(){
 		if(isset($_REQUEST["filePath"]) && is_file($_REQUEST["filePath"])){
 			echo file_get_contents($_REQUEST["filePath"]);
 		}
 		exit();
 	}
 
-	public function getTemplateFile(){
+	public static function getTemplateFile(){
 		if(!isset($_REQUEST["filePath"]) || !is_file($_REQUEST["filePath"])){return;}
 		$temp = file_get_contents($_REQUEST["filePath"]);
 
@@ -398,44 +398,44 @@ class MYNT_PAGE_LIST{
 		// 	$mode = $_REQUEST["mode"];
 		// }
 
-		$MYNT_SOURCE = new MYNT_SOURCE;
-		echo $MYNT_SOURCE->rep($temp);
+		// $MYNT_SOURCE = new MYNT_SOURCE;
+		echo MYNT::conv($temp);
 		exit();
 	}
 
 
 
-	public function viewPageLists($status = ""){
+	public static function viewPageLists($status = ""){
 
-		$pageDir = $this->getPageDir();
-		$pagePath = $this->getPagePath($pageDir);
+		$pageDir  = self::getPageDir();
+		$pagePath = self::getPagePath($pageDir);
 
-		$MYNT_DATE = new MYNT_DATE;
+		// $MYNT_DATE = new MYNT_DATE;
 
-		$lists = $this->getPageLists($status);
+		$lists = self::getPageLists($status);
 		$html = "";
 		for($i = 0,$c = count($lists); $i < $c; $i++){
 			$infoFile = str_replace(".html",".info",$pagePath.$lists[$i]);
-			$info   = $this->getPageInfoFromPath($infoFile);
+			$info   = self::getPageInfoFromPath($infoFile);
 			$title  = (isset($info["title"]))?$info["title"] : "<b class='string-blue'>File:</b> ".$lists[$i];
 			$update = ($info["update"])?$info["update"]:filemtime($pagePath.$lists[$i]);
 
-			$html .= "<tr class='titleList' onclick='location.href=\"?b=system&p=p_pageEdit&file=".$this->getFileName2ID($lists[$i])."&pageDir=".$pageDir."\"'>".PHP_EOL;
+			$html .= "<tr class='titleList' onclick='location.href=\"?b=system&p=p_pageEdit&file=".self::getFileName2ID($lists[$i])."&pageDir=".$pageDir."\"'>".PHP_EOL;
 			$html .= "<th style='width:50px;'>".($i+1)."</th>".PHP_EOL;
 			$html .= "<td>".$title."</td>".PHP_EOL;
-			$html .= "<td>".$this->getKey2Value($GLOBALS["config"]["pageCategoryLists"]["status"] , $info["status"])."</td>".PHP_EOL;
-			$html .= "<td>".$MYNT_DATE->format_ymdhis($update)."</td>".PHP_EOL;
-			$html .= "<td>".$MYNT_DATE->format_ymdhis($info["release"])."</td>".PHP_EOL;
+			$html .= "<td>".self::getKey2Value($GLOBALS["config"]["pageCategoryLists"]["status"] , $info["status"])."</td>".PHP_EOL;
+			$html .= "<td>".MYNT_DATE::format_ymdhis($update)."</td>".PHP_EOL;
+			$html .= "<td>".MYNT_DATE::format_ymdhis($info["release"])."</td>".PHP_EOL;
 			$html .= "</tr>".PHP_EOL;
 		}
 
 		return $html;
 	}
 
-	public function getPageLists($status = ""){
+	public static function getPageLists($status = ""){
 
-		$pageDir = $this->getPageDir();
-		$pagePath = $this->getPagePath($pageDir);
+		$pageDir = self::getPageDir();
+		$pagePath = self::getPagePath($pageDir);
 
 		$datas = array();
 
@@ -446,7 +446,7 @@ class MYNT_PAGE_LIST{
 		for($i=0,$c=count($lists); $i<$c; $i++){
 			if($lists[$i]==="." || $lists[$i]===".."){continue;}
 			if(preg_match("/^(.+?)\.html$/",$lists[$i],$m)){
-				$json = $this->getPageInfoFromPath($pagePath.$lists[$i]);
+				$json = self::getPageInfoFromPath($pagePath.$lists[$i]);
 				if($status !== "" && !isset($json["status"])){continue;}
 				if($status !== "" && $status !== $json["status"]){continue;}
 				$datas[] = $lists[$i];
@@ -455,7 +455,7 @@ class MYNT_PAGE_LIST{
 		return $datas;
 	}
 
-	public function getPageInfoFromPath($path){
+	public static function getPageInfoFromPath($path){
 		$datas = array();
 		if(is_file($path)){
 			$datas = json_decode(file_get_contents($path),true);
@@ -470,12 +470,12 @@ class MYNT_PAGE_LIST{
 	// 	}
 	// }
 
-	public function getPageCount($status = ""){
-		$lists = $this->getPageLists($status);
+	public static function getPageCount($status = ""){
+		$lists = self::getPageLists($status);
 		return count($lists);
 	}
 
-	public function getKey2Value($data , $key){
+	public static function getKey2Value($data , $key){
 		$res = "";
 		for($i=0; $i<count($data); $i++){
 			if($data[$i]["key"] === $key){
@@ -485,7 +485,7 @@ class MYNT_PAGE_LIST{
 		}
 		return $res;
 	}
-	public function getValue2Key($data , $value){
+	public static function getValue2Key($data , $value){
 		$res = "";
 		for($i=0; $i<count($data); $i++){
 			if($data[$i]["value"] === $value){
@@ -495,7 +495,7 @@ class MYNT_PAGE_LIST{
 		}
 		return $res;
 	}
-	public function getFileName2ID($path){
+	public static function getFileName2ID($path){
 		$sp0 = explode("/",$path);
 		$sp1 = explode(".",$sp0[count($sp0)-1]);
 		$sp2 = array_pop($sp1);

@@ -1,5 +1,5 @@
 <div class="navbar-header">
-	<a href="<CLASS:MYNT_URL/getDir()>" class="navbar-brand"><GLOBALS:config/page/title></a>
+	<a href="<PROC:MYNT_URL/getDir()>" class="navbar-brand"><GLOBALS:config/page/title></a>
 	<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
@@ -26,14 +26,14 @@
 		<li class="dropdown" style="display:<if("<SESSION:login_id>")>inline<else>none<if-end>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Account <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
-				<li><a href="<CLASS:URL/getLocalFilename()>?system=p_accountEdit">Setting</a></li>
+				<li><a href="<PROC:URL/getLocalFilename()>?system=p_accountEdit">Setting</a></li>
 				<li class="divider"></li>
-				<li><a href="javascript:void(0)" onclick="location.href='<CLASS:MYNT_URL/getLocalFilename()>?mode=logout'">Logout</a></li>
+				<li><a href="javascript:void(0)" onclick="location.href='<PROC:MYNT_URL/getLocalFilename()>?mode=logout'">Logout</a></li>
 			</ul>
 		</li>
 
 		<li style="display:<if("<SESSION:login_id>")>none<else>inline<if-end>;">
-			<a href="<CLASS:MYNT_VIEW/root()>?system=login">Login</a>
+			<a href="<PROC:MYNT_VIEW/root()>?system=login">Login</a>
 		</li>
 
 	</ul>

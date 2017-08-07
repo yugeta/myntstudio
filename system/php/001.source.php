@@ -8,32 +8,32 @@
 
 class MYNT_SOURCE{
 
-	public function viewFile($path){
+	public static function viewFile($path){
 		$html = "";
 		if(is_file($path)){
-			$html = $this->rep(file_get_contents($path));
+			$html = self::rep(file_get_contents($path));
 		}
 		return $html;
 	}
 
-	public function rep($source=""){
+	public static function rep($source=""){
     if($source===""){return;}
-    return $this->pattern($source);
+    return self::pattern($source);
   }
 
-	public function pattern($source){
+	public static function pattern($source){
 
-		$source = $this->pattern1($source);
-		$source = $this->pattern2($source);
-		$source = $this->pattern3($source);
-		// $source = $this->pattern_variable($source);
-		// $source = $this->pattern_echo($source);
-		$source = $this->pattern_if($source);
-		$source = $this->pattern_for($source);
+		$source = self::pattern1($source);
+		$source = self::pattern2($source);
+		$source = self::pattern3($source);
+		// $source = self::pattern_variable($source);
+		// $source = self::pattern_echo($source);
+		$source = self::pattern_if($source);
+		$source = self::pattern_for($source);
 		return $source;
 	}
 
-	public function pattern1($source){
+	public static function pattern1($source){
 
 		$keys    = array("post","get","request","globals","define","session","server");
 		$ptn = '<('.join('|',$keys).')\:(.+?)>';
@@ -45,22 +45,22 @@ class MYNT_SOURCE{
 
 		for($i=0, $c=count($match[1]); $i<$c; $i++){
 			if($match[0][$i]===""){continue;}
-			$res = $this->getValue($match[1][$i],$match[2][$i]);
+			$res = self::getValue($match[1][$i],$match[2][$i]);
 			$source = str_replace($match[0][$i],$res,$source);
 		}
 
 		return $source;
 	}
-	public function pattern2($source){
+	public static function pattern2($source){
 
-		$keys = array("class","function");
+		$keys = array("class","function","proc");
 		$ptn = '<('.join('|',$keys).')\:(.+?)\((.*?)\)>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
 		if(count($match[1])){
 			for($i=0, $c=count($match[1]); $i<$c; $i++){
 				if($match[0][$i]===""){continue;}
-				$res = $this->getProcs($match[1][$i],$match[2][$i],$match[3][$i]);
+				$res = self::getProcs($match[1][$i],$match[2][$i],$match[3][$i]);
 				$source = str_replace($match[0][$i],$res,$source);
 			}
 		}
@@ -77,7 +77,7 @@ class MYNT_SOURCE{
 
 		return $source;
 	}
-	public function pattern3($source){
+	public static function pattern3($source){
 
 		$keys = array("eval","file");
 		$ptn = '<('.join('|',$keys).')\:\"(.+?)\">';
@@ -90,14 +90,14 @@ class MYNT_SOURCE{
 
 		for($i=0, $c=count($match[1]); $i<$c; $i++){
 			if($match[0][$i]===""){continue;}
-			$res = $this->getCodes($match[1][$i],$match[2][$i]);
+			$res = self::getCodes($match[1][$i],$match[2][$i]);
 			$source = str_replace($match[0][$i],$res,$source);
 		}
 
 		return $source;
 	}
 
-	public function pattern_if($source){
+	public static function pattern_if($source){
 
 		$ptn = '<if\((.+?)\)>(.+?)<if\-end>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
@@ -159,7 +159,7 @@ class MYNT_SOURCE{
 		return $source;
 	}
 
-	public function pattern_if_bak($source){
+	public static function pattern_if_bak($source){
 
 		//
 		// $ptn = '<if\((.+?)\)>(.+?)<else>(.+?)<if\-end>';
@@ -223,7 +223,7 @@ class MYNT_SOURCE{
 		return $source;
 	}
 
-	public function pattern_for($source){
+	public static function pattern_for($source){
 		$ptn = '<for\((.*?)\.\.(.*?)\)>(.+?)<for\-end>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
@@ -244,37 +244,37 @@ class MYNT_SOURCE{
 		return $source;
 	}
 
-	public function getValue($key,$val){
+	public static function getValue($key,$val){
 		$res = "";
 		$key = strtoupper($key);
 		switch($key){
 			case "POST":
-				$res = $this->getArrayValue($_POST,$val);
+				$res = self::getArrayValue($_POST,$val);
 				break;
 			case "GET":
-				$res = $this->getArrayValue($_GET,$val);
+				$res = self::getArrayValue($_GET,$val);
 				break;
 			case "REQUEST":
-				$res = $this->getArrayValue($_REQUEST,$val);
+				$res = self::getArrayValue($_REQUEST,$val);
 				break;
 			case "GLOBALS":
-				$res = $this->getArrayValue($GLOBALS,$val);
+				$res = self::getArrayValue($GLOBALS,$val);
 				break;
 			case "DEFINE":
 				$res = constant($val);
 				break;
 			case "SESSION":
-				$res = $this->getArrayValue($_SESSION,$val);
+				$res = self::getArrayValue($_SESSION,$val);
 				break;
 			case "SERVER":
-				$res = $this->getArrayValue($_SERVER,$val);
+				$res = self::getArrayValue($_SERVER,$val);
 				break;
 			default:
 				break;
 		}
 		return $res;
 	}
-	public function getArrayValue($datas,$key=""){
+	public static function getArrayValue($datas,$key=""){
 		if($key===""){
 			return "";
 		}
@@ -292,41 +292,44 @@ class MYNT_SOURCE{
 
 		$first_key = array_shift($keys);
 
-		return $this->getArrayValue($datas[$first_key] , join("/",$keys));
+		return self::getArrayValue($datas[$first_key] , join("/",$keys));
 	}
 
-	public function getProcs($key,$proc,$val){
+	public static function getProcs($key,$proc,$val){
 		$res = "";
 		$key = strtoupper($key);
 		switch($key){
 			case "CLASS":
-				$res = $this->getProcs_class($proc,$val);
+				$res = self::getProcs_class($proc,$val);
 				break;
 			case "FUNCTION":
-				$res = $this->getProcs_function($proc,$val);
+				$res = self::getProcs_function($proc,$val);
+				break;
+			case "PROC":
+				$res = self::getProcs_proc($proc,$val);
 				break;
 		}
 		return $res;
 	}
 
-	public function getCodes($key,$val){
+	public static function getCodes($key,$val){
 		$res = "";
 		$key = strtoupper($key);
 		switch($key){
 			case "EVAL":
-				$res = $this->getCodes_code($val);
+				$res = self::getCodes_code($val);
 				break;
 			case "CODE":
-				$res = $this->getCodes_code($val);
+				$res = self::getCodes_code($val);
 				break;
 			case "FILE":
-				$res = $this->getCodes_file($val);
+				$res = self::getCodes_file($val);
 				break;
 		}
 		return $res;
 	}
 
-  public function getProcs_class($func,$val){
+  public static function getProcs_class($func,$val){
     $data = explode("/" , $func);
 
     if(count($data)!==2 || !class_exists($data[0])){return "";}
@@ -343,8 +346,24 @@ class MYNT_SOURCE{
 
 		return call_user_func_array(array($cls , $data[1]) , $query);
   }
+	public static function getProcs_proc($func,$val){
+    $data = explode("/" , $func);
 
-	public function getProcs_function($func,$val){
+    if(count($data)!==2 || !class_exists($data[0])){return "";}
+
+    $query = ($val=="")?array():explode(",",$val);
+
+		for($i=0,$c=count($query); $i<$c; $i++){
+			$query[$i] = str_replace('"','',$query[$i]);
+			$query[$i] = str_replace("'","",$query[$i]);
+		}
+
+    if(!method_exists($data[0],$data[1])){return;}
+
+		return call_user_func_array($data[0]."::".$data[1] , array("test"));
+  }
+
+	public static function getProcs_function($func,$val){
     if(!function_exists($func)){return "";}
 
     $query = ($val=="")?array():explode(",",$val);
@@ -357,14 +376,14 @@ class MYNT_SOURCE{
 		return call_user_func_array($func , $query);
   }
 
-  public function getData_FOR($val){
+  public static function getData_FOR($val){
     preg_match("/^(.*?),(.*?),(.*?):(.*?)$/s" , $val , $match);
     //preg_match("/^([0-9]+),([0-9]+),([0-9]+):(.*?)$/s" , $val , $match);
     if(count($match)!==5){return $val;}
 
-    $val1 = $this->getPattern_Lite($match[1]);
-    $val2 = $this->getPattern_Lite($match[2]);
-    $val3 = $this->getPattern_Lite($match[3]);
+    $val1 = self::getPattern_Lite($match[1]);
+    $val2 = self::getPattern_Lite($match[2]);
+    $val3 = self::getPattern_Lite($match[3]);
 
     $value="";
     for($i=$val1; $i<=$val2; $i=$i+$val3){
@@ -372,23 +391,23 @@ class MYNT_SOURCE{
       $str = str_replace("%num%" , $i , $str);
       $value.= $str;
     }
-    $value = $this->getPattern_Lite($value);
+    $value = self::getPattern_Lite($value);
     return $value;
   }
 
-	public function getCodes_code($val){
+	public static function getCodes_code($val){
     if(!$val){return;}
     return eval($val);
   }
 
-  public function getCodes_file($path){
+  public static function getCodes_file($path){
     if(!is_file($path)){return;}
     $source = file_get_contents($path);
-    $source = $this->rep($source);
+    $source = self::rep($source);
     return $source;
   }
 
-  public function getData_IF($val){
+  public static function getData_IF($val){
 		$sp = explode(":",$val);
 		if($sp[0]){
 			return $sp[1];

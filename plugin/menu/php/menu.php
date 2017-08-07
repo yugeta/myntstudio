@@ -1,7 +1,7 @@
 <?php
 
 class MYNT_PLUGIN_MENU{
-	public function viewMenu($pos="right"){
+	public static function viewMenu($pos="right"){
 
 		if(!isset($GLOBALS["plugin"]["menu"][$pos])){return;}
 		$lists = $GLOBALS["plugin"]["menu"][$pos];
@@ -13,7 +13,7 @@ class MYNT_PLUGIN_MENU{
 		$html = "";
 		for($i=0,$c=count($lists); $i<$c; $i++){
 			if(!is_file($lists[$i]["file"])){continue;}
-			$html.= "<div class='mynt-menu'>".$MYNT_VIEW->conv(file_get_contents($lists[$i]["file"]))."</div>".PHP_EOL;
+			$html.= "<div class='mynt-menu'>".MYNT::conv(file_get_contents($lists[$i]["file"]))."</div>".PHP_EOL;
 		}
 		return $html;
 	}

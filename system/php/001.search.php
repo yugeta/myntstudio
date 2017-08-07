@@ -1,25 +1,25 @@
 <?php
 
 class MYNT_SEARCH{
-  public function article_search($search_text = ""){
-    $MYNT_BLOG = new MYNT_BLOG;
+  public static function article_search($search_text = ""){
+    // $MYNT_BLOG = new MYNT_BLOG;
 
-    $lists = $MYNT_BLOG->getArticleLists("release");
+    $lists = MYNT_BLOG::getArticleLists("release");
 
     // search-text
     $result = array();
     for($i=0,$c=count($lists); $i<$c; $i++){
-      if($this->checkArticleString($lists[$i] , $search_text)){
+      if(self::checkArticleString($lists[$i] , $search_text)){
         $result[] = $lists[$i];
       }
     }
 
     return $result;
   }
-	public function group_search($group_text = ""){
-		$MYNT_BLOG = new MYNT_BLOG;
+	public static function group_search($group_text = ""){
+		// $MYNT_BLOG = new MYNT_BLOG;
 
-    $lists = $MYNT_BLOG->getArticleLists("release");
+    $lists = MYNT_BLOG::getArticleLists("release");
 
     // search-text
     $result = array();
@@ -33,8 +33,8 @@ class MYNT_SEARCH{
     return $result;
 	}
 
-  public function article_search_li($search_text = ""){
-    $MYNT_BLOG = new MYNT_BLOG;
+  public static function article_search_li($search_text = ""){
+    // $MYNT_BLOG = new MYNT_BLOG;
 
 		$result = array();
 
@@ -45,31 +45,31 @@ class MYNT_SEARCH{
 	    }
 
 	    // search-text
-	    $result = $this->article_search($search_text);
+	    $result = self::article_search($search_text);
 		}
 		else if(isset($_REQUEST["group"])){
 			// search-text
-	    $result = $this->group_search($_REQUEST["group"]);
+	    $result = self::group_search($_REQUEST["group"]);
 		}
 
 
     // make-html
     $html = "";
-    $tmpSource = $MYNT_BLOG->getBlogSource();
+    $tmpSource = MYNT_BLOG::getBlogSource();
 		for($i=0,$c=count($result); $i<$c; $i++){
-			$json = $MYNT_BLOG->getPageInfoFromPath($MYNT_BLOG->default_article_dir.$result[$i]);
-			$html .= $MYNT_BLOG->setBlogSourceReplace($tmpSource, $json);
+			$json = MYNT_BLOG::getPageInfoFromPath(MYNT_BLOG::default_article_dir.$result[$i]);
+			$html .= MYNT_BLOG::setBlogSourceReplace($tmpSource, $json);
       // $html .= $MYNT_BLOG->default_article_dir.$result[$i]."<br>".PHP_EOL;
 		}
 
-		$MYNT_VIEW = new MYNT_VIEW;
-		return $MYNT_VIEW->conv($html);
+		// $MYNT_VIEW = new MYNT_VIEW;
+		return MYNT::conv($html);
   }
-  public function article_search_li_ajax($search_text = ""){
+  public static function article_search_li_ajax($search_text = ""){
     if($search_text === "" && isset($_REQUEST["search"])){
       $search_text = $_REQUEST["search"];
     }
-    echo $this->article_search_li($search_text);
+    echo self::article_search_li($search_text);
     exit();
   }
 
@@ -78,9 +78,9 @@ class MYNT_SEARCH{
   //   return $MYNT_BLOG->getArticleLists($status);
   // }
 
-  public function checkArticleString($infoPath , $text){
+  public static function checkArticleString($infoPath , $text){
 
-    $text = $this->setExpText($text);
+    $text = self::setExpText($text);
 
     $info = json_decode(file_get_contents("data/page/blog/".$infoPath),true);
 
@@ -106,7 +106,7 @@ class MYNT_SEARCH{
     return false;
   }
 
-  public function setExpText($text){
+  public static function setExpText($text){
     return $text;
   }
 }

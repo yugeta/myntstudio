@@ -1,10 +1,10 @@
 <?php
 
-new jsonDB_contents();
+// new jsonDB_contents();
 
 class jsonDB_contents extends fw_define{
 
-	function __construct(){
+	public static function __construct(){
 		if(!isset($_REQUEST['menu'])){$_REQUEST['menu']="";}
 		//$this->setGlobals();
 

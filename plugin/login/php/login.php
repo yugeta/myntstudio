@@ -151,7 +151,7 @@ class MYNT_PLUGIN_LOGIN{
 	// }
 
 	// Authorize
-	function checkAuth(){
+	public static function checkAuth(){
 		if(isset($_SESSION["login_id"]) && $_SESSION["login_id"]!==""){
 			return true;
 		}
@@ -161,7 +161,7 @@ class MYNT_PLUGIN_LOGIN{
 	}
 
 	// b=system(base)は、ログイン済みでないといけない。（但しloginは対象外）
-	function checkSystemBase(){
+	public static function checkSystemBase(){
 		if(!isset($_REQUEST["b"]) || $_REQUEST["b"] !== "system"){return;}
 		if($_REQUEST["b"] === "system" && isset($_REQUEST["p"]) && $_REQUEST["p"] === "login"){return;}
 		if(isset($_SESSION["login_id"])){return;}
@@ -205,7 +205,7 @@ class MYNT_PLUGIN_LOGIN{
 	// }
 
 	//Logout
-	function checkLogout(){
+	public static function checkLogout(){
 
 		//セッション情報を削除
 		foreach($_SESSION as $key=>$val){
@@ -221,7 +221,7 @@ class MYNT_PLUGIN_LOGIN{
 	}
 
 	//Login-check
-	function checkLogin(){
+	public static function checkLogin(){
 		// if(isset($_SESSION["login_id"])){
 		// 	// unset($_SESSION["login_id"]);
 		// }
@@ -232,7 +232,7 @@ class MYNT_PLUGIN_LOGIN{
 		header("Location: ".$URL->getURL()."?b=system&p=top");
 	}
 
-	function setLogin($id="",$pw=""){
+	public static function setLogin($id="",$pw=""){
 
 		if($id==="" || $pw===""){return;}
 
@@ -305,16 +305,16 @@ class MYNT_PLUGIN_LOGIN{
 	 ログイン DataBase Check
 	----------*/
 
-	function checkLogin_mysql($id,$pw){
+	public static function checkLogin_mysql($id,$pw){
 
 	}
-	function checkLogin_mongodb($id,$pw){
+	public static function checkLogin_mongodb($id,$pw){
 
 	}
-	function checkLogin_couchdb($id,$pw){
+	public static function checkLogin_couchdb($id,$pw){
 
 	}
-	function checkLogin_file($id="",$pw=""){
+	public static function checkLogin_file($id="",$pw=""){
 
 		if($id==="" || $pw===""){
 			return;
@@ -363,7 +363,7 @@ class MYNT_PLUGIN_LOGIN{
 
 
 	//セッションデータ保持
-	function setSessionData($id=""){
+	public static function setSessionData($id=""){
 
 		if(!$id){return;}
 
@@ -387,7 +387,7 @@ class MYNT_PLUGIN_LOGIN{
 		$_SESSION['img']  = $data['img'];
 		*/
 	}
-	function delSessionData(){
+	public static function delSessionData(){
 		unset($_SESSION['no']);
 		unset($_SESSION['id']);
 		unset($_SESSION['name']);
@@ -397,7 +397,7 @@ class MYNT_PLUGIN_LOGIN{
 		unset($_SESSION['img']);
 	}
 
-	function viewPageLogin(){
+	public static function viewPageLogin(){
 		$page = new MYNT_PAGE;
 		$source = "";
 		if(!isset($_SESSION["login_id"]) || !$_SESSION["login_id"]){

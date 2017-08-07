@@ -1,5 +1,8 @@
 <?php
 
+/**
+* redirect
+*/
 $urls = explode("?",$_SERVER["REQUEST_URI"]);
 if($urls[0] !== $_SERVER["DOCUMENT_URI"]){
 	$url = $_SERVER["DOCUMENT_URI"];

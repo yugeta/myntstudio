@@ -2,56 +2,56 @@
 
 class MYNT_BLOG{
 
-	public $default_article_dir = "data/page/blog/";
-	public $blogSource = "";
+	public static $default_article_dir = "data/page/blog/";
+	public static $blogSource = "";
 
 	// all article page lists for top-page
-	public function viewArticleLists_li(){
+	public static function viewArticleLists_li(){
 
-		$tmpSource = $this->getBlogSource();
+		$tmpSource = self::getBlogSource();
 
-		$lists = $this->getArticleLists();
+		$lists = self::getArticleLists();
 
 		$html = "";
 		for($i=0,$c=count($lists); $i<$c; $i++){
-			$json = $this->getPageInfoFromPath($this->default_article_dir.$lists[$i]);
-			$html .= $this->setBlogSourceReplace($tmpSource, $json);
+			$json = self::getPageInfoFromPath(self::$default_article_dir.$lists[$i]);
+			$html .= self::setBlogSourceReplace($tmpSource, $json);
 		}
-		$MYNT_VIEW = new MYNT_VIEW;
+		// $MYNT_VIEW = new MYNT_VIEW;
 
-		return $MYNT_VIEW->conv($html);
+		return MYNT::conv($html);
 	}
 
-	public function getBlogSource(){
+	public static function getBlogSource(){
 
 		$tmpSource = "";
 
-		if($this->blogSource === ""){
+		if(self::$blogSource === ""){
 			// $tmpPath = "system/html/top_article.html";
 			$tmpPath = "data/page/default/top_article.html";
 			$tmpSource = file_get_contents($tmpPath);
 		}
 		else{
-			$tmpSource = $this->blogSource;
+			$tmpSource = self::$blogSource;
 		}
 		return $tmpSource;
 	}
 
-	public function setBlogSourceReplace($tmpSource, $jsonData){
+	public static function setBlogSourceReplace($tmpSource, $jsonData){
 		preg_match_all("/<blog:(.+?)>/",$tmpSource,$match);
 		// $tmpSource = preg_replace("<blog:title>",$json["title"],$tmpSource);
 		for($i=0,$c=count($match[0]); $i<$c; $i++){
 			$key = $match[1][$i];
 			if(isset($jsonData[$key])){
-				$repData = $this->setBlogSourceReplace_parsonal($key , $jsonData[$key]);
+				$repData = self::setBlogSourceReplace_parsonal($key , $jsonData[$key]);
 				$tmpSource = str_replace("<blog:".$key.">", $repData, $tmpSource);
 			}
 		}
 		return $tmpSource;
 	}
-	public function setBlogSourceReplace_parsonal($key , $data){
+	public static function setBlogSourceReplace_parsonal($key , $data){
 		if($key === "eyecatch"){
-			$info = $this->getPicId2Info($data);
+			$info = self::getPicId2Info($data);
 			if($data !== "" && is_file("data/picture/".$data.".".$info["extension"])){
 				$data = "<img class='eyecatch' src='data/picture/".$data.".".$info["extension"]."' />";
 			}
@@ -66,20 +66,20 @@ class MYNT_BLOG{
 		return $data;
 	}
 
-	public function getPageEyecatch_img($page_id){
+	public static function getPageEyecatch_img($page_id){
 
 	}
-	public function getPageTitle($page_id){
+	public static function getPageTitle($page_id){
 
 	}
-	public function getPageDiscription($page_id){
+	public static function getPageDiscription($page_id){
 
 	}
-	public function getPageReleaseDate($page_id){
+	public static function getPageReleaseDate($page_id){
 
 	}
 
-	public function getPicId2Info($pageID){
+	public static function getPicId2Info($pageID){
 		$infoPath = "data/picture/".$pageID.".info";
 		if(!is_file($infoPath)){return;}
 
@@ -87,10 +87,10 @@ class MYNT_BLOG{
 	}
 
 	//
-	public function getArticleLists($status = "release"){
-		if(!is_dir($this->default_article_dir)){return array();}
+	public static function getArticleLists($status = "release"){
+		if(!is_dir(self::$default_article_dir)){return array();}
 
-		$lists = scandir($this->default_article_dir);
+		$lists = scandir(self::$default_article_dir);
 
 		$datas = array();
 
@@ -100,7 +100,7 @@ class MYNT_BLOG{
 
 			if(preg_match("/^(.+?)\.info$/",$lists[$i],$m)){
 
-				$json = $this->getPageInfoFromPath($this->default_article_dir.$lists[$i]);
+				$json = self::getPageInfoFromPath(self::$default_article_dir.$lists[$i]);
 
 				if($status !== "" && !isset($json["status"])){continue;}
 				if($status !== "" && $status !== $json["status"]){continue;}
@@ -111,7 +111,7 @@ class MYNT_BLOG{
 		return $datas;
 	}
 
-	public function getPageInfoFromPath($path){
+	public static function getPageInfoFromPath($path){
 		if(!is_file($path)){return;}
 
 		$datas = array();

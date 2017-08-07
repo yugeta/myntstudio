@@ -2,33 +2,18 @@
 
 class MYNT_VIEW{
 
-	public function viewDesign($base=""){
-		if($base === ""){
-			$base = $this->getBaseFile();
-		}
 
-		$default_design = $GLOBALS["config"]["design"]["target"];
-		$path = "design/".$default_design."/html/".$base;
 
-		// check
-		if(!is_file($path)){
-			$path = "design/".$default_design."/html/"."/404.html";
-		}
-
-		$source = file_get_contents($path);
-		echo $this->conv($source);
-	}
-
-	function getTitle($file = ""){
-		$MYNT_PAGE = new MYNT_PAGE;
-		$info = $MYNT_PAGE->getPageInfo($file);
+	public static function getTitle($file = ""){
+		// $MYNT_PAGE = new MYNT_PAGE;
+		$info = MYNT_PAGE::getPageInfo($file);
 
 		if(!isset($info["title"])){
 			return "";
 		}
 
-		$MYNT_SOURCE = new MYNT_SOURCE;
-		return $MYNT_SOURCE->rep($info["title"]);
+		// $MYNT_SOURCE = new MYNT_SOURCE;
+		return MYN::conv($info["title"]);
 	}
 
 	/**
@@ -36,7 +21,7 @@ class MYNT_VIEW{
 	* 1. ? blog=** / default=** / system=** / etc=**
 	* 2. ?b=**&p=** (data/page/base/page.html)
 	*/
-	public function getContents(){
+	public static function getContents(){
 
 		$path = $GLOBALS["config"]["page"]["contents_default"];
 
@@ -49,7 +34,7 @@ class MYNT_VIEW{
 			&& is_file($dir.$_REQUEST[$key].".html")){
 				// return $dir.$_REQUEST[$key].".html";
 				$source = file_get_contents($dir.$_REQUEST[$key].".html");
-				return $this->conv($source);
+				return MYNT::conv($source);
 			}
 		}
 
@@ -84,32 +69,12 @@ class MYNT_VIEW{
 		// $MYNT_VIEW = new MYNT_VIEW;
 		// return $MYNT_VIEW->conv($source);
 
-		return $this->getSource();
+		return self::getSource();
 	}
 
-	public function getBaseFile(){
 
-		$base = $GLOBALS["config"]["page"]["base"];
-		$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
 
-		for($i=0,$c=count($type); $i<$c; $i++){
-
-			$key = $type[$i]["key"];
-			$dir = $type[$i]["dir"];
-			$baseFile = $type[$i]["baseFile"];
-// echo $key."<br>".PHP_EOL;
-// echo $key." / ".$dir." / ".$baseFile."<br>".PHP_EOL;
-			if(isset($_REQUEST[$key]) && is_file($dir.$_REQUEST[$key].".html")){
-				$base = $baseFile;
-				break;
-			}
-		}
-		// echo $base;
-		return $base;
-		// return (isset($_REQUEST["b"]) && $_REQUEST["b"]!=="")?$_REQUEST["b"]:$GLOBALS["config"]["page"]["base"];
-	}
-
-	public function getSource($base="" , $page=""){
+	public static function getSource($base="" , $page=""){
 
 		$base = (isset($_REQUEST["b"]))?$_REQUEST["b"]:"";
 		$page = (isset($_REQUEST["p"]))?$_REQUEST["p"]:"";
@@ -138,23 +103,20 @@ class MYNT_VIEW{
 
 		$source = file_get_contents($path);
 
-		$MYNT_VIEW = new MYNT_VIEW;
-		return $MYNT_VIEW->conv($source);
+		// $MYNT_VIEW = new MYNT_VIEW;
+		return MYNT::conv($source);
 	}
 
 
 
-	public function conv($source = ""){
-		$MYNT_SOURCE = new MYNT_SOURCE;
-		return $MYNT_SOURCE->rep($source);
-	}
 
-	public function viewError($msg){
+
+	public static function viewError($msg){
 		echo "<h1>".$msg."</h1>";
 		exit();
 	}
 
-	public function root(){
+	public static function root(){
 		return $_SERVER['SCRIPT_NAME'];
 	}
 }
