@@ -1,6 +1,8 @@
 {
-	"version":"0.0.2",
+	"version":"0.0.3",
+	"flg":"",
 	"id":"pageAxcel",
+	"class":"MYNT_PLUGIN_pageAxcel",
 	"name":"page axcelerator",
 	"comment":"ajax to id=contents replace innerHTML (same domain)"
 }

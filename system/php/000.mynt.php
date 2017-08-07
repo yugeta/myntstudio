@@ -8,14 +8,9 @@ date_default_timezone_set('Asia/Tokyo');
 class MYNT{
 
 	function getScriptFileName(){
-		// $baseName = $_SERVER['SCRIPT_FILENAME'];
-		// $sp1 = explode("/" , $baseName);
-		// $sp2 = explode(".php" , $sp1[(count($sp1)-1)]);
-		// return $sp2[0];
 
 		// base
 		$mode = (isset($_REQUEST["b"]) && $_REQUEST["b"]!=="")?$_REQUEST["b"] : "index";
-		// $mode = (is_file("design/".$GLOBALS["config"]["design"]["target"]."/html/".$mode.".html"))?$mode : "404";
 
 		return $mode;
 	}
@@ -30,26 +25,31 @@ class MYNT{
 
 	// Config
 	function loadConfig(){
-		$config = $this->getConfig();
 
-		// if(isset($config["cache"])
-		// && $config["cache"] === "system"
-		// && (!isset($_SESSION["login_id"]) || $_SESSION["login_id"]==="")){
-		// 	return;
-		// }
+		// system-config
+		$GLOBALS["config"] = $this->getSystemConfig("data/config/");
 
-		$GLOBALS["config"] = $config;
+		// plugin-config
+		$GLOBALS["plugin"] = $this->getPluginConfig("plugin/");
 	}
-	function getConfig(){
-		$dir = "data/config/";
-
+	function getSystemConfig($dir = "data/config/"){
 		$files = scandir($dir);
 		$data = array();
 
 		for($i=0; $i<count($files); $i++){
-			if($files[$i] == "." || $files[$i] == ".." || !preg_match("/\.json$/",$files[$i])){continue;}
-			$key = str_replace(".json","",$files[$i]);
-			$data[$key] = json_decode(file_get_contents($dir.$files[$i]),true);
+			if($files[$i] == "." || $files[$i] == ".." || !preg_match("/(.+?)\.json$/", $files[$i], $match)){continue;}
+			$data[$match[1]] = json_decode(file_get_contents($dir.$files[$i]),true);
+		}
+		return $data;
+	}
+	function getPluginConfig($dir = "plugin/"){
+		$data = array();
+		// search-plugins
+		for($i=0,$c=count($GLOBALS["config"]["plugin"]["target"]); $i<$c; $i++){
+			$pluginName = $GLOBALS["config"]["plugin"]["target"][$i];
+			if(!is_dir($dir.$pluginName)){continue;}
+			if(!is_file($dir.$pluginName."/config/default.json")){continue;}
+			$data[$pluginName] = json_decode(file_get_contents($dir.$pluginName."/config/default.json"),true);
 		}
 		return $data;
 	}
@@ -93,15 +93,6 @@ class MYNT{
 	}
 
 	function viewDesign($htmlFile = "index"){
-		// if(!isset($GLOBALS["config"]["design"]["target"])){
-		// 	$this->viewError("Not setting Design.");
-		// }
-
-		// $design = $GLOBALS["config"]["design"]["target"];
-
-		// if(!$design || !is_dir("design/".$design)){
-		// 	$this->viewError("Not found Design [ ".$design." ]");
-		// }
 
 		$path = "";
 
@@ -112,16 +103,11 @@ class MYNT{
 		else{
 			$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/"."/404.html";
 		}
-		// die("design/".$GLOBALS["config"]["design"]["target"]."/html/".$htmlFile.".html");
-		// // Load - HTML
-		// if(isset($_REQUEST["h"]) && is_file("design/".$design."/".$_REQUEST["h"].".html")){
-		// 	$htmlFile = $_REQUEST["h"].".html";
-		// }
+
 		$source = file_get_contents($path);
 
 		if($source){
-			// $RepTag = new RepTag;
-			// echo $RepTag->setSource($source);
+
 			$MYNT_SOURCE = new MYNT_SOURCE;
 			echo $MYNT_SOURCE->rep($source);
 		}

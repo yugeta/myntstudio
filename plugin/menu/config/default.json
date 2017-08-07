@@ -1,0 +1,15 @@
+{
+	"cache":"none",
+	"version":"0.1.0",
+	"class":"MYNT_PLUGIN_MENU",
+	"name":"Column-Menu",
+	"comment":"left | right menu-column",
+
+	"right":[
+		{"key":"group"	,"title":"カテゴリー"	,"file":"plugin/menu/html/category.html"},
+		{"key":"amazon"	,"title":"Amazon"			,"file":"plugin/menu/html/amazon.html"}
+	],
+	"left":[
+
+	]
+}

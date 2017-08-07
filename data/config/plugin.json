@@ -2,6 +2,7 @@
 	"cache":"",
 
 	"target":[
+		"menu",
 		"sample",
 		"login",
 		"pageAxcel",
