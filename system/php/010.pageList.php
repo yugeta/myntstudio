@@ -410,6 +410,8 @@ class MYNT_PAGE_LIST{
 		$pageDir = $this->getPageDir();
 		$pagePath = $this->getPagePath($pageDir);
 
+		$MYNT_DATE = new MYNT_DATE;
+
 		$lists = $this->getPageLists($status);
 		$html = "";
 		for($i = 0,$c = count($lists); $i < $c; $i++){
@@ -422,8 +424,8 @@ class MYNT_PAGE_LIST{
 			$html .= "<th style='width:50px;'>".($i+1)."</th>".PHP_EOL;
 			$html .= "<td>".$title."</td>".PHP_EOL;
 			$html .= "<td>".$this->getKey2Value($GLOBALS["config"]["pageCategoryLists"]["status"] , $info["status"])."</td>".PHP_EOL;
-			$html .= "<td>".$update."</td>".PHP_EOL;
-			$html .= "<td>".$info["release"]."</td>".PHP_EOL;
+			$html .= "<td>".$MYNT_DATE->format_ymdhis($update)."</td>".PHP_EOL;
+			$html .= "<td>".$MYNT_DATE->format_ymdhis($info["release"])."</td>".PHP_EOL;
 			$html .= "</tr>".PHP_EOL;
 		}
 
