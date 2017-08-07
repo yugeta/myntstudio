@@ -16,16 +16,42 @@ class MYNT_SEARCH{
 
     return $result;
   }
+	public function group_search($group_text = ""){
+		$MYNT_BLOG = new MYNT_BLOG;
+
+    $lists = $MYNT_BLOG->getArticleLists("release");
+
+    // search-text
+    $result = array();
+    for($i=0,$c=count($lists); $i<$c; $i++){
+			$info = json_decode(file_get_contents("data/page/blog/".$lists[$i]),true);
+      if($info["group"] == $group_text){
+        $result[] = $lists[$i];
+      }
+    }
+
+    return $result;
+	}
 
   public function article_search_li($search_text = ""){
     $MYNT_BLOG = new MYNT_BLOG;
 
-    if($search_text === "" && isset($_REQUEST["search"])){
-      $search_text = $_REQUEST["search"];
-    }
+		$result = array();
 
-    // search-text
-    $result = $this->article_search($search_text);
+		// text-search
+		if($search_text !== "" || isset($_REQUEST["search"])){
+			if(isset($_REQUEST["search"])){
+	      $search_text = $_REQUEST["search"];
+	    }
+
+	    // search-text
+	    $result = $this->article_search($search_text);
+		}
+		else if(isset($_REQUEST["group"])){
+			// search-text
+	    $result = $this->group_search($_REQUEST["group"]);
+		}
+
 
     // make-html
     $html = "";
@@ -61,9 +87,9 @@ class MYNT_SEARCH{
     if(isset($info["title"]) && preg_match("/".$text."/is", $info["title"])){
       return true;
     }
-    else if(isset($info["group"]) && preg_match("/".$text."/is", $info["group"])){
-      return true;
-    }
+    // else if(isset($info["group"]) && preg_match("/".$text."/is", $info["group"])){
+    //   return true;
+    // }
     else if(isset($info["tag"]) && preg_match("/".$text."/is", $info["tag"])){
       return true;
     }

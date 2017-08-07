@@ -59,7 +59,7 @@ class MYNT_GROUP{
 
 		$html = "";
 		for($i=0,$c=count($group); $i<$c; $i++){
-			$url = $defaultURL.$group[$i]["key"];
+			$url = $defaultURL.$group[$i]["id"];
 			$html .= "<p>";
 			$html .= "<a href='".$url."' ".$arrtibute." class='".$class."' style='".$style."'>";
 			$html .= $group[$i]["name"];
