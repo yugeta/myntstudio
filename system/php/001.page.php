@@ -12,6 +12,44 @@ class MYNT_PAGE{
 		return "data/page/default/404";
 	}
 
+	/**
+	* return @ %path%/***.html
+	*/
+	public function getBase(){
+		$base = $GLOBALS["config"]["page"]["base"];
+		$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
+
+		for($i=0,$c=count($type); $i<$c; $i++){
+			$key = $type[$i]["key"];
+			$dir = $type[$i]["dir"];
+			$baseFile = $type[$i]["baseFile"];
+			if(isset($_REQUEST[$key]) && is_file($dir.$_REQUEST[$key].".html")){
+				$base = $baseFile;
+				break;
+			}
+		}
+		return $base;
+	}
+
+	/**
+	* return @ %path%/***.html | %path%/***.info
+	*/
+	public function getPageID(){
+		$path = "";
+		$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
+
+		for($i=0,$c=count($type); $i<$c; $i++){
+			$key = $type[$i]["key"];
+			$dir = $type[$i]["dir"];
+			$baseFile = $type[$i]["baseFile"];
+			if(isset($_REQUEST[$key]) && is_file($dir.$_REQUEST[$key].".html")){
+				$path = $dir.$_REQUEST[$key];
+				break;
+			}
+		}
+		return $path;
+	}
+
 	// クエリを判別してページを表示（ない場合はエラーページ）
 	function getSource($type = ""){
 

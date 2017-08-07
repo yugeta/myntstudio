@@ -84,20 +84,6 @@ class MYNT_BLOG{
 		if(!is_file($infoPath)){return;}
 
 		return json_decode(file_get_contents($infoPath), true);
-		// $jsonData = json_decode(file_get_contents($infoPath), true);
-
-		// if($key !== ""){
-		// 	if(){
-		// 		return $jsonData[$key];
-		// 	}
-		// 	else{
-		// 		return ""
-		// 	}
-		//
-		// }
-		// else{
-		// 	return $jsonData;
-		// }
 	}
 
 	//

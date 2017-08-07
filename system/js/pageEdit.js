@@ -27,7 +27,7 @@
 		$$.prototype.setEvent_eyecatch();
 	};
 
-	$$.prototype.changeSelect = function(event){console.log(+new Date())
+	$$.prototype.changeSelect = function(event){
 		var target = event.target;
 		var urlData = $$.prototype.urlinfo();
 		var url = urlData.url+"?b="+urlData.query.b+"&p="+urlData.query.p+"&file="+target.value;

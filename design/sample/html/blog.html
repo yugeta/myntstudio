@@ -1,24 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <FILE:"<CLASS:MYNT/getDesignTarget()>html/head_tag.html">
-		<script src="<CLASS:MYNT_URL/getSystemRoot()>js/axcel.js"></script>
+	<head>
+		<FILE:"data/page/default/head_tag.html">
+		<link rel="stylesheet" href="design/<GLOBALS:config/design/target>/css/top.css?<GLOBALS:config/page/version>">
   </head>
 
-  <body>
-    <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <FILE:"<CLASS:MYNT/getDesignTarget()>html/header_menu.html">
-      </div>
-    </div>
+	<body>
 
-    <div class="container">
-			<article class="contents" id="contents">
-				<h1><CLASS:MYNT_PAGE/getTitle()></h1>
-				<div class="eyecatch"></div>
-				<CLASS:MYNT_PAGE/getContents()>
-			</atricle>
-    </div>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class='row'>
+					<FILE:"data/page/default/header_menu.html">
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class='row'>
+
+				<div class=" col-sm-9 mynt-page-contents primery">
+					<article class="contents" id="contents">
+<h1><CLASS:MYNT_VIEW/getTitle()></h1>
+<div class="eyecatch"></div>
+<CLASS:MYNT_VIEW/getContents()>
+					</atricle>
+				</div>
+
+				<div class=" col-sm-3 mynt-page-menu-right secondary">
+					<file:"data/page/default/menuRight.html">
+				</div>
+
+			</div>
+		</div>
+
+		<div class="container mynt-page-footer">
+			<footer class="footer">
+				<div class="footer-wrap">
+					<FILE:"data/page/default/viewFooter.html">
+				</div>
+			</footer>
+		</div>
 
 	</body>
 </html>

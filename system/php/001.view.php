@@ -8,7 +8,7 @@ class MYNT_VIEW{
 		}
 
 		$default_design = $GLOBALS["config"]["design"]["target"];
-		$path = "design/".$default_design."/html/".$base.".html";
+		$path = "design/".$default_design."/html/".$base;
 
 		// check
 		if(!is_file($path)){
@@ -17,6 +17,18 @@ class MYNT_VIEW{
 
 		$source = file_get_contents($path);
 		echo $this->conv($source);
+	}
+
+	function getTitle($file = ""){
+		$MYNT_PAGE = new MYNT_PAGE;
+		$info = $MYNT_PAGE->getPageInfo($file);
+
+		if(!isset($info["title"])){
+			return "";
+		}
+
+		$MYNT_SOURCE = new MYNT_SOURCE;
+		return $MYNT_SOURCE->rep($info["title"]);
 	}
 
 	/**
@@ -76,16 +88,25 @@ class MYNT_VIEW{
 	}
 
 	public function getBaseFile(){
-		for($i=0,$c=count($GLOBALS["config"]["pageCategoryLists"]["type"]); $i<$c; $i++){
-			$key = $GLOBALS["config"]["pageCategoryLists"]["type"][$i]["key"];
-			// $dir = $GLOBALS["config"]["pageCategoryLists"]["type"][$i]["dir"];
-			$baseFile = $GLOBALS["config"]["pageCategoryLists"]["type"][$i]["baseFile"];
-			if(isset($_REQUEST[$key]) && $key
-			&& is_file($dir.$_REQUEST[$key].".html")){
-				return $baseFile;
+
+		$base = $GLOBALS["config"]["page"]["base"];
+		$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
+
+		for($i=0,$c=count($type); $i<$c; $i++){
+
+			$key = $type[$i]["key"];
+			$dir = $type[$i]["dir"];
+			$baseFile = $type[$i]["baseFile"];
+// echo $key."<br>".PHP_EOL;
+// echo $key." / ".$dir." / ".$baseFile."<br>".PHP_EOL;
+			if(isset($_REQUEST[$key]) && is_file($dir.$_REQUEST[$key].".html")){
+				$base = $baseFile;
+				break;
 			}
 		}
-		return (isset($_REQUEST["b"]) && $_REQUEST["b"]!=="")?$_REQUEST["b"]:$GLOBALS["config"]["page"]["base"];
+		// echo $base;
+		return $base;
+		// return (isset($_REQUEST["b"]) && $_REQUEST["b"]!=="")?$_REQUEST["b"]:$GLOBALS["config"]["page"]["base"];
 	}
 
 	public function getSource($base="" , $page=""){
