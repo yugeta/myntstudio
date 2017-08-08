@@ -117,7 +117,7 @@ class MYNT_UPLOAD{
 			if($flg === 1 && $_REQUEST["lastImage"] === $m[1]){$flg = 0; continue;}
 			if($flg === 1){continue;}
 
-			$path = self::dir_picture.$info["fileName"];
+			$path = self::$dir_picture.$info["fileName"];
 			$html[] = "<div class='pictures'>";
 			$html[] = "<div class='pictures_td'>";
 			$html[] = "<img src='".$currentUrl.self::$dir_picture.$m[1].".".$info["extension"]."' alt='".$info["alt"]."' data-id='".$m[1]."' data-ext='".$info["extension"]."'>";

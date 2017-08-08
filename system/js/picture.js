@@ -330,7 +330,7 @@
 			url:$$.prototype.pathinfo(location.href).path,
 			query:{
 				method      : "MYNT_PAGE/getTemplateFile",
-				filePath    : "system/page/picture_dialog.html",
+				filePath    : "system/html/picture_dialog.html",
 
 				img_id      : json.currentName,
 				img_src     : this.query.src,
