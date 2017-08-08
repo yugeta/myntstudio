@@ -4,8 +4,11 @@
 	};
 
 	$$.prototype.set = function(){
-		var fileNameElm = document.getElementById("fileName");
-		if(fileNameElm === null){return;}
+		// var fileNameElm = document.getElementById("fileName");
+		// if(fileNameElm !== null){
+		// 	// url-change
+		// 	fileNameElm.onchange = $$.prototype.changeSelect;
+		// }
 
 
 		// // select-value
@@ -17,8 +20,7 @@
 		// 	fileNameElm.value = urlData.query.file;
 		// }
 
-		// url-change
-		fileNameElm.onchange = $$.prototype.changeSelect;
+
 
 		// add-tag
 		$$.prototype.setEvent_addTag();
