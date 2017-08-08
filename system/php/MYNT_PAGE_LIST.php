@@ -186,7 +186,7 @@ class MYNT_PAGE_LIST{
 	// }
 
 	// Article-lists (table-tr)
-	public static function viewPageLists_tr($type = "" , $status = ""){
+	public static function viewPageLists_tr($type="", $status=""){
 
 		// Check-Default
 		if($type === ""){$type = self::getDefaultKey_type();}
@@ -206,7 +206,7 @@ class MYNT_PAGE_LIST{
 			$file   = self::getFileName2ID($lists[$i]);
 			$status =self::getKey2Value($GLOBALS["config"]["pageCategoryLists"]["status"] , $info["status"]);
 
-			$html .= "<tr class='titleList' onclick='location.href=\"?system=pageEdit&file=".$file."\"'>".PHP_EOL;
+			$html .= "<tr class='titleList' onclick='location.href=\"?system=pageEdit&type=".$type."&file=".$file."\"'>".PHP_EOL;
 			$html .= "<th style='width:50px;'>".($i+1)."</th>".PHP_EOL;
 			$html .= "<td>".$title."</td>".PHP_EOL;
 			$html .= "<td>".$status."</td>".PHP_EOL;

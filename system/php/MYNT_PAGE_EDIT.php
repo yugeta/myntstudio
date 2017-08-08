@@ -2,6 +2,34 @@
 
 class MYNT_PAGE_EDIT{
 
+	// [page-edit] load-source-file-data
+	public static function getSource($type, $fileName){
+		$path = self::getType2Dir($type);
+		$filePath = $path.$fileName.".html";
+
+		$data = "";
+		if(is_file($filePath)){
+			$data = file_get_contents($filePath);
+			$data = str_replace("<","&lt;",$data);
+			$data = str_replace(">","&gt;",$data);
+		}
+		return $data;
+	}
+
+	//
+	public static function getType2Dir($type){
+		$types = $GLOBALS["config"]["pageCategoryLists"]["type"];
+		for($i=0,$c=count($types); $i<$c; $i++){
+			if($types[$i]["key"] === $type){
+				return $types[$i]["dir"];
+			}
+		}
+	}
+
+
+
+
+
 	public static $default_dir  = "data/page/";
 	public static $system_dir   = "system/page/";
 	public static $default_top  = "system/page/";
@@ -35,75 +63,75 @@ class MYNT_PAGE_EDIT{
 		return $path;
 	}
 
-	// クエリを判別してページを表示（ない場合はエラーページ）
-	public static function getSource($type = ""){
-
-		// ログイン後に読み込みページが変わる場合の設定
-		// $file = ($loginedFile !== "" && isset($_SESSION["login_id"]) && $_SESSION["login_id"])?$loginedFile:$notLoginFile;
-		//
-
-		// mode
-		$mode = "";
-		$file = "";
-
-
-
-		// path-get
-		$path = "";
-		if(!isset($_REQUEST["m"])&& !$_REQUEST["m"] && !isset($_REQUEST["p"]) && !$_REQUEST["p"]){
-			$path = "data/page/default/top.html";
-		}
-		else if(!isset($_REQUEST["m"])&& !$_REQUEST["m"] && isset($_REQUEST["p"]) && $_REQUEST["p"]){
-			$path = "data/page/blog/".$_REQUEST["p"].".html";
-		}
-		else if(isset($_REQUEST["m"])&& $_REQUEST["m"] && isset($_REQUEST["p"]) && $_REQUEST["p"]){
-			$path = "data/".$_REQUEST["m"]."/".$_REQUEST["p"].".html";
-		}
-
-		// 認証
-		// if($type === "login" && !isset($_SESSION["login_id"])){
-		// 	$path = $this->system_dir."login.html";
-		// }
-		//
-		// // クエリにページ指定があるか確認
-		// else if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
-		// 	if(is_file($this->default_dir.$_REQUEST["p"].".html")){
-		// 		// $path = $this->default_dir.$_REQUEST["p"].".html";
-		// 		$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/blog.html";
-		// 	}
-		// }
-		// else if(isset($_REQUEST["blog"]) && $_REQUEST["blog"]){
-		// 	if(is_file("data/page/blog/".$_REQUEST["blog"].".html")){
-		// 		// $path = $this->default_dir.$_REQUEST["p"].".html";
-		// 		$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/blog.html";
-		// 	}
-		// }
-
-
-		// systemページ
-		else if(isset($_REQUEST["system"]) && $_REQUEST["system"]){
-			// $file = $_REQUEST["system"];
-			if(is_file(self::$system_dir.$_REQUEST["system"].".html")){
-				$path = self::$system_dir.$_REQUEST["system"].".html";
-			}
-		}
-
-		// ページ指定が無ければデフォルトページを設定
-		else{
-			$top = (isset($GLOBALS["config"]["page"]["top"]))?$GLOBALS["config"]["page"]["top"]:"top";
-			// $path = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$top.".html";
-			$path = "data/page/default/".$top.".html";
-		}
-
-		if($path === "" || !is_file($path)){
-			$path = self::default_404().".html";
-		}
-
-		$source = file_get_contents($path);
-
-		// $MYNT_SOURCE = new MYNT_SOURCE;
-		return MYNT::conv($source);
-	}
+	// // クエリを判別してページを表示（ない場合はエラーページ）
+	// public static function getSource($type = ""){
+	//
+	// 	// ログイン後に読み込みページが変わる場合の設定
+	// 	// $file = ($loginedFile !== "" && isset($_SESSION["login_id"]) && $_SESSION["login_id"])?$loginedFile:$notLoginFile;
+	// 	//
+	//
+	// 	// mode
+	// 	$mode = "";
+	// 	$file = "";
+	//
+	//
+	//
+	// 	// path-get
+	// 	$path = "";
+	// 	if(!isset($_REQUEST["m"])&& !$_REQUEST["m"] && !isset($_REQUEST["p"]) && !$_REQUEST["p"]){
+	// 		$path = "data/page/default/top.html";
+	// 	}
+	// 	else if(!isset($_REQUEST["m"])&& !$_REQUEST["m"] && isset($_REQUEST["p"]) && $_REQUEST["p"]){
+	// 		$path = "data/page/blog/".$_REQUEST["p"].".html";
+	// 	}
+	// 	else if(isset($_REQUEST["m"])&& $_REQUEST["m"] && isset($_REQUEST["p"]) && $_REQUEST["p"]){
+	// 		$path = "data/".$_REQUEST["m"]."/".$_REQUEST["p"].".html";
+	// 	}
+	//
+	// 	// 認証
+	// 	// if($type === "login" && !isset($_SESSION["login_id"])){
+	// 	// 	$path = $this->system_dir."login.html";
+	// 	// }
+	// 	//
+	// 	// // クエリにページ指定があるか確認
+	// 	// else if(isset($_REQUEST["p"]) && $_REQUEST["p"]){
+	// 	// 	if(is_file($this->default_dir.$_REQUEST["p"].".html")){
+	// 	// 		// $path = $this->default_dir.$_REQUEST["p"].".html";
+	// 	// 		$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/blog.html";
+	// 	// 	}
+	// 	// }
+	// 	// else if(isset($_REQUEST["blog"]) && $_REQUEST["blog"]){
+	// 	// 	if(is_file("data/page/blog/".$_REQUEST["blog"].".html")){
+	// 	// 		// $path = $this->default_dir.$_REQUEST["p"].".html";
+	// 	// 		$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/blog.html";
+	// 	// 	}
+	// 	// }
+	//
+	//
+	// 	// systemページ
+	// 	else if(isset($_REQUEST["system"]) && $_REQUEST["system"]){
+	// 		// $file = $_REQUEST["system"];
+	// 		if(is_file(self::$system_dir.$_REQUEST["system"].".html")){
+	// 			$path = self::$system_dir.$_REQUEST["system"].".html";
+	// 		}
+	// 	}
+	//
+	// 	// ページ指定が無ければデフォルトページを設定
+	// 	else{
+	// 		$top = (isset($GLOBALS["config"]["page"]["top"]))?$GLOBALS["config"]["page"]["top"]:"top";
+	// 		// $path = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$top.".html";
+	// 		$path = "data/page/default/".$top.".html";
+	// 	}
+	//
+	// 	if($path === "" || !is_file($path)){
+	// 		$path = self::default_404().".html";
+	// 	}
+	//
+	// 	$source = file_get_contents($path);
+	//
+	// 	// $MYNT_SOURCE = new MYNT_SOURCE;
+	// 	return MYNT::conv($source);
+	// }
 
 	// infoデータからタイトルを取得
 	public static function getTitle($file = ""){
@@ -242,13 +270,7 @@ class MYNT_PAGE_EDIT{
 	// }
 
 	//
-	public static function getFile($filePath){
-		if(!is_file($filePath)){return;}
-		$data = file_get_contents($filePath);
-		$data = str_replace("<","&lt;",$data);
-		$data = str_replace(">","&gt;",$data);
-		return $data;
-	}
+
 
 	public static function getFileLists($ext="html"){
 		// if(!$type){return;}

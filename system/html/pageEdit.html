@@ -1,10 +1,10 @@
-<link rel="stylesheet" href="<<METHOD:MYNT_URL::getSystemRoot()>>css/pageEdit.css?<<METHOD:MYNT::currentTime()>>">
+<link rel="stylesheet" href="system/css/pageEdit.css?<<METHOD:MYNT::currentTime()>>">
 
 <div class='container'>
 
 	<div class='row'>
 		<div class='col-sm-12'>
-			<p style="font-size:20px;margin:0;"><a href='<<METHOD:MYNT_URL::getUrl()>>?b=<<request:b>>&p=p_pageLists&pageDir=<<request:pageDir>>'><i class='glyphicon glyphicon-arrow-left'></i> Page Lists</a></p>
+			<p style="font-size:20px;margin:0;"><a href='<<METHOD:MYNT_URL::getUrl()>>?system=pageLists&type=<<request:type>>'><i class='glyphicon glyphicon-arrow-left'></i> Page Lists</a></p>
 		</div>
 	</div>
 
@@ -19,9 +19,8 @@
 
 <form name='form1' method='post' class="form-horizontal" action="<<METHOD:MYNT_URL::getUrl()>>">
 	<input type='hidden' name='method' value='MYNT_PAGE_EDIT/setSystemPage' />
-	<input type="hidden" name="b" value="<<REQUEST:b>>">
-	<input type="hidden" name="p" value="<<REQUEST:p>>">
-	<input type="hidden" name="pageDir" value="<<REQUEST:pageDir>>">
+	<input type="hidden" name="system" value="<<REQUEST:system>>">
+	<input type="hidden" name="type" value="<<REQUEST:type>>">
 	<input type="hidden" name="file" value="<<REQUEST:file>>">
 
 	<div class='container'>
@@ -123,7 +122,7 @@
 					<div class="control-group">
 						<label class="control-label" for="source"><i class='glyphicon glyphicon-edit'></i> Source</label>
 						<div class="controls">
-							<textarea style="min-height:300px;" id="source" name='source' class='form-control' /><<METHOD:MYNT_PAGE_EDIT::getFile("data/page/<<REQUEST:pageDir>>/<<REQUEST:file>>.html")>></textarea>
+							<textarea style="min-height:300px;" id="source" name='source' class='form-control' /><<METHOD:MYNT_PAGE_EDIT::getSource("<<REQUEST:type>>","<<REQUEST:file>>")>></textarea>
 						</div>
 					</div>
 
@@ -213,7 +212,7 @@
 						<label class="control-label" for="source"><i class='glyphicon glyphicon-info-sign'></i> Infomation</label>
 						<div class="panel panel-default">
 							<div class="panel-body">
-								<i class='glyphicon glyphicon-open-file'></i> file   : <<if"<request:file>">> <<request:file>>.html<</if>><br>
+								<i class='glyphicon glyphicon-open-file'></i> File   : <<if:"<request:file>">> <<request:file>>.html<</if>><br>
 								<i class='glyphicon glyphicon-glass'></i> Regist : <<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","regist")>><br>
 								<i class='glyphicon glyphicon-time'></i> Update : <<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","update")>><br>
 							</div>
