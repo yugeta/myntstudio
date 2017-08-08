@@ -4,13 +4,13 @@ class MYNT_PAGE_EDIT{
 
 	/** Lib **/
 
-	public static function getPageDir(){
-		$pageDir = "blog";
-		if(isset($_REQUEST["pageDir"]) && $_REQUEST["pageDir"] !== ""){
-			$pageDir = $_REQUEST["pageDir"];
-		}
-		return $pageDir;
-	}
+	// public static function getPageDir(){
+	// 	$pageDir = "blog";
+	// 	if(isset($_REQUEST["pageDir"]) && $_REQUEST["pageDir"] !== ""){
+	// 		$pageDir = $_REQUEST["pageDir"];
+	// 	}
+	// 	return $pageDir;
+	// }
 
 	public static function getFileLists($type, $ext="html"){
 		$path = self::getType2Dir($type);
