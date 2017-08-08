@@ -130,6 +130,7 @@ class MYNT_SOURCE{
 				if($val_else !== ""){
 					$evalStr .= "else{return '".$val_else."';}";
 				}
+				
 				$res = eval($evalStr);
 			}
 

@@ -1,10 +1,9 @@
-<!IF("<SESSION:login_id>"!="")><!EVAL:"header('location : //yahoo.com');"<else><if-end>
+
 
 <main class="bs-docs-masthead" role="main">
-	<form method="post" action="<<MYNT_URL::getLocalFilename()>>">
+	<form method="post" action="<<METHOD:MYNT_URL::getLocalFilename()>>">
 		<input type="hidden" name="method" value="MYNT_PLUGIN_LOGIN/checkLogin">
-		<input type="hidden" name="b" value="system">
-		<input type="hidden" name="p" value="top">
+		<input type="hidden" name="system" value="top">
 
 		<div class="login">
 			<div class="input-area">

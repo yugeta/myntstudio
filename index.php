@@ -159,11 +159,11 @@ class MYNT{
 		$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
 
 		for($i=0,$c=count($type); $i<$c; $i++){
-
 			$key = $type[$i]["key"];
-			$dir = $type[$i]["dir"];
+			// $dir = $type[$i]["dir"];
 			$baseFile = $type[$i]["baseFile"];
-			if(isset($_REQUEST[$key]) && is_file($dir.$_REQUEST[$key].".html")){
+			$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$baseFile;
+			if(isset($_REQUEST[$key]) && is_file($path)){
 				$base = $baseFile;
 				break;
 			}
@@ -187,17 +187,23 @@ class MYNT{
 		$source = "";
 
 		$path = $GLOBALS["config"]["page"]["contents_default"];
+		$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
+
 		//
-		for($i=0,$c=count($GLOBALS["config"]["pageCategoryLists"]["type"]); $i<$c; $i++){
+		for($i=0,$c=count($type); $i<$c; $i++){
 
-			$key  = $GLOBALS["config"]["pageCategoryLists"]["type"][$i]["key"];
+			$key = $type[$i]["key"];
+			$dir = $type[$i]["dir"];
+
 			if(!isset($_REQUEST[$key])){continue;}
-			if($key === "default" && $_REQUEST[$key] === "default"){continue;}
+			// if($key === "default" && $_REQUEST[$key] === "default"){continue;}
+			//if($_REQUEST[$key] === $key){continue;}
 
-			$path = "data/page/default/".$key.".html";
-			if(!is_file($path)){continue;}
+			// $file = $dir.$key.".html";
+			$file = $dir.$_REQUEST[$key].".html";
+			if(!is_file($file)){continue;}
 
-			$source = file_get_contents($path);
+			$source = file_get_contents($file);
 			$source = self::conv($source);
 
 			break;
