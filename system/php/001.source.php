@@ -102,7 +102,7 @@ class MYNT_SOURCE{
 
 	public static function pattern_if($source){
 
-		$ptn = '<<if\((.+?)\)>>(.+?)<<\/if>>';
+		$ptn = '<<if\:(.+?)>>(.+?)<<\/if>>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
 		if(!count($match[1])){
@@ -130,13 +130,13 @@ class MYNT_SOURCE{
 				if($val_else !== ""){
 					$evalStr .= "else{return '".$val_else."';}";
 				}
-				
+
 				$res = eval($evalStr);
 			}
 
 			// if-elseif-else
 			else{
-				$ptn2 = '<<elif\((.+?)\)>>';
+				$ptn2 = '<<elif\:(.+?)>>';
 				$str = $val_then;
 				$str = str_replace("\n","",$str);
 				$str = str_replace("\r","",$str);
@@ -144,9 +144,9 @@ class MYNT_SOURCE{
 
 				$elif = "";
 				for($j=0; $j<count($elifs[0]); $j++){
-					$elif .= "<<elif\(.+?\)>>(.+?)";
+					$elif .= "<<elif\:\(.+?\)>>(.+?)";
 				}
-				$ptn3 = '<<if\(.+?\)>>(.+?)'.$elif.'<<else>>.+?<<\/if>>';
+				$ptn3 = '<<if\:\(.+?\)>>(.+?)'.$elif.'<<else>>.+?<<\/if>>';
 				preg_match_all("/".$ptn3."/is" , $match[0][$i]  , $elifs2);
 
 				$evalStr = "if(".$match[1][$i]."){return '".$elifs2[1][0]."';}";
@@ -167,7 +167,7 @@ class MYNT_SOURCE{
 
 		//
 		// $ptn = '<if\((.+?)\)>(.+?)<else>(.+?)<if\-end>';
-		$ptn = '<<if\((.+?)\)>>(.+?)<<\/if>>';
+		$ptn = '<<if\:(.+?)>>(.+?)<<\/if>>';
 		preg_match_all("/".$ptn."/is" , $source  , $match);
 
 		if(!count($match[1])){
@@ -200,7 +200,7 @@ class MYNT_SOURCE{
 
 			// if-elseif-else
 			else{
-				$ptn2 = '<<elif\((.+?)\)>>';
+				$ptn2 = '<<elif\:(.+?)>>';
 				$str = $val_then;
 				$str = str_replace("\n","",$str);
 				$str = str_replace("\r","",$str);
@@ -208,9 +208,9 @@ class MYNT_SOURCE{
 
 				$elif = "";
 				for($j=0; $j<count($elifs[0]); $j++){
-					$elif .= "<<elif\(.+?\)>>(.+?)";
+					$elif .= "<<elif\:\(.+?\)>>(.+?)";
 				}
-				$ptn3 = '<<if\(.+?\)>>(.+?)'.$elif.'<<else>>.+?<<\/if>>';
+				$ptn3 = '<<if\:\(.+?\)>>(.+?)'.$elif.'<<else>>.+?<<\/if>>';
 				preg_match_all("/".$ptn3."/is" , $match[0][$i]  , $elifs2);
 
 				$evalStr = "if(".$match[1][$i]."){return '".$elifs2[1][0]."';}";

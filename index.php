@@ -9,26 +9,34 @@ date_default_timezone_set('Asia/Tokyo');
 // //IE iframe 3rd party cookie 対応
 // header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
 
+
 // Load-PHP-system-module
 MYNT::loadPHPs("system/php");
+
 
 // Load-Config
 MYNT::loadConfig();
 
+
 // Session-Start
 MYNT::startSession();
+
 
 // Load-PHP-Plugins-module
 MYNT::loadPlugins();
 
+
 // Load-PHP-design-module
 MYNT::loadPHPs("design/".$GLOBALS["config"]["design"]["target"]."/php");
+
 
 // Check-Query (system-process)
 MYNT::checkMethod();
 
+
 // Check-Auth
 MYNT_PLUGIN_LOGIN::checkSystemBase();
+
 
 // Load-HTML-Default-source
 MYNT::viewDesign();

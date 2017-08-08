@@ -22,7 +22,7 @@
 		</ul>
 	</li>
 
-	<li role="presentation" class="<<if('<request:status>'==='')>>active<</if>>">
+	<li role="presentation" class="<<if:'<request:status>'===''>>active<</if>>">
 		<a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" href="<<MYNT_URL::getUrl()>>?b=<<request:b>>&p=<<request:p>>&pageDir=<<REQUEST:pageDir>>">ALL (<<METHOD:MYNT_PAGE_LIST::getPageCount()>>)</a>
 	</li>
 

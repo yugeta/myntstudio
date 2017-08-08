@@ -23,7 +23,7 @@
 			<!-- </form> -->
 		</li>
 
-		<li class="dropdown" style="display:<<if("<<SESSION:login_id>>")>>inline<<else>>none<</if>>;">
+		<li class="dropdown" style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Account <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
 				<li><a href="<PROC:URL/getLocalFilename()>?system=p_accountEdit">Setting</a></li>
@@ -32,8 +32,8 @@
 			</ul>
 		</li>
 
-		<li style="display:<<if("<<SESSION:login_id>>")>>none<<else>>inline<</if>>;">
-			<a href="<<METHOD:MYNT_VIEW::root()>>?system=login">Login</a>
+		<li style="display:<<if:"<<SESSION:login_id>>">>none<<else>>inline<</if>>;">
+			<a href="<<METHOD:MYNT_VIEW::root()>>?default=login">Login</a>
 		</li>
 
 	</ul>

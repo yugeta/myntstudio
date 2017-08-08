@@ -213,7 +213,7 @@
 						<label class="control-label" for="source"><i class='glyphicon glyphicon-info-sign'></i> Infomation</label>
 						<div class="panel panel-default">
 							<div class="panel-body">
-								<i class='glyphicon glyphicon-open-file'></i> file   : <<if("<request:file>")>> <<request:file>>.html<</if>><br>
+								<i class='glyphicon glyphicon-open-file'></i> file   : <<if"<request:file>">> <<request:file>>.html<</if>><br>
 								<i class='glyphicon glyphicon-glass'></i> Regist : <<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","regist")>><br>
 								<i class='glyphicon glyphicon-time'></i> Update : <<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","update")>><br>
 							</div>

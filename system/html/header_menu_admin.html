@@ -1,5 +1,5 @@
 <div class="navbar-header">
-	<<if("<<SESSION:login_id>>")>>
+	<<if:"<<SESSION:login_id>>">>
 	<a href="<<METHOD:MYNT_URL::getUrl()>>?system=top" class="navbar-brand"><<GLOBALS:config/page/title>></a>
 	<<else>>
 	<a href="<<METHOD:MYNT_URL::getUrl()>>" class="navbar-brand"><<GLOBALS:config/page/title>></a>
@@ -14,11 +14,11 @@
 
 	<ul class="nav navbar-nav">
 
-		<li style="display:<<if("<<SESSION:login_id>>")>>inline<<else>>none<</if>>;">
+		<li style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
 			<a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_pageEdit&pageDir=<<request:pageDir>>"><i class='glyphicon glyphicon-pencil'></i> NewPost</a>
 		</li>
 
-		<li class="dropdown" style="display:<<if("<<SESSION:login_id>>")>>inline<<else>>none<</if>>;">
+		<li class="dropdown" style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Page <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
 				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_pageLists&pageDir=<request:pageDir>"><i class='glyphicon glyphicon-th-list'></i> PageLists</a></li>
@@ -30,7 +30,7 @@
 			</ul>
 		</li>
 
-		<li class="dropdown" style="display:<<if("<<SESSION:login_id>>")>>inline<<else>>none<</if>>;">
+		<li class="dropdown" style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">System <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
 				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_config"><i class='glyphicon glyphicon-pencil'></i> Config</a></li>
@@ -41,7 +41,7 @@
 	</ul>
 
 	<ul class="nav navbar-nav navbar-right">
-		<li class="dropdown" style="display:<<if("<<SESSION:login_id>>")>>inline<<else>>none<</if>>;">
+		<li class="dropdown" style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Account <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
 				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_accountEdit">Setting</a></li>
