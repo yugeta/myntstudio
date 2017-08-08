@@ -3,6 +3,7 @@
 	<head>
 		<<FILE:"data/page/default/head_tag.html">>
 		<link rel="stylesheet" href="design/<<GLOBALS:config/design/target>>/css/top.css?<<GLOBALS:config/page/version>>">
+		<link rel="stylesheet" href="design/<<GLOBALS:config/design/target>>/css/blog.css?<<GLOBALS:config/page/version>>">
   </head>
 
 	<body>
@@ -20,13 +21,9 @@
 
 				<div class=" col-sm-9 mynt-page-contents primery">
 					<article class="contents" id="contents">
-
 <h1><<METHOD:MYNT_BLOG::getPageTitle(<<REQUEST:blog>>)>></h1>
-<div class="eyecatch"></div>
-<div class="blog-source">
-<<METHOD:MYNT_BLOG::getPageSource(<<REQUEST:blog>>)>>
-</div>
-
+<div class="eyecatch"><<METHOD:MYNT_BLOG::getPageEyecatch_img(<<REQUEST:blog>>)>></div>
+<div class="blog-source"><<METHOD:MYNT_BLOG::getPageSource(<<REQUEST:blog>>)>></div>
 					</atricle>
 				</div>
 

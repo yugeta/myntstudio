@@ -68,6 +68,20 @@ class MYNT_BLOG{
 
 	public static function getPageEyecatch_img($page_id){
 
+		// blog-info
+		$default_blog_path = "data/page/blog/";
+		if(!is_file($default_blog_path.$page_id.".info")){return;}
+		$pageInfo = json_decode(file_get_contents($default_blog_path.$page_id.".info") ,true);
+
+		// eyecatch-info
+		$default_pic_path = "data/picture/";
+		if(!isset($pageInfo["eyecatch"]) && !is_file($default_pic_path.$pageInfo["eyecatch"].".info")){return;}
+		$picInfo = json_decode(file_get_contents($default_pic_path.$pageInfo["eyecatch"].".info") ,true);
+
+		//eyecatch-image
+		if(!is_file($default_pic_path.$pageInfo["eyecatch"].".".$picInfo["extension"])){return;}
+		return "<img src='".$default_pic_path.$pageInfo["eyecatch"].".".$picInfo["extension"]."' id='eyecatch_".$pageInfo["eyecatch"]."' alt='".$pageInfo["alt"]."' />";
+
 	}
 
 	public static function getPageInfo($page_id){

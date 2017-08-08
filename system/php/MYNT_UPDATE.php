@@ -63,7 +63,7 @@ class MYNT_UPLOAD{
 		$data["size"]        = $size;
 		$data["entry"]       = date("YmdHis");
 		$data["accessIP"]    = $_SERVER["REMOTE_ADDR"];
-		$jsonStr = json_encode($data);
+		$jsonStr = json_encode($data, JSON_PRETTY_PRINT);
 		$jsonStr = preg_replace_callback('/\\\\u([0-9a-zA-Z]{4})/', function ($matches) {return mb_convert_encoding(pack('H*',$matches[1]),'UTF-8','UTF-16');},$jsonStr);
 		file_put_contents(self::$dir_picture .$currentName.".info" , $jsonStr);
 	}
