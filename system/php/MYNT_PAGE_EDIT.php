@@ -99,6 +99,22 @@ class MYNT_PAGE_EDIT{
 		return join(PHP_EOL,$options);
 	}
 
+	public static function getTemplateFile(){
+		if(!isset($_REQUEST["filePath"]) || !is_file($_REQUEST["filePath"])){return;}
+		$temp = file_get_contents($_REQUEST["filePath"]);
+	
+		// $mode = "";
+		// if(isset($_REQUEST["mode"]) && $_REQUEST["mode"]){
+		// 	$mode = $_REQUEST["mode"];
+		// }
+
+		// $MYNT_SOURCE = new MYNT_SOURCE;
+		echo MYNT::conv($temp);
+		exit();
+	}
+
+
+
 	/** Proc **/
 
 	// [page-edit] load-source-file-data
@@ -494,19 +510,7 @@ class MYNT_PAGE_EDIT{
 	// 	exit();
 	// }
 	//
-	// public static function getTemplateFile(){
-	// 	if(!isset($_REQUEST["filePath"]) || !is_file($_REQUEST["filePath"])){return;}
-	// 	$temp = file_get_contents($_REQUEST["filePath"]);
-	//
-	// 	// $mode = "";
-	// 	// if(isset($_REQUEST["mode"]) && $_REQUEST["mode"]){
-	// 	// 	$mode = $_REQUEST["mode"];
-	// 	// }
-	//
-	// 	// $MYNT_SOURCE = new MYNT_SOURCE;
-	// 	echo MYNT::conv($temp);
-	// 	exit();
-	// }
+
 	//
 	//
 	//

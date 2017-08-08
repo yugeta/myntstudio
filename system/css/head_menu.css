@@ -5,20 +5,20 @@
 .navbar-fixed-top *{
 	color:white !important;
 }
-.dropdown-menu{
+.page-menu .dropdown-menu{
 	background-color:#444 !important;
 }
-.dropdown-menu>li>a{
+.page-menu .dropdown-menu>li>a{
 	cursor:pointer;
 }
-.dropdown-menu>li>a:hover{
+.page-menu .dropdown-menu>li>a:hover{
 	/*background-color:#F44 !important;*/
 	background-image: linear-gradient(to bottom, #999 0%, #888 100%) !important;
 }
 .navbar-toggle .icon-bar{
 	background-color:white !important;
 }
-.dropdown.open .dropdown-toggle{
+.page-menu .dropdown.open .dropdown-toggle{
 	/*background-color:red !important;*/
 	background-image: linear-gradient(to bottom, #999 0%, #888 100%) !important;
 }

@@ -12,7 +12,7 @@
 </div>
 <div class="navbar-collapse collapse" id="navbar-main">
 
-	<ul class="nav navbar-nav">
+	<ul class="nav navbar-nav page-menu">
 
 		<li style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
 			<a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=pageEdit&type=blog"><i class='glyphicon glyphicon-pencil'></i> NewPost</a>
@@ -40,7 +40,7 @@
 		</li>
 	</ul>
 
-	<ul class="nav navbar-nav navbar-right">
+	<ul class="nav navbar-nav navbar-right page-menu">
 		<li class="dropdown" style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" id="download">Account <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
