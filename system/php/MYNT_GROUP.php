@@ -3,7 +3,7 @@
 class MYNT_GROUP{
 
 	// グループコンフィグデータを取得
-	public static function getData($path = "data/options/group.json"){
+	public static function getData($path = "data/config/group.json"){
 		if(!is_file($path)){return;}
 		return json_decode(file_get_contents($path) , true);
 	}
@@ -37,7 +37,7 @@ class MYNT_GROUP{
 		return $data;
 	}
 
-	public static function getNamesHtml_option($value="",$arrtibute="",$class="",$style=""){
+	public static function getNamesHtml_option($value="", $arrtibute="", $class="", $style=""){
 		$group = self::getLists();
 		if(!count($group)){return;}
 		$html = "";

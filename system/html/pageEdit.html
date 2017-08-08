@@ -32,7 +32,7 @@
 					<div class="control-group">
 						<label class="control-label" for="title"><i class='glyphicon glyphicon-text-width'></i> Title</label>
 						<div class="controls">
-							<input type='text' id="title" name='title' value='<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","title")>>' class='form-control'/>
+							<input type='text' id="title" name='title' value='<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:type>>","<<request:file>>","title")>>' class='form-control'/>
 						</div>
 					</div>
 
@@ -42,7 +42,7 @@
 							<button type="button" class="btn btn-default eyecatch-pickup-cutton" id="eyecatch_add">Pickup Eye-catch</button>
 							<button type="button" class="btn btn-default eyecatch-pickup-cutton" id="eyecatch_del">Remove Eye-catch</button>
 							<div id="eyecatch"><img class='eycatch_img' src='<<METHOD:MYNT_PICTURE::getEyecatchFilePath(<<request:file>>)>>'></div>
-							<input type="hidden" name="eyecatch" value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","eyecatch")>>">
+							<input type="hidden" name="eyecatch" value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:type>>","<<request:file>>","eyecatch")>>">
 						</div>
 					</div>
 
@@ -141,70 +141,70 @@
 				<div class='base-default base-color-gray'>
 
 					<div class="control-group" id="fileNameArea">
-						<label class="control-label" for="title"><i class='glyphicon glyphicon-search'></i> Search</label>
+						<label class="control-label" for="group"><i class='glyphicon glyphicon-search'></i> Search</label>
 						<div class="controls">
 							<input type='text' id="group" name='group' value="<<request:search>>" class='form-control' />
 						</div>
 					</div>
 
-					<div class="control-group" style="display:none;">
-						<label class="control-label" for="title"><i class='glyphicon glyphicon-book'></i> File</label>
+					<!-- <div class="control-group" style="display:none;">
+						<label class="control-label" for="fileName"><i class='glyphicon glyphicon-book'></i> File</label>
 						<div class="controls">
 							<select id="fileName" name="fileName" class='form-control'/>
 							<option value="" selected>+ new file</option>
-							<<METHOD:MYNT_PAGE_EDIT::getFileListsOptions()>>
+							<<METHOD:MYNT_PAGE_EDIT::getFileListsOptions("<<REQUEST:type>>","<<REQUEST:file>>","html")>>
 							</select>
 						</div>
-					</div>
+					</div> -->
 
-					<div class="control-group">
-						<label class="control-label" for="title"><i class='glyphicon glyphicon-text-size'></i> Type</label>
+					<!-- <div class="control-group">
+						<label class="control-label" for="type"><i class='glyphicon glyphicon-text-size'></i> Type</label>
 						<div class="controls">
 							<select id="type" name="type" class='form-control'/>
-								<<METHOD:MYNT_PAGE_EDIT::getPageCategoryListsOptions("type")>>
+								<<METHOD:MYNT_PAGE_EDIT::getPageCategoryListsOptions("<<REQUEST:type>>","<<REQUEST:file>>","type")>>
 							</select>
 						</div>
-					</div>
+					</div> -->
 
 					<div class="control-group">
-						<label class="control-label" for="title"><i class='glyphicon glyphicon-sort-by-attributes'></i> Status</label>
+						<label class="control-label" for="status"><i class='glyphicon glyphicon-sort-by-attributes'></i> Status</label>
 						<div class="controls">
 							<select id="status" name="status" class='form-control'/>
-								<<METHOD:MYNT_PAGE_EDIT::getPageCategoryListsOptions("status")>>
+								<<METHOD:MYNT_PAGE_EDIT::getPageCategoryListsOptions("<<REQUEST:type>>","<<REQUEST:file>>","status")>>
 							</select>
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="title"><i class='glyphicon glyphicon-time'></i> Schedule</label>
+						<label class="control-label" for="schedule"><i class='glyphicon glyphicon-time'></i> Schedule</label>
 						<div class="controls">
-							<input class='form-control' type='datetime-local' id='schedule' name='schedule' value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","schedule")>>" />
+							<input class='form-control' type='datetime-local' id='schedule' name='schedule' value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:type>>","<<request:file>>","schedule")>>" />
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
-						<label class="control-label" for="title"><i class='glyphicon glyphicon-menu-hamburger'></i> Group</label>
+						<label class="control-label" for="group"><i class='glyphicon glyphicon-menu-hamburger'></i> Group</label>
 						<div class="controls">
-							<!-- <input type='text' id="group" name='group' value="<<MYNT_PAGE_EDIT/getPageInfoString("<request:file>","group")>>" class='form-control' /> -->
-							<select name="group" class="form-control">
+							<select id="group" name="group" class="form-control">
 								<option value=""></option>
 								<!-- <!CLASS:MYNT_GROUP/getNamesHtml_option("<GLOBALS:cache/group>")> -->
-								<<METHOD:MYNT_PAGE_EDIT::getPageCategoryListsOptions("group")>>
+								<<METHOD:MYNT_PAGE_EDIT::getPageCategoryListsOptions("<<REQUEST:type>>","<<REQUEST:file>>","group")>>
+								<!-- <<METHOD:MYNT_GROUP::getNamesHtml_option(<<GLOBALS:cache/group>>)>> -->
 							</select>
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
-						<label class="control-label" for="title"><i class='glyphicon glyphicon-duplicate'></i> Category</label>
+						<label class="control-label" for="category"><i class='glyphicon glyphicon-duplicate'></i> Category</label>
 						<div class="controls">
-							<input type='text' id="category" name='category' value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","category")>>" class='form-control' />
+							<input type='text' id="category" name='category' value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:type>>","<<request:file>>","category")>>" class='form-control' />
 						</div>
 					</div>
 
 					<div class="control-group" id="fileNameArea">
-						<label class="control-label" for="title"><i class='glyphicon glyphicon-tags'></i> Tag</label>
+						<label class="control-label" for="tag"><i class='glyphicon glyphicon-tags'></i> Tag</label>
 						<div class="controls">
-							<input type='text' id="tag" name='tag' value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","tag")>>" class='form-control' />
+							<input type='text' id="tag" name='tag' value="<<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:type>>","<<request:file>>","tag")>>" class='form-control' />
 						</div>
 					</div>
 
@@ -213,8 +213,8 @@
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<i class='glyphicon glyphicon-open-file'></i> File   : <<if:"<request:file>">> <<request:file>>.html<</if>><br>
-								<i class='glyphicon glyphicon-glass'></i> Regist : <<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","regist")>><br>
-								<i class='glyphicon glyphicon-time'></i> Update : <<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:file>>","update")>><br>
+								<i class='glyphicon glyphicon-glass'></i> Regist : <<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:type>>","<<request:file>>","regist")>><br>
+								<i class='glyphicon glyphicon-time'></i> Update : <<METHOD:MYNT_PAGE_EDIT::getPageInfoString("<<request:type>>","<<request:file>>","update")>><br>
 							</div>
 						</div>
 					</div>
