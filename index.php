@@ -39,7 +39,7 @@ MYNT_PLUGIN_LOGIN::checkSystemBase();
 
 
 // Load-HTML-Default-source
-MYNT::viewDesign();
+MYNT::viewTemplate();
 
 
 
@@ -143,39 +143,51 @@ class MYNT{
 	}
 
   // View-Base (query-check -> get-base)
-	public static function viewDesign($base=""){
-		if($base === ""){
-			$base = self::getBase();
+	public static function viewTemplate($templatePath=""){
+		if($templatePath === ""){
+			$templatePath = self::getTemplatePath();
 		}
 
-		$default_design = $GLOBALS["config"]["design"]["target"];
-		$path = "design/".$default_design."/html/".$base;
+		// $default_design = $GLOBALS["config"]["design"]["target"];
+
+		// $path = "design/".$default_design."/html/".$base;
 
 		// check
-		if(!is_file($path)){
-			$path = "design/".$default_design."/html/"."/404.html";
+		if(!is_file($templatePath)){
+			$templatePath = "design/".$default_design."/html/"."/404.html";
 		}
 
-		$source = file_get_contents($path);
+		$source = file_get_contents($templatePath);
 		echo self::conv($source);
 	}
 
   // get-base-file-name
-  public static function getBase(){
+  public static function getTemplatePath(){
 
-		$base = $GLOBALS["config"]["page"]["base"];
-		$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
+		// default
+		$base = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$GLOBALS["config"]["page"]["base"];
 
-		for($i=0,$c=count($type); $i<$c; $i++){
-			$key = $type[$i]["key"];
-			// $dir = $type[$i]["dir"];
-			$baseFile = $type[$i]["baseFile"];
-			$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$baseFile;
-			if(isset($_REQUEST[$key]) && is_file($path)){
-				$base = $baseFile;
-				break;
+		// 強制モード (templateFile=)
+		if(isset($_REQUEST["templateFile"]) && is_file("design/".$GLOBALS["config"]["design"]["target"]."/html/".$_REQUEST["templateFile"].".html")){
+			$base = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$_REQUEST["templateFile"].".html";
+		}
+
+		// 通常モード
+		else{
+			$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
+
+			for($i=0,$c=count($type); $i<$c; $i++){
+				$key = $type[$i]["key"];
+				// $dir = $type[$i]["dir"];
+				$baseFile = $type[$i]["baseFile"];
+				$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$baseFile;
+				if(isset($_REQUEST[$key]) && is_file($path)){
+					$base = $path;
+					break;
+				}
 			}
 		}
+
 		return $base;
 	}
 
@@ -194,27 +206,36 @@ class MYNT{
 	public function viewContents(){
 		$source = "";
 
-		$path = $GLOBALS["config"]["page"]["contents_default"];
-		$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
-
-		//
-		for($i=0,$c=count($type); $i<$c; $i++){
-
-			$key = $type[$i]["key"];
-			$dir = $type[$i]["dir"];
-
-			if(!isset($_REQUEST[$key])){continue;}
-			// if($key === "default" && $_REQUEST[$key] === "default"){continue;}
-			//if($_REQUEST[$key] === $key){continue;}
-
-			// $file = $dir.$key.".html";
-			$file = $dir.$_REQUEST[$key].".html";
-			if(!is_file($file)){continue;}
-
-			$source = file_get_contents($file);
+		// 強制モード (contentsPath=)
+		if(isset($_REQUEST["contentsPath"]) && is_file($_REQUEST["contentsPath"])){
+			$source = file_get_contents($_REQUEST["contentsPath"]);
 			$source = self::conv($source);
+		}
 
-			break;
+		else{
+			$path = $GLOBALS["config"]["page"]["contents_default"];
+			$type = $GLOBALS["config"]["pageCategoryLists"]["type"];
+
+			//
+			for($i=0,$c=count($type); $i<$c; $i++){
+
+				$key = $type[$i]["key"];
+				$dir = $type[$i]["dir"];
+
+				if(!isset($_REQUEST[$key])){continue;}
+				// if($key === "default" && $_REQUEST[$key] === "default"){continue;}
+				//if($_REQUEST[$key] === $key){continue;}
+
+				// $file = $dir.$key.".html";
+				$file = $dir.$_REQUEST[$key].".html";
+				if(!is_file($file)){continue;}
+
+				$source = file_get_contents($file);
+				$source = self::conv($source);
+
+				break;
+			}
+
 		}
 
 		// source is blank
@@ -314,12 +335,17 @@ class MYNT{
 	// Check Mode
 	public function checkMode($mode){
 		switch($mode){
+			case "login":
+				if(class_exists(MYNT_PLUGIN_LOGIN)){
+					MYNT_PLUGIN_LOGIN::viewLogin();
+				}
+				break;
 			case "logout":
 				if(class_exists(MYNT_PLUGIN_LOGIN)){
-					// $MYNT_PLUGIN_LOGIN = new MYNT_PLUGIN_LOGIN;
 					MYNT_PLUGIN_LOGIN::checkLogout();
 				}
 				break;
+
 		}
 	}
 
@@ -328,30 +354,7 @@ class MYNT{
 
 
 
-  //
-	// function viewDesign($htmlFile = "index"){
-  //
-	// 	$path = "";
-  //
-	// 	// check
-	// 	if(is_file("design/".$GLOBALS["config"]["design"]["target"]."/html/".$htmlFile.".html")){
-	// 		$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/".$htmlFile.".html";
-	// 	}
-	// 	else{
-	// 		$path = "design/".$GLOBALS["config"]["design"]["target"]."/html/"."/404.html";
-	// 	}
-  //
-	// 	$source = file_get_contents($path);
-  //
-	// 	if($source){
-  //
-	// 		$MYNT_SOURCE = new MYNT_SOURCE;
-	// 		echo $MYNT_SOURCE->rep($source);
-	// 	}
-	// 	else{
-	// 		$this->viewError("Not Source");
-	// 	}
-  // }
+
   //
 	// function checkInit(){
 	// 	if(!is_dir("./design")){

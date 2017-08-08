@@ -21,7 +21,7 @@
 		<li class="dropdown" style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Page <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_pageLists&pageDir=<request:pageDir>"><i class='glyphicon glyphicon-th-list'></i> PageLists</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_pageLists&pageDir=<<request:pageDir>>"><i class='glyphicon glyphicon-th-list'></i> PageLists</a></li>
 				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_picture"><i class='glyphicon glyphicon-picture'></i> Picture</a></li>
 				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_group"><i class='glyphicon glyphicon-menu-hamburger'></i> Group</a></li>
 				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_tag"><i class='glyphicon glyphicon-tags'></i> Tag</a></li>
@@ -46,7 +46,7 @@
 			<ul class="dropdown-menu" aria-labelledby="download">
 				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_accountEdit">Setting</a></li>
 				<li class="divider"></li>
-				<li><a href="javascript:void(0)" onclick="location.href='<<METHOD:MYNT_URL::getLocalFilename()>>?mode=logout'">Logout</a></li>
+				<li><a href="javascript:void(0)" onclick="location.href='<<METHOD:MYNT_URL::getLocalFilename()>>?mode=logout'">**Logout</a></li>
 			</ul>
 		</li>
 

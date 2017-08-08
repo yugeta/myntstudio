@@ -368,6 +368,7 @@ class MYNT_PAGE_LIST{
 		for($i=0,$c=count($lists); $i<$c; $i++){
 
 			// $MYNT_URL = new MYNT_URL;
+			// $link_url = MYNT_URL::getUrl() ."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&pageDir=".$lists[$i]["key"];
 			$link_url = MYNT_URL::getUrl() ."?b=".$_REQUEST["b"]."&p=".$_REQUEST["p"]."&pageDir=".$lists[$i]["key"];
 
 			$active = "";
