@@ -336,12 +336,12 @@ class MYNT{
 	public function checkMode($mode){
 		switch($mode){
 			case "login":
-				if(class_exists(MYNT_PLUGIN_LOGIN)){
+				if(class_exists("MYNT_PLUGIN_LOGIN")){
 					MYNT_PLUGIN_LOGIN::viewLogin();
 				}
 				break;
 			case "logout":
-				if(class_exists(MYNT_PLUGIN_LOGIN)){
+				if(class_exists("MYNT_PLUGIN_LOGIN")){
 					MYNT_PLUGIN_LOGIN::checkLogout();
 				}
 				break;

@@ -15,27 +15,27 @@
 	<ul class="nav navbar-nav">
 
 		<li style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
-			<a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_pageEdit&pageDir=<<request:pageDir>>"><i class='glyphicon glyphicon-pencil'></i> NewPost</a>
+			<a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=pageEdit"><i class='glyphicon glyphicon-pencil'></i> NewPost</a>
 		</li>
 
 		<li class="dropdown" style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Page <span class="caret"></span></a>
+			<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" id="download">Page <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_pageLists&pageDir=<<request:pageDir>>"><i class='glyphicon glyphicon-th-list'></i> PageLists</a></li>
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_picture"><i class='glyphicon glyphicon-picture'></i> Picture</a></li>
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_group"><i class='glyphicon glyphicon-menu-hamburger'></i> Group</a></li>
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_tag"><i class='glyphicon glyphicon-tags'></i> Tag</a></li>
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_category"><i class='glyphicon glyphicon-duplicate'></i> Category</a></li>
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_comment"><i class='glyphicon glyphicon-comment'></i> Comment</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=pageLists"><i class='glyphicon glyphicon-th-list'></i> PageLists</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=picture"><i class='glyphicon glyphicon-picture'></i> Picture</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=group"><i class='glyphicon glyphicon-menu-hamburger'></i> Group</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=tag"><i class='glyphicon glyphicon-tags'></i> Tag</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=category"><i class='glyphicon glyphicon-duplicate'></i> Category</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=comment"><i class='glyphicon glyphicon-comment'></i> Comment</a></li>
 			</ul>
 		</li>
 
 		<li class="dropdown" style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">System <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_config"><i class='glyphicon glyphicon-pencil'></i> Config</a></li>
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_plugin"><i class='glyphicon glyphicon-pencil'></i> Plugin</a></li>
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_design"><i class='glyphicon glyphicon-pencil'></i> Design</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=config"><i class='glyphicon glyphicon-pencil'></i> Config</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=plugin"><i class='glyphicon glyphicon-pencil'></i> Plugin</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=design"><i class='glyphicon glyphicon-pencil'></i> Design</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -44,7 +44,7 @@
 		<li class="dropdown" style="display:<<if:"<<SESSION:login_id>>">>inline<<else>>none<</if>>;">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Account <span class="caret"></span></a>
 			<ul class="dropdown-menu" aria-labelledby="download">
-				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=p_accountEdit">Setting</a></li>
+				<li><a href="<<METHOD:MYNT_URL::getLocalFilename()>>?system=accountEdit">Setting</a></li>
 				<li class="divider"></li>
 				<li><a href="javascript:void(0)" onclick="location.href='<<METHOD:MYNT_URL::getLocalFilename()>>?mode=logout'">**Logout</a></li>
 			</ul>

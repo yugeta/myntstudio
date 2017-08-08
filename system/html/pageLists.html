@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="system/css/pageLists.css?<<METHOD:MYNT::currentTime()>>">
+
+<div class='container'>
+	<div class='row'>
+		<div class='col-sm-12'>
+			<div class='base-default base-color-green'>
+				<h1>
+					<i class='glyphicon glyphicon-list'></i> Page Lists
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<ul class="nav nav-tabs">
+
+	<li role="presentation">
+		<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Type: <<METHOD:MYNT_PAGE_LIST::getPageDirName(<<request:type>>)>> <span class="caret"></span> </a>
+		<ul class="dropdown-menu pageListTypeList">
+			<<METHOD:MYNT_PAGE_LIST::getPageTypeLists_li("type")>>
+		</ul>
+	</li>
+
+	<li role="presentation" class="<<if:'<<request:status>>'===''>>active<</if>>">
+		<a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" href="<<METHOD:MYNT_URL::getUrl()>>?system=<<request:system>>&type=<<request:type>>">ALL (<<METHOD:MYNT_PAGE_LIST::getPageCount(<<request:type>>,"")>>)</a>
+	</li>
+
+	<<METHOD:MYNT_PAGE_LIST::getPageCategoryLists_li("status")>>
+
+	<li role="presentation" class="<<if:'<<request:status>>'==='unregist'>>active<</if>>">
+		<a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" href="<<METHOD:MYNT_URL::getUrl()>>?system=<<request:system>>&type=<<request:type>>&status=unregist">未登録 (<<METHOD:MYNT_PAGE_LIST::getPageCount(<<request:type>>,"unregist")>>)</a>
+	</li>
+</ul>
+
+&nbsp;
+<div class='container'>
+	<div class='row'>
+		<table class="table table-responsive">
+			<thead class="thead-inverse">
+				<tr>
+					<th>#</th>
+					<th>Title</th>
+					<th>Status</th>
+					<th>LastUpdate</th>
+					<th>ReleaseDay</th>
+				</tr>
+			</thead>
+			<tbody>
+<<METHOD:MYNT_PAGE_LIST::viewPageLists_tr(<<request:type>>,<<request:status>>)>>
+			</tbody>
+		</table>
+	</div>
+</div>
