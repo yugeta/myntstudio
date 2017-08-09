@@ -20,11 +20,18 @@ class MYNT_PLUGIN_LOGIN{
 
 	//Login-check
 	public static function checkLogin(){
-		if(self::setLogin($_REQUEST["login_id"] , $_REQUEST["login_pw"])){
+
+		// success
+		if(self::setLogin($_REQUEST["login_id"] , $_REQUEST["login_pw"]) === true){
 			$_SESSION["login_id"] = $_REQUEST["login_id"];
+			header("Location: ".MYNT_URL::getURL()."?system=top");
 		}
-		$URL = new MYNT_URL;
-		header("Location: ".$URL->getURL()."?system=top");
+
+		//fault
+		else{
+			header("Location: ".MYNT_URL::getURL()."?mode=login&err=true");
+		}
+
 	}
 
 
@@ -74,17 +81,17 @@ class MYNT_PLUGIN_LOGIN{
 		//mysql
 		if($GLOBALS['config']['define']['database_type']=='mysql'){
 			$data = self::checkLogin_mysql($id,$pw);
-			if(!$data){return;}
+			// if(!$data){return;}
 		}
 		//mongodb
 		else if($GLOBALS['config']['define']['database_type']=='mongodb'){
 			$data = self::checkLogin_mongodb($id,$pw);
-			if(!$data){return;}
+			// if(!$data){return;}
 		}
 		//couched
 		else if($GLOBALS['config']['define']['database_type']=='couchdb'){
 			$data = self::checkLogin_couchdb($$id,$pw);
-			if(!$data){return;}
+			// if(!$data){return;}
 		}
 		//file (data/)
 		else{
@@ -105,18 +112,18 @@ class MYNT_PLUGIN_LOGIN{
 	----------*/
 
 	public static function checkLogin_mysql($id,$pw){
-
+		return false;
 	}
 	public static function checkLogin_mongodb($id,$pw){
-
+		return false;
 	}
 	public static function checkLogin_couchdb($id,$pw){
-
+		return false;
 	}
 	public static function checkLogin_file($id="",$pw=""){
 
 		if($id==="" || $pw===""){
-			return;
+			return false;
 		}
 
 		// $regist = new SYSTEM_REGIST();

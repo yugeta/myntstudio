@@ -1,0 +1,12 @@
+.error{
+  text-align:center;
+  margin:20px auto;
+}
+.error .error-box{
+  display:inline-block;
+  padding:20px;
+  border:2px double red;
+  color:red;
+  font-weight:bold;
+  text-align:left;
+}
