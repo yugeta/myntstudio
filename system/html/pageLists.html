@@ -33,22 +33,24 @@
 	</li>
 </ul>
 
-&nbsp;
+
 <div class='container'>
 	<div class='row'>
-		<table class="table table-responsive">
-			<thead class="thead-inverse">
-				<tr>
-					<th>#</th>
-					<th>Title</th>
-					<th>Status</th>
-					<th>LastUpdate</th>
-					<th>ReleaseDay</th>
-				</tr>
-			</thead>
-			<tbody>
+		<div class="table-scroll">
+			<table class="table">
+				<thead class="thead-inverse">
+					<tr>
+						<th>#</th>
+						<th>Title</th>
+						<th>Status</th>
+						<th>LastUpdate</th>
+						<th>ReleaseDay</th>
+					</tr>
+				</thead>
+				<tbody>
 <<METHOD:MYNT_PAGE_LIST::viewPageLists_tr(<<request:type>>,<<request:status>>)>>
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</dev>
 	</div>
 </div>

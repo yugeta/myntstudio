@@ -22,3 +22,11 @@
 .string-blue{
 	color:blue;
 }
+
+.table-scroll{
+	overflow:auto;
+}
+.table-scroll td,
+.table-scroll th{
+  white-space:nowrap;
+}

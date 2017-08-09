@@ -13,30 +13,23 @@ date_default_timezone_set('Asia/Tokyo');
 // Load-PHP-system-module
 MYNT::loadPHPs("system/php");
 
-
 // Load-Config
 MYNT::loadConfig();
-
 
 // Session-Start
 MYNT::startSession();
 
-
 // Load-PHP-Plugins-module
 MYNT::loadPlugins();
-
 
 // Load-PHP-design-module
 MYNT::loadPHPs("design/".$GLOBALS["config"]["design"]["target"]."/php");
 
-
 // Check-Query (system-process)
 MYNT::checkMethod();
 
-
 // Check-Auth
 MYNT_PLUGIN_LOGIN::checkSystemBase();
-
 
 // Load-HTML-Default-source
 MYNT::viewTemplate();

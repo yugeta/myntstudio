@@ -25,3 +25,11 @@ body {
 	margin:4px 8px;
 	padding:0;
 }
+
+.table-scroll{
+	overflow:auto;
+}
+.table-scroll td,
+.table-scroll th{
+  white-space:nowrap;
+}
