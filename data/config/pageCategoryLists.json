@@ -4,6 +4,7 @@
 	"type":[
 		{"key":"blog"			, "value":"Blog" 			, "dir":"data/page/blog/"			,"baseFile":"blog.html"		,"SCRIPT_NAME":"index.php"},
 		{"key":"default"	, "value":"Default"		, "dir":"data/page/default/"	,"baseFile":"index.html"	,"SCRIPT_NAME":"index.php"},
+		{"key":"page"			, "value":"Page"			, "dir":"data/page/page/"			,"baseFile":"index.html"	,"SCRIPT_NAME":"index.php"},
 		{"key":"etc"			, "value":"Etc"				, "dir":"data/page/etc/"			,"baseFile":"index.html"	,"SCRIPT_NAME":"index.php"},
 		{"key":"system"		, "value":"*System"		, "dir":"system/html/"				,"baseFile":"system.html"	,"SCRIPT_NAME":"system.php"}
 	],
