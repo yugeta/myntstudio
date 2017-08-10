@@ -197,12 +197,26 @@ class MYNT{
 	* 2. ?b=**&p=** (data/page/base/page.html)
 	*/
 	public function viewContents(){
-		$source = "";
+		$htmlPath = "";
+		$source   = "";
 
 		// 強制モード (contentsPath=)
 		if(isset($_REQUEST["contentsPath"]) && is_file($_REQUEST["contentsPath"])){
-			$source = file_get_contents($_REQUEST["contentsPath"]);
-			$source = self::conv($source);
+			// $source = file_get_contents($_REQUEST["contentsPath"]);
+			// $source = self::conv($source);
+			$htmlPath = $_REQUEST["contentsPath"];
+		}
+
+		else if(isset($_REQUEST["plugin"]) && is_dir("plugin/".$_REQUEST["plugin"]) && isset($_REQUEST["html"])){
+			$pluginPath = "plugin/".$_REQUEST["plugin"]."/html/".$_REQUEST["html"].".html";
+			if(is_file($pluginPath)){
+				// $source = file_get_contents($path);
+				// $source = self::conv($source);
+				$htmlPath = $pluginPath;
+			}
+			else{
+
+			}
 		}
 
 		else{
@@ -223,12 +237,18 @@ class MYNT{
 				$file = $dir.$_REQUEST[$key].".html";
 				if(!is_file($file)){continue;}
 
-				$source = file_get_contents($file);
-				$source = self::conv($source);
+				// $source = file_get_contents($file);
+				// $source = self::conv($source);
+				$htmlPath = $file;
 
 				break;
 			}
 
+		}
+
+		if($htmlPath!==""){
+			$source = file_get_contents($htmlPath);
+			$source = self::conv($source);
 		}
 
 		// source is blank
@@ -325,9 +345,21 @@ class MYNT{
 		}
 	}
 
+	// Load-Plugin-Html
+	public function loadPluginHtml($plugin,$html){
+		$path = "plugin/".$plugin."/html/".$html.".html";
+		if(!is_file($path)){return;}
+		$_REQUEST["contentsPath"] = $path;
+	}
 	// Check Mode
 	public function checkMode($mode){
 		switch($mode){
+			case "plugin":
+				if(isset($_REQUEST["html"])){
+					self::loadPluginHtml($_REQUEST["plugin"] , $_REQUEST["html"]);
+				}
+				break;
+
 			case "login":
 				if(class_exists("MYNT_PLUGIN_LOGIN")){
 					MYNT_PLUGIN_LOGIN::viewLogin();

@@ -363,3 +363,10 @@ http://myntstudio.mynt.site/system.php?p=001
 
 - Other
 http://myntstudio.mynt.site/?p=001
+
+- 強制ページ表示
+  templateFile
+	?templateFile=default/**/html/%templateFile%.html
+
+	contentsPath
+	?contentsPath=plugin/***.html
