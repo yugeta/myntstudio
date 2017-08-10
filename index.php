@@ -338,6 +338,11 @@ class MYNT{
 					MYNT_PLUGIN_LOGIN::checkLogout();
 				}
 				break;
+			case "add_account":
+				if(class_exists("MYNT_PLUGIN_LOGIN")){
+					MYNT_PLUGIN_LOGIN::checkAccountAdd();
+				}
+				break;
 
 		}
 	}

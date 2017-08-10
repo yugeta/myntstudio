@@ -51,6 +51,10 @@ class MYNT_PLUGIN_LOGIN{
 		exit();
 	}
 
+	public static function checkAccountAdd(){
+
+	}
+
 
 
 
