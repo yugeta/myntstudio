@@ -1,6 +1,0 @@
-サーバーアクセステスト
-<h3><SERVER:DOCUMENT_URI></h3>
-<h3><SERVER:REQUEST_URI></h3>
-<h3><SERVER:SCRIPT_NAME></h3>
-<h3><SERVER:PHP_SELF></h3>
-文字列テスト
