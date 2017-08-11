@@ -202,20 +202,16 @@ class MYNT{
 
 		// 強制モード (contentsPath=)
 		if(isset($_REQUEST["contentsPath"]) && is_file($_REQUEST["contentsPath"])){
-			// $source = file_get_contents($_REQUEST["contentsPath"]);
-			// $source = self::conv($source);
 			$htmlPath = $_REQUEST["contentsPath"];
 		}
 
 		else if(isset($_REQUEST["plugin"]) && is_dir("plugin/".$_REQUEST["plugin"]) && isset($_REQUEST["html"])){
 			$pluginPath = "plugin/".$_REQUEST["plugin"]."/html/".$_REQUEST["html"].".html";
 			if(is_file($pluginPath)){
-				// $source = file_get_contents($path);
-				// $source = self::conv($source);
 				$htmlPath = $pluginPath;
 			}
 			else{
-
+				$htmlPath = "data/default/404.html";
 			}
 		}
 
@@ -230,20 +226,13 @@ class MYNT{
 				$dir = $type[$i]["dir"];
 
 				if(!isset($_REQUEST[$key])){continue;}
-				// if($key === "default" && $_REQUEST[$key] === "default"){continue;}
-				//if($_REQUEST[$key] === $key){continue;}
 
-				// $file = $dir.$key.".html";
 				$file = $dir.$_REQUEST[$key].".html";
 				if(!is_file($file)){continue;}
-
-				// $source = file_get_contents($file);
-				// $source = self::conv($source);
 				$htmlPath = $file;
 
 				break;
 			}
-
 		}
 
 		if($htmlPath!==""){
@@ -350,6 +339,7 @@ class MYNT{
 		$path = "plugin/".$plugin."/html/".$html.".html";
 		if(!is_file($path)){return;}
 		$_REQUEST["contentsPath"] = $path;
+		$_REQUEST["templateFile"] = "system";
 	}
 	// Check Mode
 	public function checkMode($mode){

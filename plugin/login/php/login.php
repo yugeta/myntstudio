@@ -54,6 +54,77 @@ class MYNT_PLUGIN_LOGIN{
 	public static function checkAccountAdd(){
 
 	}
+	public static function setAccountAdd(){
+		if(!isset($_REQUEST["account_id"]) || !isset($_REQUEST["account_pw"])){return;}
+
+		$account_id = $_REQUEST["account_id"];
+		$account_pw = $_REQUEST["account_pw"];
+
+		//die($account_id."/".$account_pw);
+
+		// check accountid->mail-address
+		$mail_exp = "|^[0-9a-z_./?-]+@([0-9a-z-]+\.)+[0-9a-z-]+$|";
+		if(!preg_match($mail_exp , $account_id) || !$account_id){
+			die("Not mail-address !");
+		}
+		if(!$account_pw){
+			die("Not regist password !");
+		}
+		//重複IDチェック
+		if(self::checkRefgistedAccountID()){
+			die("Registed account ! : ".$account_id);
+		}
+
+		self::setAccountAdd_proc($account_id , $account_pw);
+	}
+
+	public static function checkRefgistedAccountID($account_id){
+		$dir  = "data/system/";
+		if(!is_dir($dir)){return false;}
+		$fl   = "users.json";
+		$jsons = explode("\n",file_get_contents($dir.$fl));
+		for($i=0,$c=count($jsons); $i<$c; $i++){
+			$json = json_decode($jsons[$i] , true);
+			if($json["id"] === $account_id){return true;}
+		}
+		return false;
+	}
+
+	public static function setAccountAdd_proc($account_id , $account_pw){
+		$dir  = "data/system/";
+		if(!is_dir($dir)){mkdir($dir,0777,true);}
+		$fl   = "users.json";
+		$data = array();
+		$data["flg"] = "0";
+		$data["id"]  = $account_id;
+		$data["md5"] = md5($account_pw);
+		$data["update"] = date("YmdHis");
+		$json = json_encode($data);
+		file_put_contents($dir.$fl , $json.PHP_EOL , FILE_APPEND);
+		header("Location: ".MYNT_URL::getURL()."?plugin=login&html=account_add_finish");
+	}
+
+	// public static function sendMailProc(){
+	// 	//仮登録(provisional ragistration)
+	// 	$dir = "data/provosopnal/";
+	// 	if(!is_dir($dir)){
+	// 		mkdir($dir,0777,true);
+	// 	}
+	// 	$d    = date("YmdHis");
+	// 	$md5  = md5($d);
+	// 	$data = $d.",".$account_id.",".md5($account_pw).",".md5($d);
+	// 	file_put_contents($dir.date("Ym").".dat" , $data.PHP_EOL, FILE_APPEND);
+	//
+	// 	// mail-sent
+	// 	$sub    = "Confirmation of registration";
+	// 	$msg    = MYNT_URL::getUrl()."?".$md5;
+	// 	$header = "From:test@hoge.com"."\r\n";
+	//
+	// 	mb_send_mail($account_id , $sub , $msg , $header);
+	//
+	// 	// send
+	// 	header("Location: ".MYNT_URL::getURL()."?plugin=login&html=mailSend");
+	// }
 
 
 
@@ -172,25 +243,25 @@ class MYNT_PLUGIN_LOGIN{
 
 
 
-	//セッションデータ保持
-	public static function setSessionData($id=""){
-
-		if(!$id){return;}
-
-		$account = new ACCOUNT();
-		$_SESSION['pass_data'] = $account->getPassData($id);
-		$_SESSION['user_data'] = $account->getUserData($id);
-
-	}
-	public static function delSessionData(){
-		unset($_SESSION['no']);
-		unset($_SESSION['id']);
-		unset($_SESSION['name']);
-		unset($_SESSION['mail']);
-		unset($_SESSION['service']);
-		unset($_SESSION['auth']);
-		unset($_SESSION['img']);
-	}
+	// //セッションデータ保持
+	// public static function setSessionData($id=""){
+	//
+	// 	if(!$id){return;}
+	//
+	// 	$account = new ACCOUNT();
+	// 	$_SESSION['pass_data'] = $account->getPassData($id);
+	// 	$_SESSION['user_data'] = $account->getUserData($id);
+	//
+	// }
+	// public static function delSessionData(){
+	// 	unset($_SESSION['no']);
+	// 	unset($_SESSION['id']);
+	// 	unset($_SESSION['name']);
+	// 	unset($_SESSION['mail']);
+	// 	unset($_SESSION['service']);
+	// 	unset($_SESSION['auth']);
+	// 	unset($_SESSION['img']);
+	// }
 
 	public static function viewPageLogin(){
 		$page = new MYNT_PAGE;
